@@ -3,23 +3,33 @@ import {Container, Col, Form, Row} from 'react-bootstrap';
 
 const RegistrationPage = () => {
 
+    const leftColStyle = {
+        padding: '0px',
+      }
+    
+      const rightColStyle = {
+        padding: '20%',
+      }
+
     return (
-        <Container>
+
+        <Container fluid>
+            <Row className='align-items-center d-flex flex-wrap-reverse'>
             {/* ================ LEFT COLUMN =================== */ }
-            <Col md={6}>
+            <Col style={leftColStyle} md={6}>
                 <Form id = 'registration'>
-                    <Form.Group as={Row} controlId='firstName'>
+                    <Form.Group  controlId='firstName'>
                         <Form.Label>
                             First Name
                         </Form.Label>
-                        <Col md={8}>
+                        <Col md={6}>
                             <Form.Control type='text' placeholder='First Name' />
                         </Col>
                     </Form.Group>
                 </Form>
 
                 <Form id = 'registration'>
-                    <Form.Group as={Row} controlId='lastName'>
+                    <Form.Group controlId='lastName'>
                         <Form.Label>
                             Last Name
                         </Form.Label>
@@ -30,7 +40,7 @@ const RegistrationPage = () => {
                 </Form>
 
                 <Form id = 'registration'>
-                    <Form.Group as={Row} controlId='sjsuEmail'>
+                    <Form.Group  controlId='sjsuEmail'>
                         <Form.Label>
                             SJSU email address
                         </Form.Label>
@@ -45,10 +55,10 @@ const RegistrationPage = () => {
             <Col md={6}>
                 <p>placeholder</p>
             </Col>
+            </Row>
         </Container>
 
     )
 }
 
-export default RegistrationPage()
-
+export default RegistrationPage
