@@ -3,13 +3,17 @@ import HomePage from './components/HomePage'
 import RegistrationPage from './components/RegistrationPage'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 
-function App() {
+const App = () => {
   return (
     <Router>
       <div>
         <Routes>
-          <Route path='/' component={HomePage} />
-          <Route path='/RegistrationPage' component={RegistrationPage} />
+          {/* On Boot */}
+          <Route path='/' exact element ={HomePage}/>
+          <Route path='/RegistrationPage' element ={RegistrationPage}/>
+          
+          {/* Error Case */}
+          {/* <Route component={NoMatch} /> */}
         </Routes>
       </div>
     </Router>
