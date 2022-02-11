@@ -1,16 +1,17 @@
 import React from 'react';
 import {Container, Col, Form, Row, Button} from 'react-bootstrap';
+import userService from '../services/users'
 
 const RegistrationPage = () => {
 
     const leftColStyle = {
-        'padding-left': '10%',
-        'padding-top': '2%'
+        paddingLeft: '10%',
+        paddingTop: '2%'
       }
     
     const rightColStyle = {
-        'padding-right': '10%',
-        'padding-top': '2%'
+        paddingRight: '10%',
+        paddingTop: '2%'
     }
 
     const controlMargin = {
@@ -18,20 +19,50 @@ const RegistrationPage = () => {
     }
 
     const roundedCorners = {
-        'border-radius': '50px',
+        borderRadius: '50px',
     }
 
     const submitButton = {
-        'background-color': '#00008b',
+        backgroundColor: '#00008b',
         float: 'right'
     }
 
     const centering = {
-        'text-align': 'center'
+        textAlign: 'center'
     }
 
     const backgroundColor = {
-        'background-color': '#FFF1D7',
+        backgroundColor: '#FFF1D7',
+    }
+
+    const addUser = async (event) => {
+        event.preventDefault()
+
+        var form = document.getElementById('registration');
+
+        const firstName = form.elements.firstName.value
+        const lastName = form.elements.lastName.value
+        const email = form.elements.sjsuEmail.value
+        const password = form.elements.password.value
+        const confirm = form.elements.confirm.value
+
+        const newUser = {
+            firstName: firstName,
+            lastName: lastName,
+            email: email,
+            password: password,
+        }
+
+        try {
+            await userService.register(newUser).then((returnedUser) => {
+                console.log('User registered!')
+            })
+
+            document.getElementById('registration').reset()
+        } catch (exception) {
+            console.log('Registration: failed to register user')
+        }
+
     }
 
     return (
@@ -42,7 +73,7 @@ const RegistrationPage = () => {
             <Col style={leftColStyle} md={6}>
                 <h2>Sign up</h2>
                 <br/>
-                <Form id = 'registration'>
+                <Form id = 'registration' onSubmit={addUser}>
                     
                     <Form.Group style = {controlMargin} controlId='firstName'>
                         <Form.Label>
@@ -53,7 +84,6 @@ const RegistrationPage = () => {
                         </Col>
                     </Form.Group>
                   
-                  
                     <Form.Group style = {controlMargin} controlId='lastName'>
                         <Form.Label>
                             Last Name
@@ -62,8 +92,6 @@ const RegistrationPage = () => {
                             <Form.Control type='text' style = {roundedCorners } placeholder='Last Name' />
                         </Col>
                     </Form.Group>
-               
-
                
                     <Form.Group style = {controlMargin} controlId='sjsuEmail'>
                         <Form.Label>
@@ -74,9 +102,6 @@ const RegistrationPage = () => {
                         </Col>
                     </Form.Group>
                    
-              
-
-               
                     <Form.Group style = {controlMargin} controlId='password'>
                         <Form.Label>
                             Password
@@ -97,7 +122,7 @@ const RegistrationPage = () => {
 
                     <Form.Group as={Row}>
                         <Col md={{ span: 10, offset: 4 }}>
-                            <Button style = {submitButton} ><b>Create Account</b></Button>
+                            <Button type='submit' style = {submitButton} ><b>Create Account</b></Button>
                         </Col>
                     </Form.Group>
                 </Form>
