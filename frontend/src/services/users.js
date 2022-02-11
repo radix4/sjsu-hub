@@ -5,7 +5,10 @@ const baseUrl = 'http://localhost:8080/demo'
 const register  = async (user) => {
     const response = await axios.post(`${baseUrl}/users/add`, {
         withCredentials: true,
-        user
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email,
+        password: user.password
     });
     return response.data
 }
