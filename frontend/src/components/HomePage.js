@@ -1,9 +1,10 @@
 import React from 'react'
-import { Container, Col, Form, Row, Button } from 'react-bootstrap'
+import { Container, Col, Row, Button } from 'react-bootstrap'
+import { Link } from 'react-router-dom'
 
 const HomePage = () => {
   const backgroundColor = {
-    'background-color': '#FFF1D7',
+    backgroundColor: '#FFF1D7',
   }
 
   const title = {
@@ -29,7 +30,7 @@ const HomePage = () => {
 
   const img = {
     paddingRight: '50px',
-    'border-radius': '50px',
+    borderRadius: '50px',
   }
 
   return (
@@ -43,15 +44,19 @@ const HomePage = () => {
             <p>A space for all spartans</p>
           </Col>
           <Col style={firstRow}>
-            <Button
-              style={{ margin: '5px' }}
-              variant='outline-primary'
-              size='lg'>
-              Register
-            </Button>
-            <Button variant='outline-primary' size='lg'>
-              Login
-            </Button>
+            <Link to='/Registration'>
+              <Button
+                style={{ margin: '5px' }}
+                variant='outline-primary'
+                size='lg'>
+                Register
+              </Button>
+            </Link>
+            <Link to='/Login'>
+              <Button variant='outline-primary' size='lg'>
+                Login
+              </Button>
+            </Link>
           </Col>
           <Col style={secondRow}>
             <Button style={{ margin: '5px' }} variant='outline-primary'>
@@ -60,7 +65,9 @@ const HomePage = () => {
             <Button style={{ margin: '5px' }} variant='outline-primary'>
               Internships and Jobs
             </Button>
-            <Button variant='outline-primary'>MarketPlace</Button>
+            <Link to='/ForumPage'>
+              <Button variant='outline-primary'>Forums</Button>
+            </Link>
           </Col>
         </Col>
 
