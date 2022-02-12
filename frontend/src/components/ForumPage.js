@@ -1,5 +1,6 @@
 import React from 'react'
 import { Card, Button, Form } from 'react-bootstrap'
+import NavBar from './NavBar'
 
 const containerStyle = {
   margin: '5% 20% 5% 20%',
@@ -10,6 +11,7 @@ document.body.style = 'background: #FFF1D7;'
 const ForumPage = () => {
   return (
     <div>
+      <NavBar></NavBar>
       <div style={containerStyle}>
         {/* ============= CREATE POST FORM ============= */}
         <Form id='create-post-form' className='border p-3 border-info '>
