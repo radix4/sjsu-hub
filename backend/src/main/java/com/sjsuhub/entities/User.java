@@ -55,4 +55,11 @@ public class User {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    public String toString() {
+        return  "\n---User---\n" +
+                "\nName: " + firstName + " " + lastName +
+                "\nEmail: " + email +
+                "\nPassword: " + password;
+    }
 }

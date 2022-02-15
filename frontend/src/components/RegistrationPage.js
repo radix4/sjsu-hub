@@ -71,11 +71,14 @@ const RegistrationPage = () => {
 
     try {
       await userService.register(newUser).then((returnedUser) => {
-        console.log('User registered!')
+        console.log(returnedUser)
+        displayAlert(returnedUser, '')
+        console.log(returnedUser)
       })
 
       document.getElementById('registration').reset()
     } catch (exception) {
+      displayAlert('Failed to register user', 'error')
       console.log('Registration: failed to register user')
     }
   }

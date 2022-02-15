@@ -2,6 +2,8 @@ package com.sjsuhub.controllers;
 
 import com.sjsuhub.entities.User;
 import com.sjsuhub.repositories.UserRepository;
+
+import org.apache.catalina.connector.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -27,12 +29,20 @@ public class MainController {
         // @RequestParam means it is a parameter from the GET or POST request
 
         User n = new User();
-        n.setFirstName(user.getFirstName());
-        n.setLastName(user.getLastName());
-        n.setEmail(user.getEmail());
-        n.setPassword(user.getPassword());
-        userRepository.save(n);
-        return "Saved";
+        String email = user.getEmail();
+        User preExistingUser = userRepository.findByEmail(email);
+        System.out.println("MainController.java addNewUser " + preExistingUser);
+        if (preExistingUser != null) {
+            return "Error! Email " + email + " is already registered. Would you like to login?";
+        }
+        else {
+            n.setFirstName(user.getFirstName());
+            n.setLastName(user.getLastName());
+            n.setEmail(user.getEmail());
+            n.setPassword(user.getPassword());
+            userRepository.save(n);
+            return "Success! User with email addresss " + email + " is now registered.";
+        }
     }
 
     // @CrossOrigin(origins = "http://localhost:3000")

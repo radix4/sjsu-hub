@@ -10,6 +10,7 @@ const register  = async (user) => {
         email: user.email,
         password: user.password
     });
+    console.log('\n----\nservices/users.js register\n' + response.data + '\n----\n')
     return response.data
 }
 
