@@ -1,8 +1,13 @@
-import React from 'react'
+import React , { useState } from 'react'
 import { Container, Col, Form, Row, Button } from 'react-bootstrap'
 import userService from '../services/users'
+import Notification from './Notification'
 
 const RegistrationPage = () => {
+
+  const [errorMessage, setErrorMessage] = useState(null);
+  const [typeAlert, setTypeAlert] = useState(null);
+
   const leftColStyle = {
     paddingLeft: '10%',
     paddingTop: '2%',
@@ -34,6 +39,12 @@ const RegistrationPage = () => {
     backgroundColor: '#FFF1D7',
   }
 
+  const displayAlert = (message, type) => {
+    console.log('\n----\ndisplayAlert Message: ' + message + '\nType: ' + type + '\n------\n' )
+    setErrorMessage(message)
+    setTypeAlert(type)
+  }
+
   const addUser = async (event) => {
     event.preventDefault()
 
@@ -44,6 +55,12 @@ const RegistrationPage = () => {
     const email = form.elements.sjsuEmail.value
     const password = form.elements.password.value
     const confirm = form.elements.confirm.value
+
+    if (password !== confirm) {
+      console.log('Error: Passwords do not match')
+      displayAlert('Passwords do not match. Please try again.', 'error')
+      return
+    }
 
     const newUser = {
       firstName: firstName,
@@ -125,7 +142,7 @@ const RegistrationPage = () => {
                 />
               </Col>
             </Form.Group>
-
+            <Notification message={errorMessage} type={typeAlert} />
             <Form.Group as={Row}>
               <Col md={{ span: 10, offset: 4 }}>
                 <Button type='submit' style={submitButton}>
