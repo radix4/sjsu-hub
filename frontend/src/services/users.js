@@ -14,4 +14,16 @@ const register  = async (user) => {
     return response.data
 }
 
-export default { register }
+
+const login = async (user) => {
+    const response = await axios.get(`${baseUrl}/users/login`, {
+        withCredentials: true,
+        email: user.email,
+        password: user.password
+    });
+    console.log('\n----services/users.js login\n' + response.data + '\n----\n')
+    return response.data
+}
+
+
+export default { register, login }

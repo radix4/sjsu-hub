@@ -62,6 +62,21 @@ public class MainController {
     //     return "Saved";
     // }
 
+    @GetMapping(path="/users/login")
+    public @ResponseBody String login(@RequestBody User user){
+        if (user.getEmail() != null && user.getPassword() != null){
+            User n = userRepository.findByEmail(user.getEmail());
+            if (n == null)
+                return "User not found";
+            if ((n.getEmail() == user.getEmail()) && (n.getPassword() == user.getPassword())) {
+                return "login";
+            } else
+                return "Wrong credentials!";
+        }
+        else
+            return "Incomplete!";
+    }
+
     @GetMapping(path="/users/all")
     public @ResponseBody Iterable<User> getAllUsers() {
         // This returns a JSON or XML with the users
