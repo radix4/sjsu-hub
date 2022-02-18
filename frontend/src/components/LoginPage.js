@@ -115,7 +115,7 @@ const LoginPage = () => {
 
               <Notification message={errorMessage} type={typeAlert} />
               <Form.Group style={controlMargin}>
-                <Button style={submitButton}>
+                <Button type = 'submit' style={submitButton}>
                   <b>Login</b>
                 </Button>
               </Form.Group>
