@@ -3,6 +3,7 @@ import axios from 'axios'
 const baseUrl = 'http://localhost:8080/demo'
 
 const register  = async (user) => {
+    console.log(user.query)
     const response = await axios.post(`${baseUrl}/users/add`, {
         withCredentials: true,
         firstName: user.firstName,
@@ -24,6 +25,5 @@ const login = async (user) => {
     console.log('\n----services/users.js login\n' + response.data + '\n----\n')
     return response.data
 }
-
 
 export default { register, login }
