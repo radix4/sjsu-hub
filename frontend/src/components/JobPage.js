@@ -111,7 +111,7 @@ const JobPage = () => {
                     <br/>
                     <Form.Group>
                         <Button type = 'submit'>
-                            Search Button
+                            Search
                         </Button>
                     </Form.Group>
                 </Form>
