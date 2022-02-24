@@ -55,16 +55,16 @@ public class MainController {
     @PostMapping(path="/users/login")
     public @ResponseBody String login(@RequestBody User user){
         if (user.getEmail() == null|| user.getPassword() == null)
-            return "Incomplete!";
+            return "";
 
         User n = userRepository.findByEmail(user.getEmail());
 
-        if (n == null) return "User not found";
+        if (n == null) return "";
 
         if ((n.getEmail().equals(user.getEmail())) && (n.getPassword().equals(user.getPassword())))
             return "Login success.";
         else
-            return "Wrong credentials!";
+            return "";
     }
 
     @GetMapping(path="/users/all")
