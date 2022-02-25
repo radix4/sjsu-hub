@@ -19,6 +19,7 @@ public class Main {
 			@Override
 			public void addCorsMappings(CorsRegistry registry) {
 				registry.addMapping("/demo/users/***").allowedOrigins("http://localhost:3000");
+				registry.addMapping("/demo/posts/***").allowedOrigins("http://localhost:3000");
 			}
 		};
 	}
