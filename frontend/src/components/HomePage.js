@@ -62,9 +62,12 @@ const HomePage = () => {
             <Button style={{ margin: '5px' }} variant='outline-primary'>
               Group Chat
             </Button>
-            <Button style={{ margin: '5px' }} variant='outline-primary'>
-              Internships and Jobs
-            </Button>
+            <Link to='/JobPage'>
+              <Button style={{ margin: '5px' }} variant='outline-primary'>
+                Internships and Jobs
+              </Button>
+            </Link>
+            
             <Link to='/ForumPage'>
               <Button variant='outline-primary'>Forums</Button>
             </Link>

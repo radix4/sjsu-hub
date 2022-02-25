@@ -1,18 +1,15 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Container, Col, Form, Row, Button } from 'react-bootstrap'
+import { Link } from 'react-router-dom'
+import userService from '../services/users'
+import Notification from './Notification'
 import login from '../images/login.png'
 import user from '../images/user.png'
 
 const LoginPage = () => {
-  const leftColStyle = {
-    'padding-left': '10%',
-    'padding-top': '5%',
-  }
+  const [errorMessage, setErrorMessage] = useState(null)
+  const [typeAlert, setTypeAlert] = useState(null)
 
-  const rightColStyle = {
-    'padding-right': '10%',
-    'padding-top': '2%',
-  }
   const controlMargin = {
     padding: '10px',
     'padding-right': '15%',
@@ -29,10 +26,6 @@ const LoginPage = () => {
     'padding-left': '10%',
   }
 
-  const centering = {
-    'text-align': 'center',
-  }
-
   const backgroundColor = {
     'background-color': '#FFF1D7',
   }
@@ -44,6 +37,53 @@ const LoginPage = () => {
     'margin-bottom': '2rem',
   }
 
+  const displayAlert = (message, type) => {
+    console.log(
+      '\n----\ndisplayAlert Message: ' +
+        message +
+        '\nType: ' +
+        type +
+        '\n-------\n'
+    )
+    setErrorMessage(message)
+    setTypeAlert(type)
+  }
+
+  const handleLogin = async (event) => {
+    event.preventDefault()
+
+    let form = document.getElementById(`login`)
+
+    const email = form.elements.email.value
+    const password = form.elements.password.value
+
+    if (!email || !password) {
+      console.log('Please enter email/password!')
+      displayAlert('Please enter email/password!', 'error')
+      return
+    }
+
+    const loginUser = {
+      email: email,
+      password: password,
+    }
+
+    try {
+      // returnedUser is the String returned from the backend API
+      await userService.login(loginUser).then((returnedUser) => {
+        console.log('returned user: ' + returnedUser)
+        if (returnedUser === '') {
+          console.log('LoginPage: login fail, wrong credentials')
+          displayAlert('Wrong credentials! Please try again.', 'error')
+        } else {
+          window.location = '/'
+        }
+      })
+    } catch (exception) {
+      console.log('Something is wrong.')
+    }
+  }
+
   return (
     <Container style={backgroundColor} fluid className='mt-5'>
       <Row>
@@ -52,8 +92,8 @@ const LoginPage = () => {
           <h3>Welcome Back :)</h3>
           <img style={iconimg} src={user} alt='icon' />
           <br />
-          <Form id='login'>
-            <Form.Group style={controlMargin} controlId='sjsuEmail'>
+          <Form id='login' onSubmit={handleLogin}>
+            <Form.Group style={controlMargin} controlId='email'>
               <Form.Control
                 type='text'
                 style={roundedCorners}
@@ -69,8 +109,9 @@ const LoginPage = () => {
               />
             </Form.Group>
 
+            <Notification message={errorMessage} type={typeAlert} />
             <Form.Group style={controlMargin}>
-              <Button style={submitButton}>
+              <Button type='submit' style={submitButton}>
                 <b>Login</b>
               </Button>
             </Form.Group>

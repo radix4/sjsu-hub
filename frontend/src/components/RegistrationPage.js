@@ -2,6 +2,7 @@ import React , { useState } from 'react'
 import { Container, Col, Form, Row, Button } from 'react-bootstrap'
 import userService from '../services/users'
 import Notification from './Notification'
+import { Link } from 'react-router-dom'
 
 const RegistrationPage = () => {
 
@@ -168,9 +169,11 @@ const RegistrationPage = () => {
 
             <Form.Group as={Row}>
               <Col>
-                <Button style={submitButton}>
-                  <b>Login</b>
-                </Button>
+                <Link to='/Login'>
+                  <Button style={submitButton}>
+                    <b>Login</b>
+                  </Button>
+                </Link>
               </Col>
             </Form.Group>
           </Row>

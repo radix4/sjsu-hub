@@ -22,6 +22,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * APIs:
+ *  1) Get all users: http://localhost:8080/demo/users/all
+ *  2) Login: http://localhost:8080/demo/users/login
+ *
+ */
+
 @RestController // This means that this class is a Controller
 @RequestMapping(path="/demo") // This means URL's start with /demo (after Application path)
 public class MainController {
@@ -54,22 +61,20 @@ public class MainController {
         }
     }
 
-    // @CrossOrigin(origins = "http://localhost:3000")
-    // @PostMapping(path="/users/add") // Map ONLY POST Requests
-    // public @ResponseBody String addNewUser (@RequestParam String firstName
-    //         , @RequestParam String lastName, @RequestParam String email, 
-    //         @RequestParam String password) {
-    //     // @ResponseBody means the returned String is the response, not a view name
-    //     // @RequestParam means it is a parameter from the GET or POST request
+    @PostMapping(path="/users/login")
+    public @ResponseBody String login(@RequestBody User user){
+        if (user.getEmail() == null|| user.getPassword() == null)
+            return "";
 
-    //     User n = new User();
-    //     n.setFirstName(firstName);
-    //     n.setLastName(lastName);
-    //     n.setEmail(email);
-    //     n.setPassword(password);
-    //     userRepository.save(n);
-    //     return "Saved";
-    // }
+        User n = userRepository.findByEmail(user.getEmail());
+
+        if (n == null) return "";
+
+        if ((n.getEmail().equals(user.getEmail())) && (n.getPassword().equals(user.getPassword())))
+            return "Login success.";
+        else
+            return "";
+    }
 
 
 
