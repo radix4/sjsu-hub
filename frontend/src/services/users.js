@@ -1,6 +1,6 @@
 /* This file is responsible for sending requests to the server */
 import axios from 'axios'
-const baseUrl = 'http://localhost:8080/demo'
+const baseUrl = 'http://localhost:8080'
 
 const register = async (user) => {
   console.log(user.query)

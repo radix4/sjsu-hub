@@ -1,20 +1,50 @@
 package com.sjsuhub.entities;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity // This tells Hibernate to make a table out of this class
 public class User {
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Integer id;
 
+    @Column(unique = true)
+    private String email;
     private String firstName;
     private String lastName;
-    private String email;
     private String password;
+
+    /* Friends and Friend-Requests are mutually exclusive */
+
+    @ElementCollection
+    @CollectionTable(name = "user_friends", joinColumns = @JoinColumn(name = "user_id"))
+    @Column(name = "friends")
+    private Set<String> friends = new HashSet<>();
+
+    @ElementCollection
+    @CollectionTable(name = "user_friend_requests", joinColumns = @JoinColumn(name = "user_id"))
+    @Column(name = "friend_requests")
+    private Set<String> friendRequests = new HashSet<>();
+
+    public User(String email, String firstName, String lastName, String password, Set<String> friends) {
+        this.email = email;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.password = password;
+        this.friends = friends;
+    }
+
+
+    public User() {
+
+    }
+
+    public User(String email, Set<String> friends) {
+        this.email = email;
+        this.friends = friends;
+    }
 
     public Integer getId() {
         return id;
@@ -54,6 +84,22 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Set<String> getFriends() {
+        return friends;
+    }
+
+    public void setFriends(Set<String> friends) {
+        this.friends = friends;
+    }
+
+    public Set<String> getFriendRequests() {
+        return friendRequests;
+    }
+
+    public void setFriendRequests(Set<String> friendRequests) {
+        this.friendRequests = friendRequests;
     }
 
     public String toString() {

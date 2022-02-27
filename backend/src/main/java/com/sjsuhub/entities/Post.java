@@ -13,7 +13,7 @@ public class Post {
     
     private String postTitle;
     private String postContent;
-    private String userName; // can prlly just use user?
+    private String userName; // can prlly just use user? - should be email
     private String postCategory;
 
     public Integer getId(){
