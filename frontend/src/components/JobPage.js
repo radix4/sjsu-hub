@@ -116,30 +116,31 @@ const JobPage = () => {
             console.log('for 3')
             console.log('before html var incremented')
 
-            const card = {
+            let card = {
                 'box-shadow': '10px 5px 5px black'
             }
                
             html += 
-            `<Card id={$element.id} style = "box-shadow: 10px 5px 5px black">
-            <Card.Header>
-                <h3>${element.title}</h3>
-            </Card.Header>
-            <Card.Body>
-                <b>${element.company.display_name}</b>
-                <b>${element.location.display_name}</b>
-                <h4>${time}</h4>
-                <p>${description}</p>
-                <a href='${element.redirect_url}'>Apply</a>
-                <Link to='/Login'>
-                Apply
-                <Button href='${element.redirect_url}' target='_blank'>
-                Apply
-            </Button>
-                </Link>
-                
-            </Card.Body>
-        </Card>`;
+            `<Card id={$element.id} border="dark" style = "box-shadow: 10px 10px 10px black; border: primary; background-color: white">
+                <Card.Header>
+                    <h3>Job: ${element.title}</h3>
+                </Card.Header>
+                <Card.Body>
+                    <b>Company:</b> ${element.company.display_name} <br/>
+                    <b>Location: </b> ${element.location.display_name}<br/>
+                    <b>Posted:</b> ${time}<br/>
+                    <hr class="rounded">
+                    <p><b>Summary: </b>${description}</p>
+                    <a href='${element.redirect_url}'>Apply</a>
+                    <Link to='/Login'>
+                        Apply
+                        <Button href='${element.redirect_url}' target='_blank'>
+                            Apply
+                        </Button>
+                    </Link>
+                </Card.Body>
+            </Card>
+            <hr class="rounded">`;
             console.log('end of for loop')
         }
         console.log('out of for loop')
