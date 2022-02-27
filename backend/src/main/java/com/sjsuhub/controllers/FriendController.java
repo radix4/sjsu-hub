@@ -25,8 +25,8 @@ import java.util.Set;
  * 3) get all sent friend requests
  *
  * User POV:
- *  1) [ ] send request - add a friend to friend request list
- *  2) [ ] cancel a sent request - remove request from friend's request list
+ *  1) [x] send request - add a friend to friend request list, add friend to sent-request list
+ *  2) [x] cancel a sent request - remove request from friend's request list
  *
  * Friend POV:
  *  3) [ ] accept request - add friend to friend list
@@ -40,6 +40,41 @@ public class FriendController {
     @Autowired
     private UserRepository userRepository;
 
+    @PutMapping(path="/send-request")
+    public @ResponseBody String sendRequest(@RequestBody User user) {
 
+        String userEmail = user.getEmail();
+        String friendEmail =  user.getFriendRequests().stream().findFirst().get();
 
+        /* add friend's email to user's sent-friend-request list */
+        User u = userRepository.findByEmail(userEmail);
+        u.getSentFriendRequests().add(friendEmail);
+        userRepository.save(u);
+
+        /* add user's email to friend's friend-request list */
+        User f = userRepository.findByEmail(friendEmail);
+        f.getFriendRequests().add(userEmail);
+        userRepository.save(f);
+
+        return "Add friend success.";
+    }
+
+    @PutMapping(path="/cancel-sent-request")
+    public @ResponseBody String cancelSentRequest(@RequestBody User user) {
+
+        String userEmail = user.getEmail();
+        String friendEmail =  user.getFriendRequests().stream().findFirst().get();
+
+        /* remove friend's email from user's sent-friend-request list */
+        User u = userRepository.findByEmail(userEmail);
+        u.getSentFriendRequests().remove(friendEmail);
+        userRepository.save(u);
+
+        /* remove user's email from friend's friend-request list */
+        User f = userRepository.findByEmail(friendEmail);
+        f.getFriendRequests().remove(userEmail);
+        userRepository.save(f);
+
+        return "Cancel sent request success.";
+    }
 }

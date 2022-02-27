@@ -19,14 +19,22 @@ public class User {
     /* Friends and Friend-Requests are mutually exclusive */
 
     @ElementCollection
-    @CollectionTable(name = "user_friends", joinColumns = @JoinColumn(name = "user_id"))
+    @CollectionTable(name = "friends", joinColumns = @JoinColumn(name = "user_id"))
     @Column(name = "friends")
     private Set<String> friends = new HashSet<>();
 
     @ElementCollection
-    @CollectionTable(name = "user_friend_requests", joinColumns = @JoinColumn(name = "user_id"))
+    @CollectionTable(name = "friend_requests", joinColumns = @JoinColumn(name = "user_id"))
     @Column(name = "friend_requests")
     private Set<String> friendRequests = new HashSet<>();
+
+    @ElementCollection
+    @CollectionTable(name = "sent_friend_requests", joinColumns = @JoinColumn(name = "user_id"))
+    @Column(name = "sent_friend_requests")
+    private Set<String> sentFriendRequests = new HashSet<>();
+
+    public User() {
+    }
 
     public User(String email, String firstName, String lastName, String password, Set<String> friends) {
         this.email = email;
@@ -36,14 +44,14 @@ public class User {
         this.friends = friends;
     }
 
-
-    public User() {
-
-    }
-
-    public User(String email, Set<String> friends) {
+    public User(String email, String firstName, String lastName, String password, Set<String> friends, Set<String> friendRequests) {
         this.email = email;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.password = password;
         this.friends = friends;
+        this.friendRequests = friendRequests;
+        this.sentFriendRequests = sentFriendRequests;
     }
 
     public Integer getId() {
@@ -100,6 +108,14 @@ public class User {
 
     public void setFriendRequests(Set<String> friendRequests) {
         this.friendRequests = friendRequests;
+    }
+
+    public Set<String> getSentFriendRequests() {
+        return sentFriendRequests;
+    }
+
+    public void setSentFriendRequests(Set<String> sentFriendRequests) {
+        this.sentFriendRequests = sentFriendRequests;
     }
 
     public String toString() {

@@ -30,21 +30,22 @@ public class Main implements CommandLineRunner {
 		// Cleanup database tables.
 		userRepository.deleteAll();
 
-		// Insert a user with multiple phone numbers and addresses.
 		Set<String> friends = new HashSet<>();
 		friends.add("friend1@gmail.com");
 		friends.add("friend2@gmail.com");
 		friends.add("friend3@gmail.com");
 
 		Set<String> friendRequests = new HashSet<>();
-		friendRequests.add("friend1@gmail.com");
-		friendRequests.add("friend2@gmail.com");
-		friendRequests.add("friend3@gmail.com");
+		friendRequests.add("friendrequest1@gmail.com");
+		friendRequests.add("friendrequest2@gmail.com");
+		friendRequests.add("friendrequest3@gmail.com");
 
-		User user = new User("email", "ln", "fn", "pw", friends);
+		User user = new User("email", "ln", "fn", "pw", friends, friendRequests);
+		User user2 = new User("email2", "ln", "fn", "pw", friends, friendRequests);
 
 
 		userRepository.save(user);
+		userRepository.save(user2);
 	}
 
 	@Bean
