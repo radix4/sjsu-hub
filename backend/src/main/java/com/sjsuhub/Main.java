@@ -31,17 +31,14 @@ public class Main implements CommandLineRunner {
 		userRepository.deleteAll();
 
 		Set<String> friends = new HashSet<>();
-		friends.add("friend1@gmail.com");
-		friends.add("friend2@gmail.com");
-		friends.add("friend3@gmail.com");
+		friends.add("2");
 
-		Set<String> friendRequests = new HashSet<>();
-		friendRequests.add("friendrequest1@gmail.com");
-		friendRequests.add("friendrequest2@gmail.com");
-		friendRequests.add("friendrequest3@gmail.com");
+		Set<String> friends2 = new HashSet<>();
+		friends2.add("1");
 
-		User user = new User("email", "ln", "fn", "pw", friends, friendRequests);
-		User user2 = new User("email2", "ln", "fn", "pw", friends, friendRequests);
+
+		User user = new User("1", "1", "1", "1", friends);
+		User user2 = new User("2", "2", "2", "2", friends2);
 
 
 		userRepository.save(user);
