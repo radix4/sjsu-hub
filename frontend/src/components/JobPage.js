@@ -8,11 +8,9 @@ const JobPage = () => {
     const [errorMessage, setErrorMessage] = useState(null);
     const [typeAlert, setTypeAlert] = useState(null);
 
-    const currency = "&pound;";
+    var cur = 6;
 
     var results = [];
-
-    
 
     const search = async(event) => {
         
@@ -28,7 +26,10 @@ const JobPage = () => {
                 results = response.results
                 console.log(results)
                 // displayAlert('Jobs: ' + results, '')
-               
+                if (response.length < 6)
+                    cur = response.length;
+                else
+                    cur = 6
                 writeToHTML()
             })
       
@@ -40,74 +41,31 @@ const JobPage = () => {
 
     }
 
-    // function writeToHTML() {
-    //     console.log('JobPage.js writeToHTML method beginning')
-    //     var from = 0;
-    //     //console.log("writing to HTML... page: " + page + "; results:" + from + "-->" + to); // shows the requested page and number of results being added to the html - for debuging and testing 
-    //     var html = '<div class="row my-1 px-2">';
-    //     var to = 6;
-        
-    //     console.log('before for loop')
-    //     for (let index = from; index < to; index++) {
-    //         console.log('for 1')
-    //         const element = results[index];
-    //         console.log('element = ' + element)
-    //         let time = 0;
-    //         console.log('for 2')
-    //         console.log('element description = ' + element.description)
-    //         let description = element.description;
-    //         //let company = shorten(element.company.display_name, 20);
-    //         // let salary = element.salary_min != element.salary_max ? `${currency} ${element.salary_min} - ${currency} ${element.salary_max}` : `${currency} ${element.salary_max}`;
-    //         console.log('for 3')
-    //         console.log('before html var incremented')
-    //         html += 
-    //         `<div id="${element.id}" class="col-12 col-md-6 col-lg-4 p-0">
-    //             <div class="d-flex flex-column card shadow m-2">
-    //                 <div class="job_box card-body pb-0">
-    //                     <div class="job_title d-flex align-items-center justify-content-center">
-    //                         <h3>${element.title}</h3>
-    //                     </div>
-    //                     <div class="details_container d-flex flex-sm-row flex-column justify-content-between">
-    //                         <div class="details_group float-left d-inline-flex flex-column">
-    //                             <div class="job_company details"><i class="fas fa-building" style="color:blue;"></i>&nbsp;<span title="${element.company.display_name}">${element.company.display_name}</span></div>
-    //                             <div class="job_location details"><i class="fas fa-map-marked-alt" style="color:red;"></i>&nbsp;<span title="${element.location.display_name}">${element.location.display_name}</span></div>
-    //                         </div>
-    //                         <div class="details_group float-right d-inline-flex flex-column">
-                                
-    //                             <div class="job_date details"><i class="fas fa-business-time" style="color:orange;"></i>&nbsp;<span title="${time}">${time}</span></div>
-    //                         </div>
-    //                     </div>
-    //                     <div class="job_description d-flex align-items-stretch justify-content-center">
-    //                         <p class="m-0 p-0">${description}</p>
-    //                     </div>
-    //                 </div>
-    //                 <div class="align-bottom d-flex px-1 align-items-end">
-    //                     <a class="btn btn-success text-center btn_apply p-2" href="${element.redirect_url}" target="_blank">Apply</a>
-    //                 </div>
-    //             </div>
-    //         </div>`;
-    //         console.log('end of for loop')
-    //     }
-    //     console.log('out of for loop')
-    //     html += `</div> 
-    //             <button id="btn_more" class="btn btn-primary p-2 m-1 shadow float-right" type="submit" onclick="displayMore()">MORE!</button>`;
-    //     console.log('HTML: ' + html)
-    //     document.getElementById('job_list').innerHTML = html
-    // }
+    function showMore() {
+        console.log('showMore() function')
+        document.getElementById('job_list').innerHTML = '';
+        if (results.length > cur + 6) {
+            cur += 6;
+            writeToHTML();
+        }
+        else {
+            cur = results.length;
+            writeToHTML();
+        }
+    }
 
     function writeToHTML() {
         console.log('JobPage.js writeToHTML method beginning')
         var from = 0;
         //console.log("writing to HTML... page: " + page + "; results:" + from + "-->" + to); // shows the requested page and number of results being added to the html - for debuging and testing 
         var html = '<div class="row my-1 px-2">';
-        var to = 6;
-        
+       
         console.log('before for loop')
-        for (let index = from; index < to; index++) {
+        for (let index = from; index < cur; index++) {
             console.log('for 1')
             const element = results[index];
             console.log('element = ' + element)
-            let time = 0;
+            let time = new Date(element.created);
             console.log('for 2')
             console.log('element description = ' + element.description)
             let description = element.description;
@@ -116,12 +74,9 @@ const JobPage = () => {
             console.log('for 3')
             console.log('before html var incremented')
 
-            let card = {
-                'box-shadow': '10px 5px 5px black'
-            }
-               
+              
             html += 
-            `<Card id={$element.id} border="dark" style = "box-shadow: 10px 10px 10px black; border: primary; background-color: white">
+            `<Card class="card p-3 text-right" id={$element.id} border="dark" style = "box-shadow: 10px 10px 10px black; border: primary; background-color: white">
                 <Card.Header>
                     <h3>Job: ${element.title}</h3>
                 </Card.Header>
@@ -131,13 +86,7 @@ const JobPage = () => {
                     <b>Posted:</b> ${time}<br/>
                     <hr class="rounded">
                     <p><b>Summary: </b>${description}</p>
-                    <a href='${element.redirect_url}'>Apply</a>
-                    <Link to='/Login'>
-                        Apply
-                        <Button href='${element.redirect_url}' target='_blank'>
-                            Apply
-                        </Button>
-                    </Link>
+                    <a href='${element.redirect_url}' class="btn btn-success" >Apply</a>
                 </Card.Body>
             </Card>
             <hr class="rounded">`;
@@ -145,10 +94,24 @@ const JobPage = () => {
         }
         console.log('out of for loop')
         html += `</div> 
-                <button id="btn_more" class="btn btn-primary p-2 m-1 shadow float-right" type="submit" onclick="displayMore()">MORE!</button>`;
+                <button id="show_more" type="submit" onclick=
+                "function {
+                    console.log('showMore() function')
+                    document.getElementById('job_list').innerHTML = '';
+                    if (results.length > cur + 6) {
+                        cur += 6;
+                        writeToHTML();
+                    }
+                    else {
+                        cur = results.length;
+                        writeToHTML();
+                    }
+                }"
+                >Show more</button>`;
         console.log('HTML: ' + html)
         document.getElementById('job_list').innerHTML = html
     }
+
 
     const displayAlert = (message, type) => {
         console.log('\n----\ndisplayAlert Message: ' + message + '\nType: ' + type + '\n------\n' )
@@ -175,26 +138,12 @@ const JobPage = () => {
                 
                 <Notification message={errorMessage} type={typeAlert} />
             </Col>  
-            {/* <Card id={$element.id}>
-                <Card.Header>
-                    <h3>${element.title}</h3>
-                </Card.Header>
-                <Card.Body>
-                    <b>${element.company.display_name}</b>
-                    <b>${element.location.display_name}</b>
-                    <h4>${time}</h4>
-                    <p>${description}</p>
-                    <Button href="${element.redirect_url}">
-
-                    </Button>
-                </Card.Body>
-            </Card> */}
 
         <h2> Job list </h2>
             <div id="job_list" class="container">
-
-                    
+      
             </div>
+        
         </Container>
     )
 }
