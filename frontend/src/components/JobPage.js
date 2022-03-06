@@ -41,18 +41,7 @@ const JobPage = () => {
 
     }
 
-    function showMore() {
-        console.log('showMore() function')
-        document.getElementById('job_list').innerHTML = '';
-        if (results.length > cur + 6) {
-            cur += 6;
-            writeToHTML();
-        }
-        else {
-            cur = results.length;
-            writeToHTML();
-        }
-    }
+   
 
     function writeToHTML() {
         console.log('JobPage.js writeToHTML method beginning')
@@ -94,19 +83,8 @@ const JobPage = () => {
         }
         console.log('out of for loop')
         html += `</div> 
-                <button id="show_more" type="submit" onclick=
-                "function {
-                    console.log('showMore() function')
-                    document.getElementById('job_list').innerHTML = '';
-                    if (results.length > cur + 6) {
-                        cur += 6;
-                        writeToHTML();
-                    }
-                    else {
-                        cur = results.length;
-                        writeToHTML();
-                    }
-                }"
+                <button id="show_more" type="submit" onclick="showMore()"
+                
                 >Show more</button>`;
         console.log('HTML: ' + html)
         document.getElementById('job_list').innerHTML = html
@@ -118,6 +96,19 @@ const JobPage = () => {
         setErrorMessage(message)
         setTypeAlert(type)
       }
+
+    function showMore() {
+        console.log('showMore() function')
+        document.getElementById('job_list').innerHTML = '';
+        if (results.length > cur + 6) {
+            cur += 6;
+            writeToHTML();
+        }
+        else {
+            cur = results.length;
+            writeToHTML();
+        }
+    }
 
 
     return (
@@ -144,6 +135,9 @@ const JobPage = () => {
       
             </div>
         
+        {/* <script type='text/javascript' src="scripts/jobScript.js"> */}
+       
+        {/* </script> */}
         </Container>
     )
 }
