@@ -73,7 +73,7 @@ const RegistrationPage = () => {
     try {
       await userService.register(newUser).then((returnedUser) => {
         console.log(returnedUser)
-        displayAlert(returnedUser, '')
+        displayAlert(returnedUser, 'success')
         console.log(returnedUser)
       })
 
