@@ -5,6 +5,8 @@ import LoginPage from './components/LoginPage'
 import ForumPage from './components/ForumPage'
 import JobPage from './components/JobPage'
 import FriendsPage from './components/FriendsPage'
+import TutoringSessionPage from './components/TutoringSessionPage'
+import TutoringSession from './components/TutoringSession'
 
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 
@@ -18,6 +20,8 @@ const App = () => {
         <Route path='/ForumPage' element={<ForumPage />} />
         <Route path='/JobPage' element={<JobPage />} />
         <Route path='/FriendsPage' element={<FriendsPage />} />
+        <Route path='/TutoringSessionPage' element={<TutoringSessionPage />} />
+        <Route path='/TutoringSession' element={<TutoringSession />} />
       </Routes>
     </Router>
   )
