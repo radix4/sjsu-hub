@@ -59,9 +59,11 @@ const HomePage = () => {
             </Link>
           </Col>
           <Col style={secondRow}>
+            <Link to='/GroupChatPage'>
             <Button style={{ margin: '5px' }} variant='outline-primary'>
               Group Chat
             </Button>
+            </Link>
             <Link to='/JobPage'>
               <Button style={{ margin: '5px' }} variant='outline-primary'>
                 Internships and Jobs
