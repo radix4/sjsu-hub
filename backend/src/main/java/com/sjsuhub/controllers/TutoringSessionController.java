@@ -31,14 +31,17 @@ public class TutoringSessionController {
     public @ResponseBody TutoringSession updateOne(@RequestBody TutoringSession newSession, @PathVariable Integer id) {
         return tutoringSessionRepository.findById(id)
                 .map(session -> {
+                    session.setName(newSession.getName());
                     session.setEmail(newSession.getEmail());
+                    session.setBiography(newSession.getBiography());
+                    session.setContactInformation(newSession.getContactInformation());
+
                     session.setTitle(newSession.getTitle());
+                    session.setCourse(newSession.getCourse());
                     session.setAvailableTime(newSession.getAvailableTime());
                     session.setLocation(newSession.getLocation());
-                    session.setBiography(newSession.getBiography());
-                    session.setGoal(newSession.getGoal());
-                    session.setContactInformation(newSession.getContactInformation());
                     session.setTutor(newSession.isTutor());
+
                     return tutoringSessionRepository.save(session);
                 })
                 .orElseGet(() -> {

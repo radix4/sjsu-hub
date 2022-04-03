@@ -67,9 +67,16 @@ const HomePage = () => {
                 Internships and Jobs
               </Button>
             </Link>
-            
+
             <Link to='/ForumPage'>
-              <Button variant='outline-primary'>Forums</Button>
+              <Button style={{ margin: '5px' }} variant='outline-primary'>
+                Forums
+              </Button>
+            </Link>
+            <Link to='/TutoringSessionPage'>
+              <Button style={{ margin: '5px' }} variant='outline-primary'>
+                Tutoring Sessions
+              </Button>
             </Link>
           </Col>
         </Col>
