@@ -1,5 +1,5 @@
 import React from 'react'
-import { Container, Col, Row, Button, Image, PageHeader } from 'react-bootstrap'
+import { Container, Col, Row, Button, Image } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import NavBar from './NavBar'
 import imgLogo from '../images/SJSU-Hub-logos.jpeg'

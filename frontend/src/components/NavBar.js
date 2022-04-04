@@ -6,21 +6,32 @@ import {
   Form,
   Button,
   Container,
+  Image,
 } from 'react-bootstrap'
+import { Link } from 'react-router-dom'
+import imgLogo from '../images/SJSU-Hub-logos.jpeg'
 
-// Custom navbar component
 const NavBar = () => {
+  const logoStyle = {
+    borderRadius: '5px',
+    width: '50px',
+  }
+
   return (
-    <Navbar bg='light' expand='lg'>
+    <Navbar bg='dark' expand='lg' variant='dark'>
       <Container fluid>
-        <Navbar.Brand href='#'>Brand image here</Navbar.Brand>
+        <Link to='/'>
+          <Navbar.Brand>
+            <Image src={imgLogo} style={logoStyle}></Image>
+          </Navbar.Brand>
+        </Link>
         <Navbar.Toggle aria-controls='navbarScroll' />
         <Navbar.Collapse id='navbarScroll'>
           <Nav
             className='me-auto my-2 my-lg-0'
             style={{ maxHeight: '100px' }}
             navbarScroll>
-            <Nav.Link href='#action1'>Home</Nav.Link>
+            <Nav.Link>Home</Nav.Link>
             <Nav.Link href='#action2'>Link</Nav.Link>
             <NavDropdown title='Link' id='navbarScrollingDropdown'>
               <NavDropdown.Item href='#action3'>Action</NavDropdown.Item>
@@ -36,7 +47,6 @@ const NavBar = () => {
               Link
             </Nav.Link>
           </Nav>
-          Hello First Last
           <Form className='d-flex'>
             <Button variant='outline-success'>Account</Button>
             <Button variant='outline-success'>Login</Button>
