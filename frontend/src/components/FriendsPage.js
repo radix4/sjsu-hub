@@ -1,7 +1,6 @@
 import React , { useState, useEffect } from 'react'
 import {Container, Col, Form, Button, Table, Row} from 'react-bootstrap'
 import userService from '../services/users'
-import Notification from './Notification'
 
 const FriendsPage = () => {
 
@@ -46,9 +45,17 @@ const FriendsPage = () => {
 
       }, [])
 
-    // const sendFriendRequest = (event) => {
-
-    // }
+    const sendFriendRequest = (friendEmail) => {
+        console.log("2 is sending friend request " + friendEmail)
+        const user = {
+            "email": "2",
+            "friendRequests": [friendEmail]
+        }
+        userService.sendFriendRequest(user).then((response) => {
+            console.log(response)
+        })
+        
+    }
    
 
 
@@ -145,12 +152,12 @@ const FriendsPage = () => {
                     </thead>
                     <tbody>
                         {allUsers.map(user => (
-                        <tr key={user.email} ><
-                            td>{user.id}</td>
+                        <tr key={user.email} >
+                            <td>{user.id}</td>
                             <td>{user.firstName}</td>
                             <td>{user.lastName}</td>
                             <td>{user.email}</td>
-                            <td><Button>Friend</Button></td>
+                            <td><Button onClick = { () => sendFriendRequest(user.email)}> Friend</Button></td>
                             </tr>))}
                     </tbody>
                 </Table>

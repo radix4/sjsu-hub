@@ -91,7 +91,7 @@ const getSentFriendRequests = async(user) => {
 }
 
 const sendFriendRequest = async(user) => {
-  console.log('Getting friend requests')
+  console.log('Sending friend request')
   const response = await axios.put(`${baseUrl}/users/friends/send-request`, {
     email: user.email,
     friendRequests: user.friendRequests
@@ -101,4 +101,4 @@ const sendFriendRequest = async(user) => {
   return response.data
 }
 
-export default { register, getAllUsers, login, getFriends, getFriendRequests, getSentFriendRequests }
+export default { register, getAllUsers, login, getFriends, getFriendRequests, getSentFriendRequests, sendFriendRequest }
