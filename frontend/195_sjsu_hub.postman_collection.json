@@ -212,6 +212,14 @@
 				"header": []
 			},
 			"response": []
+		},
+		{
+			"name": "get all friends requests",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
 		}
 	]
 }
