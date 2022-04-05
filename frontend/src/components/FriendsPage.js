@@ -39,10 +39,6 @@ const FriendsPage = () => {
             console.log('Error = ' + exception)
         }
        
-
-    
-        
-
       }, [])
 
     const sendFriendRequest = (friendEmail) => {
@@ -53,11 +49,62 @@ const FriendsPage = () => {
         }
         userService.sendFriendRequest(user).then((response) => {
             console.log(response)
+            window.location.reload();
+        })
+        
+    }
+
+    const cancelFriendRequest = (friendEmail) => {
+        console.log("2 is canceling request sent to " + friendEmail)
+        const user = {
+            "email": "2",
+            "sentFriendRequests": [friendEmail]
+        }
+        userService.cancelFriendRequest(user).then((response) => {
+            console.log(response)
+            window.location.reload();
+        })
+        
+    }
+
+    const acceptFriendRequest = (friendEmail) => {
+        console.log("2 is accepting request sent to " + friendEmail)
+        const user = {
+            "email": "2",
+            "friendRequests": [friendEmail]
+        }
+        userService.acceptFriendRequest(user).then((response) => {
+            console.log(response)
+            window.location.reload();
+        })
+        
+    }
+
+    const declineFriendRequest = (friendEmail) => {
+        console.log("2 is declining request sent to " + friendEmail)
+        const user = {
+            "email": "2",
+            "friendRequests": [friendEmail]
+        }
+        userService.declineFriendRequest(user).then((response) => {
+            console.log(response)
+            window.location.reload();
         })
         
     }
    
-
+    const unfriend = (friendEmail) => {
+        console.log("2 is unfriending " + friendEmail)
+        const user = {
+            "email": "2",
+            "friends": [friendEmail]
+        }
+        userService.unfriend(user).then((response) => {
+            console.log(response)
+            window.location.reload();
+        })
+        
+    }
 
     return (
         <Container>
@@ -83,8 +130,8 @@ const FriendsPage = () => {
                             <td>{request.firstName}</td>
                             <td>{request.lastName}</td>
                             <td>{request.email}</td>
-                            <td><Button>Accept Request</Button></td>
-                            <td><Button>Delete Request</Button></td>
+                            <td><Button onClick = { () => acceptFriendRequest(request.email)}>Accept Request</Button></td>
+                            <td><Button onClick = { () => declineFriendRequest(request.email)}>Delete Request</Button></td>
                             </tr>))}
                     </tbody>
                 </Table>
@@ -109,7 +156,7 @@ const FriendsPage = () => {
                             <td>{sentRequest.firstName}</td>
                             <td>{sentRequest.lastName}</td>
                             <td>{sentRequest.email}</td>
-                            <td><Button>Cancel</Button></td>
+                            <td><Button onClick = { () => cancelFriendRequest(sentRequest.email)}>Cancel</Button></td>
                             </tr>))}
                     </tbody>
                 </Table>
@@ -133,7 +180,7 @@ const FriendsPage = () => {
                             <td>{friend.firstName}</td>
                             <td>{friend.lastName}</td>
                             <td>{friend.email}</td>
-                            <td><Button>Unfriend</Button></td>
+                            <td><Button onClick = { () => unfriend(friend.email)}>Unfriend</Button></td>
                             </tr>))}
                     </tbody>
                 </Table>

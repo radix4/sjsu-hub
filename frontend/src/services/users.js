@@ -54,13 +54,6 @@ const getFriends = async(user) => {
 
 }
 
-// const getFriends = async(email) => {
-//   console.log('Getting friends \n')
-//   const response = await axios.get(`${baseUrl}/users/friends/all`);
-//   console.log(response.data)
-//   return response.data
-
-// }
 
 const getFriendRequests = async(user) => {
   console.log('Getting friend requests for email ' + user.email + ' \n')
@@ -72,13 +65,6 @@ const getFriendRequests = async(user) => {
 
 }
 
-// const getFriendRequests = async(email) => {
-//   console.log('Getting friend requests \n')
-//   const response = await axios.get(`${baseUrl}/users/friends/allRequests`);
-//   console.log(response.data)
-//   return response.data
-
-// }
 
 const getSentFriendRequests = async(user) => {
   console.log('Getting sent friend requests for email ' + user.email + '\n')
@@ -92,7 +78,7 @@ const getSentFriendRequests = async(user) => {
 
 const sendFriendRequest = async(user) => {
   console.log('Sending friend request')
-  const response = await axios.put(`${baseUrl}/users/friends/send-request`, {
+  const response = await axios.post(`${baseUrl}/users/friends/send-request`, {
     email: user.email,
     friendRequests: user.friendRequests
   })
@@ -101,4 +87,60 @@ const sendFriendRequest = async(user) => {
   return response.data
 }
 
-export default { register, getAllUsers, login, getFriends, getFriendRequests, getSentFriendRequests, sendFriendRequest }
+const cancelFriendRequest = async(user) => {
+  console.log('2 is canceling request sent to user ' + user.sentFriendRequests[0])
+  const response = await axios.post(`${baseUrl}/users/friends/cancel-sent-request`, {
+    email: user.email,
+    sentFriendRequests: user.sentFriendRequests
+  })
+
+  console.log(response.data)
+  return response.data
+}
+
+const acceptFriendRequest = async(user) => {
+  console.log('2 is accepting request sent by user ' + user.friendRequests[0])
+  const response = await axios.post(`${baseUrl}/users/friends/accept-request`, {
+    email: user.email,
+    friendRequests: user.friendRequests
+  })
+
+  console.log(response.data)
+  return response.data
+}
+
+const declineFriendRequest = async(user) => {
+  console.log('2 is declining request sent by user ' + user.friendRequests[0])
+  const response = await axios.post(`${baseUrl}/users/friends/decline-request`, {
+    email: user.email,
+    friendRequests: user.friendRequests
+  })
+
+  console.log(response.data)
+  return response.data
+}
+
+
+const unfriend = async(user) => {
+  console.log('2 is unfriending user ' + user.friends[0])
+  const response = await axios.post(`${baseUrl}/users/friends/unfriend`, {
+    email: user.email,
+    friends: user.friends
+  })
+
+  console.log(response.data)
+  return response.data
+}
+
+export default { 
+  register, 
+  getAllUsers, 
+  login, 
+  getFriends, 
+  getFriendRequests, 
+  getSentFriendRequests, 
+  sendFriendRequest,
+  cancelFriendRequest,
+  acceptFriendRequest,
+  declineFriendRequest,
+  unfriend }
