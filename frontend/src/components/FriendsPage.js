@@ -5,10 +5,10 @@ import Notification from './Notification'
 
 const FriendsPage = () => {
 
-    const [errorMessage, setErrorMessage] = useState(null);
-    const [typeAlert, setTypeAlert] = useState(null);
     const [allUsers, setAllUsers] = useState([]);
     const [friends, setFriends] = useState([]);
+    const [friendRequests, setFriendRequests] = useState([]);
+    const [sentFriendRequests, setSentFriendRequests] = useState([]);
 
     useEffect(() => {
 
@@ -20,44 +20,92 @@ const FriendsPage = () => {
             // displayAlert(users.map(user => <div>{user.firstName} {user.lastName} </div>), '')
         })
 
-        userService.getFriends("2").then((friends) => {
-            setFriends(friends);
-        })
-
-      }, [])
-   
-    const getUsers = async(event) => {
-        event.preventDefault()
+        const user = {
+            "email": "2",
+        }
 
         try {
-            await userService.getAllUsers().then((users) => {
-                console.log(users)
-                setAllUsers(users);
-                console.log('allUsers = ' + allUsers)
-                displayAlert(users.map(user => <div>{user.firstName} {user.lastName} </div>), '')
+            userService.getFriends(user).then((friends) => {
+                setFriends(friends);
             })
-        } catch {
-            displayAlert('Failed to get users', 'error')
-            console.log('Friends: failed to display list of all users')
+
+            userService.getFriendRequests(user).then((requests) => {
+                setFriendRequests(requests);
+            })
+
+            userService.getSentFriendRequests(user).then((sentRequests) => {
+                setSentFriendRequests(sentRequests);
+            })
+        } catch (exception) {
+            console.log('Error = ' + exception)
         }
-        
-    }
-
-
-
-
-    const displayAlert = (message, type) => {
-        console.log('\n----\ndisplayAlert Message: ' + message + '\nType: ' + type + '\n------\n' )
-        setErrorMessage(message)
-        setTypeAlert(type)
-      }
+       
 
     
+        
+
+      }, [])
+
+    // const sendFriendRequest = (event) => {
+
+    // }
+   
+
+
     return (
         <Container>
             <Col  className='text-center mt-5 p-3'>
 
-                <h2>Friend Requests</h2>
+                <h2>Received Friend Requests</h2>
+
+                <Table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>First Name</th>
+                            <th>Last Name</th>
+                            <th>Email</th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {friendRequests.map(request => (
+                        <tr key={request.email} ><
+                            td>{request.id}</td>
+                            <td>{request.firstName}</td>
+                            <td>{request.lastName}</td>
+                            <td>{request.email}</td>
+                            <td><Button>Accept Request</Button></td>
+                            <td><Button>Delete Request</Button></td>
+                            </tr>))}
+                    </tbody>
+                </Table>
+
+                <h2>Sent Friend Requests</h2>
+
+                <Table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>First Name</th>
+                            <th>Last Name</th>
+                            <th>Email</th>
+                            <th></th>
+                            
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {sentFriendRequests.map(sentRequest => (
+                        <tr key={sentRequest.email} ><
+                            td>{sentRequest.id}</td>
+                            <td>{sentRequest.firstName}</td>
+                            <td>{sentRequest.lastName}</td>
+                            <td>{sentRequest.email}</td>
+                            <td><Button>Cancel</Button></td>
+                            </tr>))}
+                    </tbody>
+                </Table>
 
                 <h2>My Friends</h2>
 
@@ -68,15 +116,17 @@ const FriendsPage = () => {
                             <th>First Name</th>
                             <th>Last Name</th>
                             <th>Email</th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
                         {friends.map(friend => (
-                        <tr key={friend.id} ><
+                        <tr key={friend.email} ><
                             td>{friend.id}</td>
                             <td>{friend.firstName}</td>
                             <td>{friend.lastName}</td>
                             <td>{friend.email}</td>
+                            <td><Button>Unfriend</Button></td>
                             </tr>))}
                     </tbody>
                 </Table>
@@ -90,20 +140,22 @@ const FriendsPage = () => {
                             <th>First Name</th>
                             <th>Last Name</th>
                             <th>Email</th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
                         {allUsers.map(user => (
-                        <tr key={user.id} ><
+                        <tr key={user.email} ><
                             td>{user.id}</td>
                             <td>{user.firstName}</td>
                             <td>{user.lastName}</td>
                             <td>{user.email}</td>
+                            <td><Button>Friend</Button></td>
                             </tr>))}
                     </tbody>
                 </Table>
             
-                <Form id = 'friend_search' onSubmit = {getUsers}>
+                <Form id = 'friend_search' >
                     <Form.Group controlId = 'search_box' >
                         <Form.Control type = 'text' placeholder = 'Enter name...' / >
                     </Form.Group>
@@ -115,12 +167,7 @@ const FriendsPage = () => {
                     </Form.Group>
                 </Form>
                 <br/>
-                <h2> Potential Friends </h2>
-                {/* Later this page will include a function similar to search/writeToHTML from JobPage to populate the friends list. */}
-                <div id="friend_list" className="container">
-                <Notification message={errorMessage} type={typeAlert} /> 
                
-                </div>
             </Col>
         </Container>
 

@@ -9,6 +9,7 @@ import com.sjsuhub.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -37,9 +38,12 @@ public class FriendController {
     @Autowired
     private UserRepository userRepository;
 
-    @GetMapping(path="/getAllFriends/{email}")
-    public @ResponseBody Iterable<User> getAllFriendsByEmail(@PathVariable String email) {
-        User u = userRepository.findByEmail(email);
+
+    ///////////////////////// GET MAPPINGS ///////////////////////////////
+
+    @PostMapping(path="/getAllFriends")
+    public @ResponseBody Iterable<User> getAllFriendsByEmail(@RequestBody User user) {
+        User u = userRepository.findByEmail(user.getEmail());
         Set<String> friendsEmails = u.getFriends();
         Set<User> friends = new HashSet<User>();
 
@@ -52,18 +56,85 @@ public class FriendController {
         return friends;
     }
 
-    @GetMapping(path="/getAllFriendsRequests/{email}")
-    public @ResponseBody Iterable<User> getAllFriendsRequestsByEmail(@PathVariable String email) {
-        User u = userRepository.findByEmail(email);
+    // @PostMapping(path="/all")
+    // public @ResponseBody Iterable<User> getAllFriends() {
+    //     User u = userRepository.findByEmail("2");
+    //     Set<String> friendsEmails = u.getFriends();
+    //     Set<User> friends = new HashSet<User>();
+
+    //     if (!friendsEmails.isEmpty()) {
+    //         for (String f : friendsEmails) {
+    //             friends.add(userRepository.findByEmail(f));
+    //         }
+    //     }
+
+    //     return friends;
+    // }
+
+    @PostMapping(path="/getAllFriendsRequests")
+    public @ResponseBody Iterable<User> getAllFriendsRequestsByEmail(@RequestBody User user) {
+        User u = userRepository.findByEmail(user.getEmail());
         Set<String> friendRequestEmails = u.getFriendRequests();
         Set<User> friends = new HashSet<User>();
         
-        for (String f : friendRequestEmails) {
-            friends.add(userRepository.findByEmail(f));
+        if (!friendRequestEmails.isEmpty()) {
+            for (String f : friendRequestEmails) {
+                friends.add(userRepository.findByEmail(f));
+            }
+        }
+        
+
+        return friends;
+    }
+
+    @PostMapping(path="/allFriendRequests")
+    public @ResponseBody Iterable<User> getAllFriendsRequests() {
+        User u = userRepository.findByEmail("2");
+        Set<String> friendRequestEmails = u.getFriendRequests();
+        Set<User> friends = new HashSet<User>();
+        
+        if (!friendRequestEmails.isEmpty()) {
+            for (String f : friendRequestEmails) {
+                friends.add(userRepository.findByEmail(f));
+            }
         }
 
         return friends;
     }
+
+    @PostMapping(path="/getAllSentFriendsRequests")
+    public @ResponseBody Iterable<User> getAllSentFriendsRequestsByEmail(@RequestBody User user) {
+        User u = userRepository.findByEmail(user.getEmail());
+        Set<String> sentFriendRequestEmails = u.getSentFriendRequests();
+        Set<User> sentFriendRequests = new HashSet<User>();
+        
+        if (!sentFriendRequestEmails.isEmpty()) {
+            for (String f : sentFriendRequestEmails) {
+                sentFriendRequests.add(userRepository.findByEmail(f));
+            }
+        }
+        
+
+        return sentFriendRequests;
+    }
+
+    @PostMapping(path="/allSentFriendRequests")
+    public @ResponseBody Iterable<User> getAllSentFriendsRequests() {
+        User u = userRepository.findByEmail("2");
+        Set<String> sentFriendRequestEmails = u.getSentFriendRequests();
+        Set<User> sentFriendRequests = new HashSet<User>();
+        
+        if (!sentFriendRequestEmails.isEmpty()) {
+            for (String f : sentFriendRequestEmails) {
+                sentFriendRequests.add(userRepository.findByEmail(f));
+            }
+        }
+        
+
+        return sentFriendRequests;
+    }
+
+    ///////////////////////// PUT MAPPINGS ///////////////////////////////
 
     @PutMapping(path="/send-request")
     public @ResponseBody String sendRequest(@RequestBody User user) {
