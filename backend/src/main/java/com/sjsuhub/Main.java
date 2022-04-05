@@ -52,7 +52,7 @@ public class Main implements CommandLineRunner {
 			public void addCorsMappings(CorsRegistry registry) {
 				registry.addMapping("/users/***").allowedOrigins("http://localhost:3000");
 				registry.addMapping("/posts/***").allowedOrigins("http://localhost:3000");
-
+				registry.addMapping("/users/friends/***").allowedOrigins("http://localhost:3000");
 				// this should allow all endpoints from http://localhost:3000
 				registry.addMapping("/***").allowedOrigins("http://localhost:3000");
 			}

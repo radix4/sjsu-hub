@@ -17,12 +17,6 @@ const register = async (user) => {
   return response.data
 }
 
-const getAllUsers = async() => {
-  console.log('Getting all users\n')
-  const response = await axios.get(`${baseUrl}/users/all`);
-  console.log(response.data)
-  return response.data;
-}
 
 const login = async (user) => {
   const response = await axios.post(`${baseUrl}/users/login`, {
@@ -37,4 +31,18 @@ const login = async (user) => {
   return response.data
 }
 
-export default { register, getAllUsers, login }
+const getAllUsers = async() => {
+  console.log('Getting all users\n')
+  const response = await axios.get(`${baseUrl}/users/all`);
+  console.log(response.data)
+  return response.data;
+}
+
+const getFriends = async(email) => {
+  console.log('Getting friends \n')
+  const response = await axios.get(`${baseUrl}/users/friends/getAllFriends/${email}`);
+  console.log(response.data)
+  return response.data
+
+}
+export default { register, getAllUsers, login, getFriends }

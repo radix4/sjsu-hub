@@ -1,9 +1,14 @@
 package com.sjsuhub.controllers;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import com.sjsuhub.entities.User;
 import com.sjsuhub.repositories.UserRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,6 +36,34 @@ import org.springframework.web.bind.annotation.RestController;
 public class FriendController {
     @Autowired
     private UserRepository userRepository;
+
+    @GetMapping(path="/getAllFriends/{email}")
+    public @ResponseBody Iterable<User> getAllFriendsByEmail(@PathVariable String email) {
+        User u = userRepository.findByEmail(email);
+        Set<String> friendsEmails = u.getFriends();
+        Set<User> friends = new HashSet<User>();
+
+        if (!friendsEmails.isEmpty()) {
+            for (String f : friendsEmails) {
+                friends.add(userRepository.findByEmail(f));
+            }
+        }
+
+        return friends;
+    }
+
+    @GetMapping(path="/getAllFriendsRequests/{email}")
+    public @ResponseBody Iterable<User> getAllFriendsRequestsByEmail(@PathVariable String email) {
+        User u = userRepository.findByEmail(email);
+        Set<String> friendRequestEmails = u.getFriendRequests();
+        Set<User> friends = new HashSet<User>();
+        
+        for (String f : friendRequestEmails) {
+            friends.add(userRepository.findByEmail(f));
+        }
+
+        return friends;
+    }
 
     @PutMapping(path="/send-request")
     public @ResponseBody String sendRequest(@RequestBody User user) {

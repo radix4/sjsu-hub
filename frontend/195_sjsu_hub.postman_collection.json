@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "6864c9d5-3eaa-4638-968c-727d9146f279",
+		"_postman_id": "2d8e8e23-9a33-497b-ae82-256afebb0cad",
 		"name": "195 sjsu hub",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -202,6 +202,14 @@
 						"decline-request"
 					]
 				}
+			},
+			"response": []
+		},
+		{
+			"name": "get all friends",
+			"request": {
+				"method": "GET",
+				"header": []
 			},
 			"response": []
 		}
