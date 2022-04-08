@@ -11,7 +11,7 @@ document.body.style = 'background: #FFF1D7;'
 const ForumPage = () => {
   return (
     <div>
-      <NavBar></NavBar>
+      <NavBar />
       <div style={containerStyle}>
         {/* ============= CREATE POST FORM ============= */}
         <Form id='create-post-form' className='border p-3 border-info '>
