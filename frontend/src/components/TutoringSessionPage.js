@@ -5,16 +5,16 @@ import TutoringSessionCard from './TutoringSessionCard'
 import TutoringSessionCreateForm from './TutoringSessionCreateForm'
 import tutoringSessionService from '../services/tutoring-sessions'
 
-const containerStyle = {
-  margin: '5% 0% 5% 0%',
-}
-
 const TutoringSessionPage = () => {
   const [sessions, setSessions] = useState([])
   const [tutoringSessions, setTutoringSessions] = useState([])
   const [studentRequestingSessions, setStudentRequestingSessions] = useState([])
   const [isTutor, setIsTutor] = useState(true)
   const [visible, setVisible] = useState(false)
+
+  const containerStyle = {
+    margin: '5% 0% 5% 0%',
+  }
 
   useEffect(() => {
     tutoringSessionService.getAll().then((sessions) => {

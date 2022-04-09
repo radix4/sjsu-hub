@@ -9,6 +9,10 @@ const FriendsPage = () => {
   const [friendRequests, setFriendRequests] = useState([])
   const [sentFriendRequests, setSentFriendRequests] = useState([])
 
+  const containerStyle = {
+    margin: '5% 0% 5% 0%',
+  }
+
   useEffect(() => {
     userService.getAllUsers().then((users) => {
       setAllUsers(users)
@@ -99,146 +103,117 @@ const FriendsPage = () => {
     })
   }
 
-  return (
-    <div>
-      <NavBar />
-      <Container>
-        <Col className='text-center mt-5 p-3'>
-          <h2>Received Friend Requests</h2>
+  const renderTable = (list) => {
+    let listArray = []
 
-          <Table>
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>First Name</th>
-                <th>Last Name</th>
-                <th>Email</th>
-                <th></th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
-              {friendRequests.map((request) => (
-                <tr key={request.email}>
-                  <td>{request.id}</td>
-                  <td>{request.firstName}</td>
-                  <td>{request.lastName}</td>
-                  <td>{request.email}</td>
-                  <td>
-                    <Button onClick={() => acceptFriendRequest(request.email)}>
-                      Accept Request
-                    </Button>
-                  </td>
-                  <td>
-                    <Button onClick={() => declineFriendRequest(request.email)}>
-                      Delete Request
-                    </Button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </Table>
+    if (list === 'allUsers') listArray = allUsers
+    else if (list === 'friends') listArray = friends
+    else if (list === 'friendRequests') listArray = friendRequests
+    else if (list === 'sentFriendRequests') listArray = sentFriendRequests
 
-          <h2>Sent Friend Requests</h2>
+    return (
+      <Table striped bordered hover size='sm'>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Email</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          {listArray
+            .filter((item, idx) => idx < 5) // limit to 5 items
+            .map((user) => (
+              <tr key={user.email}>
+                <td>{user.id}</td>
+                <td>{user.firstName}</td>
+                <td>{user.lastName}</td>
+                <td>{user.email}</td>
 
-          <Table>
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>First Name</th>
-                <th>Last Name</th>
-                <th>Email</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
-              {sentFriendRequests.map((sentRequest) => (
-                <tr key={sentRequest.email}>
-                  <td>{sentRequest.id}</td>
-                  <td>{sentRequest.firstName}</td>
-                  <td>{sentRequest.lastName}</td>
-                  <td>{sentRequest.email}</td>
-                  <td>
-                    <Button
-                      onClick={() => cancelFriendRequest(sentRequest.email)}>
-                      Cancel
-                    </Button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </Table>
-
-          <h2>My Friends</h2>
-
-          <Table>
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>First Name</th>
-                <th>Last Name</th>
-                <th>Email</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
-              {friends.map((friend) => (
-                <tr key={friend.email}>
-                  <td>{friend.id}</td>
-                  <td>{friend.firstName}</td>
-                  <td>{friend.lastName}</td>
-                  <td>{friend.email}</td>
-                  <td>
-                    <Button onClick={() => unfriend(friend.email)}>
-                      Unfriend
-                    </Button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </Table>
-
-          <h2>All Users</h2>
-
-          <Table>
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>First Name</th>
-                <th>Last Name</th>
-                <th>Email</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
-              {allUsers.map((user) => (
-                <tr key={user.email}>
-                  <td>{user.id}</td>
-                  <td>{user.firstName}</td>
-                  <td>{user.lastName}</td>
-                  <td>{user.email}</td>
+                {list === 'allUsers' && (
                   <td>
                     <Button onClick={() => sendFriendRequest(user.email)}>
-                      {' '}
                       Friend
                     </Button>
                   </td>
-                </tr>
-              ))}
-            </tbody>
-          </Table>
+                )}
+                {list === 'friends' && (
+                  <td>
+                    <Button onClick={() => unfriend(user.email)}>
+                      Unfriend
+                    </Button>
+                  </td>
+                )}
+                {list === 'friendRequests' && (
+                  <td>
+                    <Button onClick={() => acceptFriendRequest(user.email)}>
+                      Accept
+                    </Button>
+                  </td>
+                )}
+                {list === 'friendRequests' && (
+                  <td>
+                    <Button onClick={() => declineFriendRequest(user.email)}>
+                      Decline
+                    </Button>
+                  </td>
+                )}
+                {list === 'sentFriendRequests' && (
+                  <td>
+                    <Button onClick={() => cancelFriendRequest(user.email)}>
+                      Cancel
+                    </Button>
+                  </td>
+                )}
+              </tr>
+            ))}
+        </tbody>
+        {listArray.length > 5 && <Button> More</Button>}
+      </Table>
+    )
+  }
 
-          <Form id='friend_search'>
-            <Form.Group controlId='search_box'>
-              <Form.Control type='text' placeholder='Enter name...' />
-            </Form.Group>
-            <br />
-            <Form.Group>
-              <Button type='submit'>Search</Button>
-            </Form.Group>
-          </Form>
+  return (
+    <div>
+      <NavBar />
+      <br></br>
+      <br></br>
+      <br></br>
+      {/* Neglecting search function at the moment
+      
+      <Container>
+        <h2>Search for a friend</h2>
+        <Form id='friend_search'>
+          <Form.Group controlId='search_box'>
+            <Form.Control type='text' placeholder='Enter name...' />
+          </Form.Group>
           <br />
-        </Col>
+          <Form.Group>
+            <Button type='submit'>Search</Button>
+          </Form.Group>
+        </Form>
+      </Container> */}
+      <Container style={containerStyle} fluid>
+        <Row>
+          <Col className='border-right'>
+            <h2>All Users</h2>
+            {renderTable('allUsers')}
+          </Col>
+          <Col className='border-right'>
+            <h2>My Friends</h2>
+            {renderTable('friends')}
+          </Col>
+          <Col className='border-right'>
+            <h2>Received Friend Requests</h2>
+            {renderTable('friendRequests')}
+          </Col>
+          <Col className='border-right'>
+            <h2>Sent Friend Requests</h2>
+            {renderTable('sentFriendRequests')}
+          </Col>
+        </Row>
       </Container>
     </div>
   )
