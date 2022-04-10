@@ -1,9 +1,15 @@
 package com.sjsuhub.controllers;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import com.sjsuhub.entities.User;
 import com.sjsuhub.repositories.UserRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,7 +38,62 @@ public class FriendController {
     @Autowired
     private UserRepository userRepository;
 
-    @PutMapping(path="/send-request")
+
+    ///////////////////////// GET MAPPINGS ///////////////////////////////
+
+    @PostMapping(path="/getAllFriends")
+    public @ResponseBody Iterable<User> getAllFriendsByEmail(@RequestBody User user) {
+        User u = userRepository.findByEmail(user.getEmail());
+        Set<String> friendsEmails = u.getFriends();
+        Set<User> friends = new HashSet<User>();
+
+        if (!friendsEmails.isEmpty()) {
+            for (String f : friendsEmails) {
+                friends.add(userRepository.findByEmail(f));
+            }
+        }
+
+        return friends;
+    }
+
+
+    @PostMapping(path="/getAllFriendsRequests")
+    public @ResponseBody Iterable<User> getAllFriendsRequestsByEmail(@RequestBody User user) {
+        User u = userRepository.findByEmail(user.getEmail());
+        Set<String> friendRequestEmails = u.getFriendRequests();
+        Set<User> friends = new HashSet<User>();
+        
+        if (!friendRequestEmails.isEmpty()) {
+            for (String f : friendRequestEmails) {
+                friends.add(userRepository.findByEmail(f));
+            }
+        }
+        
+
+        return friends;
+    }
+
+
+    @PostMapping(path="/getAllSentFriendsRequests")
+    public @ResponseBody Iterable<User> getAllSentFriendsRequestsByEmail(@RequestBody User user) {
+        User u = userRepository.findByEmail(user.getEmail());
+        Set<String> sentFriendRequestEmails = u.getSentFriendRequests();
+        Set<User> sentFriendRequests = new HashSet<User>();
+        
+        if (!sentFriendRequestEmails.isEmpty()) {
+            for (String f : sentFriendRequestEmails) {
+                sentFriendRequests.add(userRepository.findByEmail(f));
+            }
+        }
+        
+
+        return sentFriendRequests;
+    }
+
+
+    ///////////////////////// PUT MAPPINGS ///////////////////////////////
+
+    @PostMapping(path="/send-request")
     public @ResponseBody String sendRequest(@RequestBody User user) {
 
         String userEmail = user.getEmail();
@@ -51,7 +112,7 @@ public class FriendController {
         return "Send request success.";
     }
 
-    @PutMapping(path="/cancel-sent-request")
+    @PostMapping(path="/cancel-sent-request")
     public @ResponseBody String cancelSentRequest(@RequestBody User user) {
 
         String userEmail = user.getEmail();
@@ -70,7 +131,7 @@ public class FriendController {
         return "Cancel sent request success.";
     }
 
-    @PutMapping(path="/accept-request")
+    @PostMapping(path="/accept-request")
     public @ResponseBody String acceptRequest(@RequestBody User user) {
 
         String userEmail = user.getEmail();
@@ -91,7 +152,7 @@ public class FriendController {
         return "Accept request success.";
     }
 
-    @PutMapping(path="/decline-request")
+    @PostMapping(path="/decline-request")
     public @ResponseBody String declineRequest(@RequestBody User user) {
 
         String userEmail = user.getEmail();
@@ -110,7 +171,7 @@ public class FriendController {
         return "Decline request success.";
     }
 
-    @PutMapping(path="/unfriend")
+    @PostMapping(path="/unfriend")
     public @ResponseBody String unfriend(@RequestBody User user) {
 
         String userEmail = user.getEmail();

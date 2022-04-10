@@ -36,6 +36,16 @@ public class User {
     @Column(name = "sent_friend_requests")
     private Set<String> sentFriendRequests = new HashSet<>();
 
+    @ElementCollection
+    @CollectionTable(name = "createdEvents", joinColumns = @JoinColumn(name = "event_id"))
+    @Column(name = "createdEvents")
+    private Set<String> createdEvents = new HashSet<>();
+
+    @ElementCollection
+    @CollectionTable(name = "eventsAttending", joinColumns = @JoinColumn(name = "event_id"))
+    @Column(name = "eventsAttending")
+    private Set<String> eventsAttending = new HashSet<>();
+
     public User() {
     }
 

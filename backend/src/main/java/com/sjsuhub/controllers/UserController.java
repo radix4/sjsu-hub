@@ -5,8 +5,6 @@ import com.sjsuhub.entities.Post;
 import com.sjsuhub.repositories.PostRepository;
 import com.sjsuhub.repositories.UserRepository;
 
-
-
 import org.apache.catalina.connector.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -150,6 +148,8 @@ public class UserController {
 
 
     //////////////// END OF CRUD FOR ALL POSTS //////////////////////////
+
+
 
 
     @GetMapping(path="/all")

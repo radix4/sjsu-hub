@@ -5,6 +5,7 @@ import userService from '../services/users'
 import Notification from './Notification'
 import login from '../images/login.png'
 import user from '../images/user.png'
+import NavBar from './NavBar'
 
 const LoginPage = () => {
   const [errorMessage, setErrorMessage] = useState(null)
@@ -85,45 +86,48 @@ const LoginPage = () => {
   }
 
   return (
-    <Container style={backgroundColor} fluid className='mt-5'>
-      <Row>
-        {/* ================ LEFT COLUMN =================== */}
-        <Col lg={4} md={5} sm={12} className='text-center mt-4 p-3'>
-          <h3>Welcome Back :)</h3>
-          <img style={iconimg} src={user} alt='icon' />
-          <br />
-          <Form id='login' onSubmit={handleLogin}>
-            <Form.Group style={controlMargin} controlId='email'>
-              <Form.Control
-                type='text'
-                style={roundedCorners}
-                placeholder='SJSU Email'
-              />
-            </Form.Group>
+    <div>
+      <NavBar />
+      <Container style={backgroundColor} fluid className='mt-5'>
+        <Row>
+          {/* ================ LEFT COLUMN =================== */}
+          <Col lg={4} md={5} sm={12} className='text-center mt-4 p-3'>
+            <h3>Welcome Back :)</h3>
+            <img style={iconimg} src={user} alt='icon' />
+            <br />
+            <Form id='login' onSubmit={handleLogin}>
+              <Form.Group style={controlMargin} controlId='email'>
+                <Form.Control
+                  type='text'
+                  style={roundedCorners}
+                  placeholder='SJSU Email'
+                />
+              </Form.Group>
 
-            <Form.Group style={controlMargin} controlId='password'>
-              <Form.Control
-                type='password'
-                style={roundedCorners}
-                placeholder='Password'
-              />
-            </Form.Group>
+              <Form.Group style={controlMargin} controlId='password'>
+                <Form.Control
+                  type='password'
+                  style={roundedCorners}
+                  placeholder='Password'
+                />
+              </Form.Group>
 
-            <Notification message={errorMessage} type={typeAlert} />
-            <Form.Group style={controlMargin}>
-              <Button type='submit' style={submitButton}>
-                <b>Login</b>
-              </Button>
-            </Form.Group>
-          </Form>
-        </Col>
+              <Notification message={errorMessage} type={typeAlert} />
+              <Form.Group style={controlMargin}>
+                <Button type='submit' style={submitButton}>
+                  <b>Login</b>
+                </Button>
+              </Form.Group>
+            </Form>
+          </Col>
 
-        {/* ================ RIGHT COLUMN =================== */}
-        <Col lg={6} md={3} sm={12} className='text-center'>
-          <img className='w-100' src={login} alt='' />
-        </Col>
-      </Row>
-    </Container>
+          {/* ================ RIGHT COLUMN =================== */}
+          <Col lg={6} md={3} sm={12} className='text-center'>
+            <img className='w-100' src={login} alt='' />
+          </Col>
+        </Row>
+      </Container>
+    </div>
   )
 }
 

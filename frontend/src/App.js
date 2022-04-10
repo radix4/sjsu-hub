@@ -8,10 +8,11 @@ import FriendsPage from './components/FriendsPage'
 
 import GroupChatPage from './components/GroupChatPage'
 import TutoringSessionPage from './components/TutoringSessionPage'
-import TutoringSession from './components/TutoringSession'
 
 
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+
+import './css/reset.css'
 
 const App = () => {
   return (
@@ -24,6 +25,8 @@ const App = () => {
         <Route path='/JobPage' element={<JobPage />} />
         <Route path='/FriendsPage' element={<FriendsPage />} />
         <Route path='/GroupChatPage' element={<GroupChatPage />} />
+        <Route path='/TutoringSessionPage' element={<TutoringSessionPage />} />
+
       </Routes>
     </Router>
   )
