@@ -5,7 +5,10 @@ import LoginPage from './components/LoginPage'
 import ForumPage from './components/ForumPage'
 import JobPage from './components/JobPage'
 import FriendsPage from './components/FriendsPage'
+
 import GroupChatPage from './components/GroupChatPage'
+import TutoringSessionPage from './components/TutoringSessionPage'
+import TutoringSession from './components/TutoringSession'
 
 
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
