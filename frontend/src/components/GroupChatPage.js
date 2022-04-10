@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import {over} from 'stompjs';
 import SockJS from 'sockjs-client';
-import join from '../images/join.png'
+import join from '../images/chat.png'
 import {Col} from "react-bootstrap";
 import login from "../images/login.png";
-
 
 var stompClient =null;
 const GroupChatPage = () => {

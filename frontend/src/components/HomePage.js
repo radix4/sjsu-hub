@@ -30,53 +30,17 @@ const HomePage = () => {
   }
 
   return (
-<<<<<<< HEAD
-    <Container fluid style={backgroundColor}>
-      <Row className='d-flex align-items-center'>
-        <Col sm={7}>
-          <Col style={title}>
-            <h1> SJSU HUB </h1>
-          </Col>
-          <Col style={slogan}>
-            <p>A space for all spartans</p>
-          </Col>
-          <Col style={firstRow}>
-            <Link to='/Registration'>
-              <Button
-                style={{ margin: '5px' }}
-                variant='outline-primary'
-                size='lg'>
-                Register
-              </Button>
-            </Link>
-            <Link to='/Login'>
-              <Button variant='outline-primary' size='lg'>
-                Login
-              </Button>
-            </Link>
-          </Col>
-          <Col style={secondRow}>
-            <Link to='/GroupChatPage'>
-            <Button style={{ margin: '5px' }} variant='outline-primary'>
-              Group Chat
-            </Button>
-            </Link>
-            <Link to='/JobPage'>
-              <Button style={{ margin: '5px' }} variant='outline-primary'>
-                Internships and Jobs
-              </Button>
-            </Link>
-    <div>
-      <NavBar />
-      <Container fluid style={containerStyle}>
-        <Row>
-          <Col sm={6} style={leftColStyle}>
-            <h1>A Space for All Spartans!</h1>
-            <Image src={imgLogo} style={logoStyle}></Image>
-            <br></br>
-            <br></br>
-            {/* I don't think this is necessary when we have the navbar
-            
+      <div>
+        <NavBar />
+        <Container fluid style={containerStyle}>
+          <Row>
+            <Col sm={6} style={leftColStyle}>
+              <h1>A Space for All Spartans!</h1>
+              <Image src={imgLogo} style={logoStyle}></Image>
+              <br></br>
+              <br></br>
+              {/* I don't think this is necessary when we have the navbar
+
             <Row>
               <Col>
                 <Link to='/Registration'>
@@ -92,58 +56,60 @@ const HomePage = () => {
               </Col>
             </Row>
             <br></br> */}
-            <Row>
-              <Col>
-                <Button variant='outline-primary' style={{ margin: '5px' }}>
-                  Group Chat
-                </Button>
-                <Link to='/JobPage'>
-                  <Button variant='outline-primary' style={{ margin: '5px' }}>
-                    Internships and Jobs
-                  </Button>
-                </Link>
+              <Row>
+                <Col>
+                  <Link to='/GroupChatPage'>
+                    <Button variant='outline-primary' style={{ margin: '5px' }}>
+                      Group Chat
+                    </Button>
+                  </Link>
+                  <Link to='/JobPage'>
+                    <Button variant='outline-primary' style={{ margin: '5px' }}>
+                      Internships and Jobs
+                    </Button>
+                  </Link>
 
-                <Link to='/ForumPage'>
-                  <Button variant='outline-primary' style={{ margin: '5px' }}>
-                    Forums
-                  </Button>
-                </Link>
-                <Link to='/TutoringSessionPage'>
-                  <Button variant='outline-primary' style={{ margin: '5px' }}>
-                    Tutoring Sessions
-                  </Button>
-                </Link>
-              </Col>
-            </Row>
-            <Row>
-              <Col>
-                <Link to='/FriendsPage'>
-                  <Button variant='outline-primary' style={{ margin: '5px' }}>
-                    Friends Page
-                  </Button>
-                </Link>
-                <Link to='/EventsPage'>
-                  <Button variant='outline-primary' style={{ margin: '5px' }}>
-                    Events Page
-                  </Button>
-                </Link>
-                <Link to='/GroupStudyPage'>
-                  <Button variant='outline-primary' style={{ margin: '5px' }}>
-                    Study Groups
-                  </Button>
-                </Link>
-              </Col>
-            </Row>
-          </Col>
+                  <Link to='/ForumPage'>
+                    <Button variant='outline-primary' style={{ margin: '5px' }}>
+                      Forums
+                    </Button>
+                  </Link>
+                  <Link to='/TutoringSessionPage'>
+                    <Button variant='outline-primary' style={{ margin: '5px' }}>
+                      Tutoring Sessions
+                    </Button>
+                  </Link>
+                </Col>
+              </Row>
+              <Row>
+                <Col>
+                  <Link to='/FriendsPage'>
+                    <Button variant='outline-primary' style={{ margin: '5px' }}>
+                      Friends Page
+                    </Button>
+                  </Link>
+                  <Link to='/EventsPage'>
+                    <Button variant='outline-primary' style={{ margin: '5px' }}>
+                      Events Page
+                    </Button>
+                  </Link>
+                  <Link to='/GroupStudyPage'>
+                    <Button variant='outline-primary' style={{ margin: '5px' }}>
+                      Study Groups
+                    </Button>
+                  </Link>
+                </Col>
+              </Row>
+            </Col>
 
-          <Col sm={6} style={rightColStyle}>
-            <Image
-              src='https://c1.wallpaperflare.com/preview/500/75/689/san-jose-state-university-california-buildings-campus.jpg'
-              style={schoolImgStyle}></Image>
-          </Col>
-        </Row>
-      </Container>
-    </div>
+            <Col sm={6} style={rightColStyle}>
+              <Image
+                  src='https://c1.wallpaperflare.com/preview/500/75/689/san-jose-state-university-california-buildings-campus.jpg'
+                  style={schoolImgStyle}></Image>
+            </Col>
+          </Row>
+        </Container>
+      </div>
   )
 }
 
