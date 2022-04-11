@@ -17,6 +17,11 @@ public class TutoringSessionController {
         this.tutoringSessionRepository = repository;
     }
 
+    @GetMapping("/greeting")
+    public @ResponseBody String greeting() {
+        return "Hello, World";
+    }
+
     @GetMapping
     public Iterable<TutoringSession> getAll() {
         return tutoringSessionRepository.findAll();

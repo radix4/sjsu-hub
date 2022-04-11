@@ -1,6 +1,8 @@
 package com.sjsuhub.entities;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,6 +11,8 @@ import javax.persistence.Id;
 
 @Data
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor
 public class TutoringSession {
 
     private @Id @GeneratedValue(strategy=GenerationType.IDENTITY) Integer id;

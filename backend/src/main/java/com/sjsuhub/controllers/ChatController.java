@@ -1,6 +1,6 @@
 package com.sjsuhub.controllers;
 
-import com.sjsuhub.controllers.model.Message;
+import com.sjsuhub.entities.Message;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;

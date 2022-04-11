@@ -1,4 +1,4 @@
-package com.sjsuhub.controllers.model;
+package com.sjsuhub.entities;
 
 public enum Status {
     JOIN,

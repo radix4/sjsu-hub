@@ -1,13 +1,21 @@
-// package com.sjsuhub.backend;
-//
-// import org.junit.jupiter.api.Test;
-// import org.springframework.boot.test.context.SpringBootTest;
-//
-// @SpringBootTest
-// class MainTests {
-//
-// 	@Test
-// 	void contextLoads() {
-// 	}
-//
-// }
+package com.sjsuhub.backend;
+
+import com.sjsuhub.controllers.TutoringSessionController;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+
+import static org.assertj.core.api.Assertions.assertThat;
+
+@SpringBootTest
+class MainTests {
+
+    @Autowired
+    private TutoringSessionController tutoringSessionController;
+
+	@Test
+	void contextLoads() {
+        assertThat(tutoringSessionController).isNotNull();
+	}
+
+}

@@ -1,8 +1,5 @@
 package com.sjsuhub.repositories;
 
-
-import java.util.Optional;
-
 import com.sjsuhub.entities.Post;
 import org.springframework.data.repository.CrudRepository;
 

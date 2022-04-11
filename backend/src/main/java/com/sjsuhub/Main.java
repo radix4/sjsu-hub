@@ -60,7 +60,7 @@ public class Main implements CommandLineRunner {
 				registry.addMapping("/**").allowedOrigins("http://localhost:3000");
 				registry.addMapping("/***").allowedOrigins("http://localhost:3000");
 				registry.addMapping("/***")
-                .allowedMethods("HEAD", "GET", "PUT", "POST", "DELETE", "PATCH");
+						.allowedMethods("HEAD", "GET", "PUT", "POST", "DELETE", "PATCH");
 			}
 		};
 	}
