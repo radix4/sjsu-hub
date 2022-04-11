@@ -2,7 +2,10 @@ import React, { useEffect, useState } from 'react'
 import {over} from 'stompjs';
 import SockJS from 'sockjs-client';
 import join from '../images/chat.png'
-import {Col} from "react-bootstrap";
+import {Col} from "react-bootstrap"
+import NavBar from './NavBar'
+
+
 import login from "../images/login.png";
 
 var stompClient =null;
@@ -126,6 +129,11 @@ const GroupChatPage = () => {
         connect();
     }
     return (
+        <div>
+        <NavBar />
+        <br></br>
+        <br></br>
+        <br></br>
         <div className="container">
             {/*if user is connected show chat*/}
             {userData.connected?
@@ -193,10 +201,11 @@ const GroupChatPage = () => {
                     </Col>
 
                     <Col lg={8} md={17} sm={15}>
-                        <img className='w-100' src={join} alt='' />
+                        <img className='mw-100' src={join} alt='' />
                     </Col>
 
                 </div>}
+        </div>
         </div>
     )
 }

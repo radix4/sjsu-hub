@@ -92,7 +92,13 @@ const LoginPage = () => {
         <Row>
           {/* ================ LEFT COLUMN =================== */}
           <Col lg={4} md={5} sm={12} className='text-center mt-4 p-3'>
-            <h3>Welcome Back :)</h3>
+            <Form.Group style={controlMargin}>
+              <Col>
+                <h3>
+                  <b>Welcome Back :)</b>
+                </h3>
+              </Col>
+            </Form.Group>
             <img style={iconimg} src={user} alt='icon' />
             <br />
             <Form id='login' onSubmit={handleLogin}>
@@ -118,7 +124,23 @@ const LoginPage = () => {
                   <b>Login</b>
                 </Button>
               </Form.Group>
-            </Form>
+
+            <br /> <br />
+
+            <Form.Group style={controlMargin}>
+              <Col>
+                <h6>
+                  <b>Don't have an account yet?</b>
+                </h6>
+                <Link to='/Registration'>
+                  <Button style={submitButton}>
+                    <b>Sign Up</b>
+                  </Button>
+                </Link>
+              </Col>
+            </Form.Group>
+          </Form>
+
           </Col>
 
           {/* ================ RIGHT COLUMN =================== */}

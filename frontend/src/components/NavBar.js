@@ -39,7 +39,7 @@ const NavBar = () => {
                 Registration
               </NavDropdown.Item>
               <NavDropdown.Divider />
-              <NavDropdown.Item href='/'>Group Chat</NavDropdown.Item>
+              <NavDropdown.Item href='/GroupChatPage'>Group Chat</NavDropdown.Item>
               <NavDropdown.Item href='/JobPage'>
                 Internships and Jobs
               </NavDropdown.Item>
