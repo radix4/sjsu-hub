@@ -13,6 +13,7 @@ import com.sjsuhub.repositories.EventRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,7 +29,7 @@ public class EventController {
     @Autowired
     private UserRepository userRepository;
     
-    @PutMapping(path="/addEvent")
+    @PostMapping(path="/addEvent")
     public @ResponseBody String addNewEvent(@RequestBody Event event) {
         
         Event e = new Event();
@@ -64,7 +65,9 @@ public class EventController {
 
     @PutMapping(path="/delete-event")
     public @ResponseBody String deleteEvent(@RequestBody Event event) {
-        event = eventRepository.findById(event.getId());
+        Optional<Event> optionalEvent = eventRepository.findById(event.getId());
+        event = optionalEvent.get();
+
         if (event == null)
             return "Error: That event does not exist and cannot be deleted.";
             
@@ -88,36 +91,41 @@ public class EventController {
        
     }
 
-    @PutMapping(path="/attend")
+    @PostMapping(path="/attend")
     public @ResponseBody String joinEvent(@RequestBody Event event ) {
         User u = userRepository.findByEmail(event.getAttendees().stream().findFirst().get());
-        u.getEventsAttending().add(event.getId());
+        u.getEventsAttending().add(event.getId() + "");
         userRepository.save(u);
 
-        Event e = eventRepository.findById(event.getId());
+        Optional<Event> optionalEvent = eventRepository.findById(event.getId());
+        Event e = optionalEvent.get();
         e.getAttendees().add(u.getEmail());
         eventRepository.save(e);
 
         return "User " + u.getEmail() + " now attending event " + e.getId() + " " + e.getTitle();
     }
 
-    @PutMapping(path="/unattend")
+    @PostMapping(path="/unattend")
     public @ResponseBody String leaveEvent(@RequestBody Event event ) {
         User u = userRepository.findByEmail(event.getAttendees().stream().findFirst().get());
         u.getEventsAttending().remove(event.getId());
         userRepository.save(u);
 
-        Event e = eventRepository.findById(event.getId());
+        Optional<Event> optionalEvent = eventRepository.findById(event.getId());
+        Event e = optionalEvent.get();
         e.getAttendees().remove(u.getEmail());
         eventRepository.save(e);
 
         return "User " + u.getEmail() + " no longer attending event " + e.getId() + " " + e.getTitle();
     }
 
+    // Users can change everything except creator and people attending via update method
+    @PutMapping(path="/update")
     public @ResponseBody String updateEvent(@RequestBody Event event) {
-        Event e = eventRepository.findById(event.getId());
+        Optional<Event> optionalEvent = eventRepository.findById(event.getId());
+        Event e = optionalEvent.get();
         
-        e.setCreator(event.getCreator());
+        e.setCreator(e.getCreator());
         e.setTitle(event.getTitle());
         e.setDescription(event.getDescription());
 
@@ -126,7 +134,7 @@ public class EventController {
         e.setLongdegrees(event.getLongdegrees());
         e.setLongdir(event.getLongdir());
 
-        e.setAttendees(event.getAttendees());
+        e.setAttendees(e.getAttendees());
         
         e.setStart(event.getStart());
         e.setEnd(event.getEnd());

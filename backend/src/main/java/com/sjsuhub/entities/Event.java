@@ -14,7 +14,7 @@ import javax.persistence.*;
 public class Event {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-    private String id;
+    private Integer id;
 
     // id of User who creates event
     private String creator;
