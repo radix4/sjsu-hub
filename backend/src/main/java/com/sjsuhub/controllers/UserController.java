@@ -51,42 +51,42 @@ public class UserController {
 
         /* Hashing password */
         String plainText = user.getPassword();
-        byte[] hashByte = hmac_sha256(KEY, plainText);
-        java.util.Base64.Encoder encoder = java.util.Base64.getEncoder();
-        String hashPassword = encoder.encodeToString(hashByte);
+        String hashPassword = hmac_sha256(KEY, plainText);
         user.setPassword(hashPassword);
 
         User responseUser = userRepository.save(user);
         return "Success! User with id " + responseUser.getId() + " is now registered.";
     }
 
-    private static byte[] hmac_sha256(String secretKey, String data) {
+    @PostMapping(path="/login")
+    public @ResponseBody String login(@RequestBody User user) {
+        if (user.getEmail() == null|| user.getPassword() == null)
+            return "Fail! Fields cannot be empty";
+
+        User n = userRepository.findByEmail(user.getEmail());
+        if (n == null) return "Fail! Wrong email or password";
+
+        String hashPassword = hmac_sha256(KEY, user.getPassword());
+
+        if ((n.getEmail().equals(user.getEmail())) && (n.getPassword().equals(hashPassword)))
+            return "Login success.";
+        else
+            return "Fail for some reason.";
+    }
+
+    private static String hmac_sha256(String secretKey, String data) {
         try {
             Mac mac = Mac.getInstance("HmacSHA256") ;
             SecretKeySpec secretKeySpec = new SecretKeySpec(secretKey.getBytes(), "HmacSHA256") ;
             mac.init(secretKeySpec) ;
             byte[] digest = mac.doFinal(data.getBytes()) ;
-            return digest ;
+            java.util.Base64.Encoder encoder = java.util.Base64.getEncoder();
+            return encoder.encodeToString(digest);
         } catch (InvalidKeyException e1) {
             throw new RuntimeException("Invalid key exception while converting to HMAC SHA256") ;
         } catch (NoSuchAlgorithmException e2) {
             throw new RuntimeException("Java Exception Initializing HMAC Crypto Algorithm") ;
         }
-    }
-
-    @PostMapping(path="/login")
-    public @ResponseBody String login(@RequestBody User user){
-        if (user.getEmail() == null|| user.getPassword() == null)
-            return "";
-
-        User n = userRepository.findByEmail(user.getEmail());
-
-        if (n == null) return "";
-
-        if ((n.getEmail().equals(user.getEmail())) && (n.getPassword().equals(user.getPassword())))
-            return "Login success.";
-        else
-            return "";
     }
 
 
