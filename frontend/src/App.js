@@ -9,25 +9,39 @@ import FriendsPage from './components/FriendsPage'
 import GroupChatPage from './components/GroupChatPage'
 import TutoringSessionPage from './components/TutoringSessionPage'
 
-
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 
 import './css/reset.css'
 
 const App = () => {
   return (
     <Router>
-      <Routes>
-        <Route path='/' exact element={<HomePage />} />
-        <Route path='/Login' element={<LoginPage />} />
-        <Route path='/Registration' element={<RegistrationPage />} />
-        <Route path='/ForumPage' element={<ForumPage />} />
-        <Route path='/JobPage' element={<JobPage />} />
-        <Route path='/FriendsPage' element={<FriendsPage />} />
-        <Route path='/GroupChatPage' element={<GroupChatPage />} />
-        <Route path='/TutoringSessionPage' element={<TutoringSessionPage />} />
-
-      </Routes>
+      <Switch>
+        <Route path='/Login'>
+          <LoginPage />
+        </Route>
+        <Route path='/Registration'>
+          <RegistrationPage />
+        </Route>
+        <Route path='/ForumPage'>
+          <ForumPage />
+        </Route>
+        <Route path='/JobPage'>
+          <JobPage />
+        </Route>
+        <Route path='/FriendsPage'>
+          <FriendsPage />
+        </Route>
+        <Route path='/GroupChatPage'>
+          <GroupChatPage />
+        </Route>
+        <Route path='/TutoringSessionPage'>
+          <TutoringSessionPage />
+        </Route>
+        <Route path='/'>
+          <HomePage />
+        </Route>
+      </Switch>
     </Router>
   )
 }
