@@ -30,4 +30,15 @@ public class TutoringSession {
     private String location;
     private boolean isTutor;    // distinguish between tutor or tutee post
 
+    public TutoringSession(String name, String email, String biography, String contactInformation, String title, String course, String availableTime, String location, boolean isTutor) {
+        this.name = name;
+        this.email = email;
+        this.biography = biography;
+        this.contactInformation = contactInformation;
+        this.title = title;
+        this.course = course;
+        this.availableTime = availableTime;
+        this.location = location;
+        this.isTutor = isTutor;
+    }
 }

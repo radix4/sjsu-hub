@@ -2,12 +2,15 @@ package com.sjsuhub.controllers;
 
 import com.sjsuhub.entities.TutoringSession;
 import com.sjsuhub.repositories.TutoringSessionRepository;
+import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 
+
 @RestController
 @RequestMapping(path="/tutoring-sessions")
+@NoArgsConstructor
 public class TutoringSessionController {
 
     @Autowired
@@ -15,11 +18,6 @@ public class TutoringSessionController {
 
     public TutoringSessionController(TutoringSessionRepository repository) {
         this.tutoringSessionRepository = repository;
-    }
-
-    @GetMapping("/greeting")
-    public @ResponseBody String greeting() {
-        return "Hello, World";
     }
 
     @GetMapping

@@ -12,6 +12,7 @@ import com.sjsuhub.entities.Event;
 import com.sjsuhub.repositories.EventRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -23,6 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping(path="/events")
 public class EventController {
+
     @Autowired
     private EventRepository eventRepository;
 
