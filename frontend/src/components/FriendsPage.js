@@ -178,28 +178,21 @@ const FriendsPage = () => {
   return (
     <div>
       <NavBar />
-      <br></br>
-      <br></br>
-      <br></br>
-      {/* Neglecting search function at the moment
-      
-      <Container>
-        <h2>Search for a friend</h2>
-        <Form id='friend_search'>
-          <Form.Group controlId='search_box'>
-            <Form.Control type='text' placeholder='Enter name...' />
-          </Form.Group>
-          <br />
-          <Form.Group>
-            <Button type='submit'>Search</Button>
-          </Form.Group>
-        </Form>
-      </Container> */}
       <Container style={containerStyle} fluid>
         <Row>
           <Col className='border-right'>
             <h2>All Users</h2>
             {renderTable('allUsers')}
+            <h2>Search for a friend</h2>
+            <Form id='friend_search'>
+              <Form.Group controlId='search_box'>
+                <Form.Control type='text' placeholder='Enter name...' />
+              </Form.Group>
+              <br />
+              <Form.Group>
+                <Button type='submit'>Search</Button>
+              </Form.Group>
+            </Form>
           </Col>
           <Col className='border-right'>
             <h2>My Friends</h2>

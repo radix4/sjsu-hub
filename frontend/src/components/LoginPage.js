@@ -72,11 +72,11 @@ const LoginPage = () => {
     try {
       // returnedUser is the String returned from the backend API
       await userService.login(loginUser).then((returnedUser) => {
-        console.log('returned user: ' + returnedUser)
         if (returnedUser === '') {
-          console.log('LoginPage: login fail, wrong credentials')
           displayAlert('Wrong credentials! Please try again.', 'error')
         } else {
+          //REF: https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage
+          window.localStorage.setItem('loggedInUser', 'LOGGEDIN')
           window.location = '/'
         }
       })
@@ -109,7 +109,6 @@ const LoginPage = () => {
                   placeholder='SJSU Email'
                 />
               </Form.Group>
-
               <Form.Group style={controlMargin} controlId='password'>
                 <Form.Control
                   type='password'
@@ -117,30 +116,26 @@ const LoginPage = () => {
                   placeholder='Password'
                 />
               </Form.Group>
-
               <Notification message={errorMessage} type={typeAlert} />
               <Form.Group style={controlMargin}>
                 <Button type='submit' style={submitButton}>
                   <b>Login</b>
                 </Button>
               </Form.Group>
-
-            <br /> <br />
-
-            <Form.Group style={controlMargin}>
-              <Col>
-                <h6>
-                  <b>Don't have an account yet?</b>
-                </h6>
-                <Link to='/Registration'>
-                  <Button style={submitButton}>
-                    <b>Sign Up</b>
-                  </Button>
-                </Link>
-              </Col>
-            </Form.Group>
-          </Form>
-
+              <br /> <br />
+              <Form.Group style={controlMargin}>
+                <Col>
+                  <h6>
+                    <b>Don't have an account yet?</b>
+                  </h6>
+                  <Link to='/Registration'>
+                    <Button style={submitButton}>
+                      <b>Sign Up</b>
+                    </Button>
+                  </Link>
+                </Col>
+              </Form.Group>
+            </Form>
           </Col>
 
           {/* ================ RIGHT COLUMN =================== */}

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import {
   Navbar,
   Nav,
@@ -12,9 +12,23 @@ import { Link } from 'react-router-dom'
 import imgLogo from '../images/SJSU-Hub-logos.jpeg'
 
 const NavBar = () => {
+  const [loggedIn, setLoggedIn] = useState(false)
+
+  useEffect(() => {
+    const loggedUserJSON = window.localStorage.getItem('loggedInUser')
+    if (loggedUserJSON) {
+      setLoggedIn(true)
+    }
+  }, [])
+
   const logoStyle = {
     borderRadius: '5px',
     width: '50px',
+  }
+
+  const handleLogout = () => {
+    window.localStorage.removeItem('loggedInUser')
+    setLoggedIn(false)
   }
 
   return (
@@ -39,7 +53,9 @@ const NavBar = () => {
                 Registration
               </NavDropdown.Item>
               <NavDropdown.Divider />
-              <NavDropdown.Item href='/GroupChatPage'>Group Chat</NavDropdown.Item>
+              <NavDropdown.Item href='/GroupChatPage'>
+                Group Chat
+              </NavDropdown.Item>
               <NavDropdown.Item href='/JobPage'>
                 Internships and Jobs
               </NavDropdown.Item>
@@ -55,21 +71,35 @@ const NavBar = () => {
             </NavDropdown>
           </Nav>
           <Form className='d-flex'>
-            <Link to='/AccountPage'>
-              <Button variant='outline-success' style={{ margin: '5px' }}>
-                Account
+            {loggedIn && (
+              <Link to='/AccountPage'>
+                <Button variant='outline-success' style={{ margin: '5px' }}>
+                  Account
+                </Button>
+              </Link>
+            )}
+            {loggedIn && (
+              <Button
+                variant='outline-success'
+                style={{ margin: '5px' }}
+                onClick={handleLogout}>
+                Logout
               </Button>
-            </Link>
-            <Link to='/Login'>
-              <Button variant='outline-success' style={{ margin: '5px' }}>
-                Login
-              </Button>
-            </Link>
-            <Link to='/Registration'>
-              <Button variant='outline-success' style={{ margin: '5px' }}>
-                Registration
-              </Button>
-            </Link>
+            )}
+            {!loggedIn && (
+              <Link to='/Login'>
+                <Button variant='outline-success' style={{ margin: '5px' }}>
+                  Login
+                </Button>
+              </Link>
+            )}
+            {!loggedIn && (
+              <Link to='/Registration'>
+                <Button variant='outline-success' style={{ margin: '5px' }}>
+                  Registration
+                </Button>
+              </Link>
+            )}
           </Form>
         </Navbar.Collapse>
       </Container>

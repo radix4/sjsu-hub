@@ -62,6 +62,7 @@ const TutoringSessionCreateForm = ({ visible, isTutor }) => {
       setLocation('')
 
       document.getElementById('create-tutoring-session-form').reset()
+      window.location.reload(false)
     } catch {
       console.log('Create session failed.')
     }

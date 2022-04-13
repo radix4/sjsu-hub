@@ -63,6 +63,10 @@ const RegistrationPage = () => {
     const password = form.elements.password.value
     const confirm = form.elements.confirm.value
 
+    if (!email.includes('@sjsu.edu')) {
+      displayAlert('Email must be SJSU student email.', 'error')
+      return
+    }
     if (password !== confirm) {
       console.log('Error: Passwords do not match')
       displayAlert('Passwords do not match. Please try again.', 'error')
