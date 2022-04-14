@@ -47,6 +47,11 @@ public class Main implements CommandLineRunner {
 		userRepository.save(user);
 		userRepository.save(user2);
 
+		userRepository.save(new User("Lun333a@gmail.com", "Luna", "Aliaj", "secretLuna", friends));
+		userRepository.save(new User("Luna444@gmail.com", "Luna", "Aliaj", "secretLuna", friends));
+		userRepository.save(new User("Luna555@gmail.com", "Luna", "Aliaj", "secretLuna", friends));
+		userRepository.save(new User("Luna666@gmail.com", "Luna", "Aliaj", "secretLuna", friends));
+
 		/* Tutoring Session table: Pre-configure data */
 		TutoringSession tutoringSession =
 				new TutoringSession( "test1", "test1", "test1", "test1", "test1", "test1", "test1", "test", true);

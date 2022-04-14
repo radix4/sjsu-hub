@@ -1,17 +1,21 @@
 package com.sjsuhub.backend;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 import com.sjsuhub.Main;
 import com.sjsuhub.entities.TutoringSession;
+import com.sjsuhub.repositories.TutoringSessionRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
+import static org.junit.jupiter.api.Assertions.*;
 
 
 @SpringBootTest(classes = Main.class,
@@ -24,6 +28,9 @@ public class TutoringSessionControllerTest
     @Autowired
     private TestRestTemplate restTemplate;
 
+    @Autowired
+    private TutoringSessionRepository tutoringSessionRepository;
+
 
     @Test
     public void getAll() {
@@ -34,8 +41,7 @@ public class TutoringSessionControllerTest
         );
 
         TutoringSession[] tutoringSessions = response.getBody();
-        assertEquals(2, tutoringSessions.length);
-
+        assertNotNull(tutoringSessions);
     }
 
 
@@ -45,7 +51,6 @@ public class TutoringSessionControllerTest
 
         TutoringSession tutoringSession =
                 new TutoringSession( "test1", "test1", "test1", "test1", "test1", "test1", "test1", "test", true);
-
 
         TutoringSession response = this.restTemplate
                 .postForObject(addOneUrl, tutoringSession, TutoringSession.class);
@@ -61,5 +66,51 @@ public class TutoringSessionControllerTest
         assertEquals(tutoringSession.isTutor(), response.isTutor());
     }
 
+
+    @Test
+    public void updateOne() {
+        TutoringSession session =
+                new TutoringSession( "test1", "test1", "test1", "test1", "test1", "test1", "test1", "test", true);
+        int id =  tutoringSessionRepository.save(session).getId();
+
+        String updateOneUrl = "http://localhost:" + port + "/tutoring-sessions/" + id;
+
+        TutoringSession updatedSession = new TutoringSession( "updated name", "test1", "test1", "test1", "test1", "test1", "test1", "test", true);
+
+        HttpEntity<TutoringSession> requestUpdate = new HttpEntity<>(updatedSession);
+
+        HttpEntity<TutoringSession> response = this.restTemplate
+                .exchange(updateOneUrl, HttpMethod.PUT, requestUpdate, TutoringSession.class);
+        // need to cast HttpEntity to POJO
+    }
+
+
+    @DeleteMapping("/{id}")
+    public void deleteOne(@PathVariable Integer id) {
+        tutoringSessionRepository.deleteById(id);
+    }
+
+
+    @Test
+    public void deleteOne() {
+        TutoringSession session =
+                new TutoringSession( "test1", "test1", "test1", "test1", "test1", "test1", "test1", "test", true);
+        int id =  tutoringSessionRepository.save(session).getId();
+
+        String deleteOneUrl = "http://localhost:" + port + "/tutoring-sessions/" + id;
+
+        this.restTemplate.delete(deleteOneUrl);
+
+        assertEquals(true, tutoringSessionRepository.findById(id).isEmpty());
+        assertTrue(tutoringSessionRepository.findById(id).isEmpty());
+    }
+
+    @Test
+    public void deleteAll() {
+        String deleteOneUrl = "http://localhost:" + port + "/tutoring-sessions/";
+        this.restTemplate.delete(deleteOneUrl);
+
+        assertEquals(true, tutoringSessionRepository.findById(0).isEmpty());
+    }
 
 }
