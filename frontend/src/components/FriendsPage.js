@@ -8,6 +8,7 @@ const FriendsPage = () => {
   const [friends, setFriends] = useState([])
   const [friendRequests, setFriendRequests] = useState([])
   const [sentFriendRequests, setSentFriendRequests] = useState([])
+  const [limitedItems, setLimitedItems] = useState(5)
 
   const containerStyle = {
     margin: '5% 0% 5% 0%',
@@ -22,85 +23,97 @@ const FriendsPage = () => {
       // displayAlert(users.map(user => <div>{user.firstName} {user.lastName} </div>), '')
     })
 
-    const user = {
-      email: '2',
-    }
+    // const user = {
+    //   email: '2',
+    // }
 
-    try {
-      userService.getFriends(user).then((friends) => {
-        setFriends(friends)
-      })
+    // try {
+    //   userService.getFriends(user).then((friends) => {
+    //     setFriends(friends)
+    //   })
 
-      userService.getFriendRequests(user).then((requests) => {
-        setFriendRequests(requests)
-      })
+    //   userService.getFriendRequests(user).then((requests) => {
+    //     setFriendRequests(requests)
+    //   })
 
-      userService.getSentFriendRequests(user).then((sentRequests) => {
-        setSentFriendRequests(sentRequests)
-      })
-    } catch (exception) {
-      console.log('Error = ' + exception)
-    }
+    //   userService.getSentFriendRequests(user).then((sentRequests) => {
+    //     setSentFriendRequests(sentRequests)
+    //   })
+    // } catch (exception) {
+    //   console.log('Error = ' + exception)
+    // }
   }, [])
 
   const sendFriendRequest = (friendEmail) => {
-    console.log('2 is sending friend request ' + friendEmail)
-    const user = {
-      email: '2',
-      friendRequests: [friendEmail],
-    }
-    userService.sendFriendRequest(user).then((response) => {
-      console.log(response)
-      window.location.reload()
-    })
+    // console.log('2 is sending friend request ' + friendEmail)
+    // const user = {
+    //   email: '2',
+    //   friendRequests: [friendEmail],
+    // }
+    // userService.sendFriendRequest(user).then((response) => {
+    //   console.log(response)
+    //   window.location.reload()
+    // })
   }
 
   const cancelFriendRequest = (friendEmail) => {
-    console.log('2 is canceling request sent to ' + friendEmail)
-    const user = {
-      email: '2',
-      sentFriendRequests: [friendEmail],
-    }
-    userService.cancelFriendRequest(user).then((response) => {
-      console.log(response)
-      window.location.reload()
-    })
+    // console.log('2 is canceling request sent to ' + friendEmail)
+    // const user = {
+    //   email: '2',
+    //   sentFriendRequests: [friendEmail],
+    // }
+    // userService.cancelFriendRequest(user).then((response) => {
+    //   console.log(response)
+    //   window.location.reload()
+    // })
   }
 
   const acceptFriendRequest = (friendEmail) => {
-    console.log('2 is accepting request sent to ' + friendEmail)
-    const user = {
-      email: '2',
-      friendRequests: [friendEmail],
-    }
-    userService.acceptFriendRequest(user).then((response) => {
-      console.log(response)
-      window.location.reload()
-    })
+    // console.log('2 is accepting request sent to ' + friendEmail)
+    // const user = {
+    //   email: '2',
+    //   friendRequests: [friendEmail],
+    // }
+    // userService.acceptFriendRequest(user).then((response) => {
+    //   console.log(response)
+    //   window.location.reload()
+    // })
   }
 
   const declineFriendRequest = (friendEmail) => {
-    console.log('2 is declining request sent to ' + friendEmail)
-    const user = {
-      email: '2',
-      friendRequests: [friendEmail],
-    }
-    userService.declineFriendRequest(user).then((response) => {
-      console.log(response)
-      window.location.reload()
-    })
+    // console.log('2 is declining request sent to ' + friendEmail)
+    // const user = {
+    //   email: '2',
+    //   friendRequests: [friendEmail],
+    // }
+    // userService.declineFriendRequest(user).then((response) => {
+    //   console.log(response)
+    //   window.location.reload()
+    // })
   }
 
   const unfriend = (friendEmail) => {
-    console.log('2 is unfriending ' + friendEmail)
-    const user = {
-      email: '2',
-      friends: [friendEmail],
-    }
-    userService.unfriend(user).then((response) => {
-      console.log(response)
-      window.location.reload()
-    })
+    // console.log('2 is unfriending ' + friendEmail)
+    // const user = {
+    //   email: '2',
+    //   friends: [friendEmail],
+    // }
+    // userService.unfriend(user).then((response) => {
+    //   console.log(response)
+    //   window.location.reload()
+    // })
+  }
+
+  const handleMoreBtn = (list) => {
+    if (list === 'allUsers') setLimitedItems(allUsers.length)
+    else if (list === 'friends') setLimitedItems(friends.length)
+    else if (list === 'friendRequests') setLimitedItems(friendRequests.length)
+    else if (list === 'sentFriendRequests')
+      setLimitedItems(sentFriendRequests.length)
+  }
+
+  const handleLessBtn = (list) => {
+    setLimitedItems(5)
   }
 
   const renderTable = (list) => {
@@ -124,7 +137,7 @@ const FriendsPage = () => {
         </thead>
         <tbody>
           {listArray
-            .filter((item, idx) => idx < 5) // limit to 5 items
+            .filter((item, idx) => idx < limitedItems) // limit to 5 items
             .map((user) => (
               <tr key={user.email}>
                 <td>{user.id}</td>
@@ -170,7 +183,13 @@ const FriendsPage = () => {
               </tr>
             ))}
         </tbody>
-        {listArray.length > 5 && <Button> More</Button>}
+        {listArray.length > 5 && limitedItems === 5 && (
+          <Button onClick={() => handleMoreBtn(list)}>More</Button>
+        )}
+
+        {listArray.length > 5 && limitedItems > 5 && (
+          <Button onClick={() => handleLessBtn(list)}>Less</Button>
+        )}
       </Table>
     )
   }
