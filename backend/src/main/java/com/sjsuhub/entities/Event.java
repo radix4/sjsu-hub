@@ -16,9 +16,8 @@ public class Event {
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Integer id;
 
-    // id of User who creates event
+    // creator email
     private String creator;
-    
     private String title;
     private String description;
 

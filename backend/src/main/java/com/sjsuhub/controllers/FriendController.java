@@ -6,6 +6,7 @@ import java.util.Set;
 import com.sjsuhub.entities.User;
 import com.sjsuhub.repositories.UserRepository;
 
+import com.sjsuhub.security.SecurityEscape;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -43,6 +44,7 @@ public class FriendController {
 
     @PostMapping(path="/getAllFriends")
     public @ResponseBody Iterable<User> getAllFriendsByEmail(@RequestBody User user) {
+        user = sanitizedUser(user);
         User u = userRepository.findByEmail(user.getEmail());
         Set<String> friendsEmails = u.getFriends();
         Set<User> friends = new HashSet<User>();
@@ -59,6 +61,7 @@ public class FriendController {
 
     @PostMapping(path="/getAllFriendsRequests")
     public @ResponseBody Iterable<User> getAllFriendsRequestsByEmail(@RequestBody User user) {
+        user = sanitizedUser(user);
         User u = userRepository.findByEmail(user.getEmail());
         Set<String> friendRequestEmails = u.getFriendRequests();
         Set<User> friends = new HashSet<User>();
@@ -76,6 +79,7 @@ public class FriendController {
 
     @PostMapping(path="/getAllSentFriendsRequests")
     public @ResponseBody Iterable<User> getAllSentFriendsRequestsByEmail(@RequestBody User user) {
+        user = sanitizedUser(user);
         User u = userRepository.findByEmail(user.getEmail());
         Set<String> sentFriendRequestEmails = u.getSentFriendRequests();
         Set<User> sentFriendRequests = new HashSet<User>();
@@ -95,7 +99,7 @@ public class FriendController {
 
     @PostMapping(path="/send-request")
     public @ResponseBody String sendRequest(@RequestBody User user) {
-
+        user = sanitizedUser(user);
         String userEmail = user.getEmail();
         String friendEmail =  user.getFriendRequests().stream().findFirst().get();
 
@@ -114,6 +118,7 @@ public class FriendController {
 
     @PostMapping(path="/cancel-sent-request")
     public @ResponseBody String cancelSentRequest(@RequestBody User user) {
+        user = sanitizedUser(user);
 
         String userEmail = user.getEmail();
         String friendEmail =  user.getSentFriendRequests().stream().findFirst().get();
@@ -133,6 +138,7 @@ public class FriendController {
 
     @PostMapping(path="/accept-request")
     public @ResponseBody String acceptRequest(@RequestBody User user) {
+        user = sanitizedUser(user);
 
         String userEmail = user.getEmail();
         String friendEmail =  user.getFriendRequests().stream().findFirst().get();
@@ -154,6 +160,7 @@ public class FriendController {
 
     @PostMapping(path="/decline-request")
     public @ResponseBody String declineRequest(@RequestBody User user) {
+        user = sanitizedUser(user);
 
         String userEmail = user.getEmail();
         String friendEmail =  user.getFriendRequests().stream().findFirst().get();
@@ -173,7 +180,7 @@ public class FriendController {
 
     @PostMapping(path="/unfriend")
     public @ResponseBody String unfriend(@RequestBody User user) {
-
+        user = sanitizedUser(user);
         String userEmail = user.getEmail();
         String friendEmail =  user.getFriends().stream().findFirst().get();
 
@@ -188,5 +195,16 @@ public class FriendController {
         userRepository.save(f);
 
         return "Unfriend success.";
+    }
+
+    private User sanitizedUser(User user) {
+        if (user == null) return user;
+
+        if (user.getEmail() != null) user.setEmail(SecurityEscape.sanitizeString(user.getEmail()));
+        if (user.getFirstName() != null) user.setFirstName(SecurityEscape.sanitizeString(user.getFirstName()));
+        if (user.getLastName() != null) user.setLastName(SecurityEscape.sanitizeString(user.getLastName()));
+        if (user.getPassword() != null) user.setPassword(SecurityEscape.sanitizeString(user.getPassword()));
+
+        return user;
     }
 }

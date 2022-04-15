@@ -12,11 +12,8 @@ import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import static org.junit.jupiter.api.Assertions.*;
-
 
 @SpringBootTest(classes = Main.class,
         webEnvironment = WebEnvironment.RANDOM_PORT)

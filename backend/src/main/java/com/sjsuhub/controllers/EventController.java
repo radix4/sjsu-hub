@@ -11,6 +11,7 @@ import java.util.Set;
 import com.sjsuhub.entities.Event;
 import com.sjsuhub.repositories.EventRepository;
 
+import com.sjsuhub.security.SecurityEscape;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,6 +34,7 @@ public class EventController {
     
     @PostMapping(path="/addEvent")
     public @ResponseBody String addNewEvent(@RequestBody Event event) {
+        event = sanitizedEvent(event);
         
         Event e = new Event();
        
@@ -67,6 +69,8 @@ public class EventController {
 
     @PutMapping(path="/delete-event")
     public @ResponseBody String deleteEvent(@RequestBody Event event) {
+        event = sanitizedEvent(event);
+
         Optional<Event> optionalEvent = eventRepository.findById(event.getId());
         event = optionalEvent.get();
 
@@ -95,6 +99,8 @@ public class EventController {
 
     @PostMapping(path="/attend")
     public @ResponseBody String joinEvent(@RequestBody Event event ) {
+        event = sanitizedEvent(event);
+
         User u = userRepository.findByEmail(event.getAttendees().stream().findFirst().get());
         u.getEventsAttending().add(event.getId() + "");
         userRepository.save(u);
@@ -109,6 +115,8 @@ public class EventController {
 
     @PostMapping(path="/unattend")
     public @ResponseBody String leaveEvent(@RequestBody Event event ) {
+        event = sanitizedEvent(event);
+
         User u = userRepository.findByEmail(event.getAttendees().stream().findFirst().get());
         u.getEventsAttending().remove(event.getId());
         userRepository.save(u);
@@ -124,6 +132,8 @@ public class EventController {
     // Users can change everything except creator and people attending via update method
     @PutMapping(path="/update")
     public @ResponseBody String updateEvent(@RequestBody Event event) {
+        event = sanitizedEvent(event);
+
         Optional<Event> optionalEvent = eventRepository.findById(event.getId());
         Event e = optionalEvent.get();
         
@@ -145,5 +155,20 @@ public class EventController {
 
         return "Event updated";
     }
+
+    private static Event sanitizedEvent(Event event) {
+        if (event == null) return event;
+
+        if (event.getCreator() != null) event.setCreator(SecurityEscape.sanitizeString(event.getCreator()));
+        if (event.getTitle() != null) event.setTitle(SecurityEscape.sanitizeString(event.getTitle()));
+        if (event.getDescription() != null) event.setDescription(SecurityEscape.sanitizeString(event.getDescription()));
+        if (event.getLatdir() != null) event.setLatdir(SecurityEscape.sanitizeString(event.getLatdir()));
+        if (event.getLongdir() != null) event.setLongdir(SecurityEscape.sanitizeString(event.getLongdir()));
+        if (event.getStart() != null) event.setStart(SecurityEscape.sanitizeString(event.getStart()));
+        if (event.getEnd() != null) event.setEnd(SecurityEscape.sanitizeString(event.getEnd()));
+
+        return event;
+    }
+
 
 }

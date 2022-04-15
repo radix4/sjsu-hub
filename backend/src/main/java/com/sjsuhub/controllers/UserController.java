@@ -5,6 +5,7 @@ import com.sjsuhub.entities.Post;
 import com.sjsuhub.repositories.PostRepository;
 import com.sjsuhub.repositories.UserRepository;
 
+import com.sjsuhub.security.SecurityEscape;
 import org.apache.catalina.connector.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -45,9 +46,10 @@ public class UserController {
 
     @PostMapping(path="/add")
     public @ResponseBody String addNewUser (@RequestBody User user) {
+        user = sanitizedUser(user);
+
         if (user == null || user.getEmail() == null || user.getPassword() == null ||  user.getEmail().isEmpty() || user.getPassword().isEmpty()) {
             return "Fail to create user.";
-
         }
 
         if (userRepository.findByEmail(user.getEmail()) != null) {
@@ -65,6 +67,7 @@ public class UserController {
 
     @PostMapping(path="/login")
     public @ResponseBody String login(@RequestBody User user) {
+        user = sanitizedUser(user);
         if (user.getEmail() == null|| user.getPassword() == null)
             return "Fail";
 
@@ -92,6 +95,17 @@ public class UserController {
         } catch (NoSuchAlgorithmException e2) {
             throw new RuntimeException("Java Exception Initializing HMAC Crypto Algorithm") ;
         }
+    }
+
+    private User sanitizedUser(User user) {
+        if (user == null) return user;
+
+        if (user.getEmail() != null) user.setEmail(SecurityEscape.sanitizeString(user.getEmail()));
+        if (user.getFirstName() != null) user.setFirstName(SecurityEscape.sanitizeString(user.getFirstName()));
+        if (user.getLastName() != null) user.setLastName(SecurityEscape.sanitizeString(user.getLastName()));
+        if (user.getPassword() != null) user.setPassword(SecurityEscape.sanitizeString(user.getPassword()));
+
+        return user;
     }
 
 
