@@ -71,12 +71,12 @@ const LoginPage = () => {
 
     try {
       // returnedUser is the String returned from the backend API
-      await userService.login(loginUser).then((returnedUser) => {
-        if (returnedUser === '') {
+      await userService.login(loginUser).then((returnedString) => {
+        if (returnedString === 'Fail') {
           displayAlert('Wrong credentials! Please try again.', 'error')
         } else {
           //REF: https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage
-          window.localStorage.setItem('loggedInUser', 'LOGGEDIN')
+          window.localStorage.setItem('loggedInUser', returnedString)
           window.location = '/'
         }
       })

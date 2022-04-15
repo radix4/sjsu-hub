@@ -85,12 +85,6 @@ public class TutoringSessionControllerTest
     }
 
 
-    @DeleteMapping("/{id}")
-    public void deleteOne(@PathVariable Integer id) {
-        tutoringSessionRepository.deleteById(id);
-    }
-
-
     @Test
     public void deleteOne() {
         TutoringSession session =

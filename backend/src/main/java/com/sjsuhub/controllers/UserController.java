@@ -55,23 +55,23 @@ public class UserController {
         user.setPassword(hashPassword);
 
         User responseUser = userRepository.save(user);
-        return "Success! User with id " + responseUser.getId() + " is now registered.";
+        return "Success! User with email " + responseUser.getEmail() + " is now registered.";
     }
 
     @PostMapping(path="/login")
     public @ResponseBody String login(@RequestBody User user) {
         if (user.getEmail() == null|| user.getPassword() == null)
-            return "Fail! Fields cannot be empty";
+            return "Fail";
 
         User n = userRepository.findByEmail(user.getEmail());
-        if (n == null) return "Fail! Wrong email or password";
+        if (n == null) return "Fail";
 
         String hashPassword = hmac_sha256(KEY, user.getPassword());
 
         if ((n.getEmail().equals(user.getEmail())) && (n.getPassword().equals(hashPassword)))
-            return "Login success.";
+            return n.getEmail();
         else
-            return "Fail for some reason.";
+            return "Fail";
     }
 
     private static String hmac_sha256(String secretKey, String data) {
