@@ -1,5 +1,6 @@
 package com.sjsuhub;
 
+import com.sjsuhub.controllers.UserController;
 import com.sjsuhub.entities.TutoringSession;
 import com.sjsuhub.entities.User;
 import com.sjsuhub.repositories.TutoringSessionRepository;
@@ -38,12 +39,15 @@ public class Main implements CommandLineRunner {
 
 
 		/* User table: Pre-configure data */
+		final String KEY = "12dj192jd1902jdsnadfjasdf120iasdojasd";
+
+
 		Set<String> friends = new HashSet<>();
 		friends.add("Rhea");
 		Set<String> friends2 = new HashSet<>();
 		friends2.add("Luna");
-		User user = new User("Luna@gmail.com", "Luna", "Aliaj", "secretLuna", friends);
-		User user2 = new User("Rhea@gmail.com", "Rhea", "Dash", "secretRhea", friends2);
+		User user = new User("Luna@gmail.com", "Luna", "Aliaj", UserController.hmac_sha256(KEY, "Luna"), friends);
+		User user2 = new User("Rhea@gmail.com", "Rhea", "Dash", UserController.hmac_sha256(KEY, "Rhea"), friends2);
 		userRepository.save(user);
 		userRepository.save(user2);
 
@@ -60,6 +64,8 @@ public class Main implements CommandLineRunner {
 
 		tutoringSessionRepository.save(tutoringSession);
 		tutoringSessionRepository.save(tutoringSession2);
+
+
 
 
 	}

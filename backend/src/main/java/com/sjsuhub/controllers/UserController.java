@@ -45,6 +45,11 @@ public class UserController {
 
     @PostMapping(path="/add")
     public @ResponseBody String addNewUser (@RequestBody User user) {
+        if (user == null || user.getEmail() == null || user.getPassword() == null ||  user.getEmail().isEmpty() || user.getPassword().isEmpty()) {
+            return "Fail to create user.";
+
+        }
+
         if (userRepository.findByEmail(user.getEmail()) != null) {
             return "Error! Email " + user.getEmail() + " is already registered. Would you like to login?";
         }
@@ -74,7 +79,7 @@ public class UserController {
             return "Fail";
     }
 
-    private static String hmac_sha256(String secretKey, String data) {
+    public static String hmac_sha256(String secretKey, String data) {
         try {
             Mac mac = Mac.getInstance("HmacSHA256") ;
             SecretKeySpec secretKeySpec = new SecretKeySpec(secretKey.getBytes(), "HmacSHA256") ;
