@@ -25,8 +25,7 @@ const JobPage = () => {
         results = response.results
         console.log(results)
         // displayAlert('Jobs: ' + results, '')
-        if (response.length < 6) cur = response.length
-        else cur = 6
+        cur = response.length
         writeToHTML()
       })
 
@@ -40,6 +39,7 @@ const JobPage = () => {
   function writeToHTML() {
     console.log('JobPage.js writeToHTML method beginning')
     var from = 0
+    cur = results.length;
     //console.log("writing to HTML... page: " + page + "; results:" + from + "-->" + to); // shows the requested page and number of results being added to the html - for debuging and testing
     var html = '<div class="row my-1 px-2">'
 
@@ -74,10 +74,10 @@ const JobPage = () => {
       console.log('end of for loop')
     }
     console.log('out of for loop')
-    html += `</div> 
-                <button id="show_more" type="submit" onclick="showMore()"
+    // html += `</div> 
+    //             <button id="show_more" type="submit" onclick="showMore()"
                 
-                >Show more</button>`
+    //             >Show more</button>`
     console.log('HTML: ' + html)
     document.getElementById('job_list').innerHTML = html
   }
@@ -92,18 +92,6 @@ const JobPage = () => {
     )
     setErrorMessage(message)
     setTypeAlert(type)
-  }
-
-  function showMore() {
-    console.log('showMore() function')
-    document.getElementById('job_list').innerHTML = ''
-    if (results.length > cur + 6) {
-      cur += 6
-      writeToHTML()
-    } else {
-      cur = results.length
-      writeToHTML()
-    }
   }
 
   return (
