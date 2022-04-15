@@ -5,9 +5,9 @@ import LoginPage from './components/LoginPage'
 import ForumPage from './components/ForumPage'
 import JobPage from './components/JobPage'
 import FriendsPage from './components/FriendsPage'
-
 import GroupChatPage from './components/GroupChatPage'
 import TutoringSessionPage from './components/TutoringSessionPage'
+import EventPage from './components/EventsPage'
 
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 
@@ -37,6 +37,9 @@ const App = () => {
         </Route>
         <Route path='/TutoringSessionPage'>
           <TutoringSessionPage />
+        </Route>
+        <Route path='/EventsPage'>
+          <EventPage />
         </Route>
         <Route path='/'>
           <HomePage />
