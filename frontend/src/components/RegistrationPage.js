@@ -4,7 +4,7 @@ import userService from '../services/users'
 import Notification from './Notification'
 import { Link } from 'react-router-dom'
 import NavBar from './NavBar'
-//import sanitizeHtml from "sanitize-html";
+import sanitizeHtml from "sanitize-html";
 
 const RegistrationPage = () => {
   const [errorMessage, setErrorMessage] = useState(null)
@@ -58,20 +58,13 @@ const RegistrationPage = () => {
 
     var form = document.getElementById('registration')
 
-    /* const sanitizeHtml = require('sanitize-html')
+     const sanitizeHtml = require('sanitize-html')
 
      const firstName = sanitizeHtml(form.elements.firstName.value)
      const lastName = sanitizeHtml(form.elements.lastName.value)
      const email = sanitizeHtml(form.elements.sjsuEmail.value)
      const password = sanitizeHtml(form.elements.password.value)
      const confirm = sanitizeHtml(form.elements.confirm.value)
- */
-
-    const firstName = form.elements.firstName.value
-    const lastName = form.elements.lastName.value
-    const email = form.elements.sjsuEmail.value
-    const password = form.elements.password.value
-    const confirm = form.elements.confirm.value
 
     if (firstName == ""){
       console.log('Error: First Name is empty')

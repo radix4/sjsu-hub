@@ -56,12 +56,11 @@ const LoginPage = () => {
 
     let form = document.getElementById(`login`)
 
-    //const sanitizeHtml = require('sanitize-html')
+     const sanitizeHtml = require('sanitize-html')
 
-    //const email = sanitizeHtml(form.elements.email.value)
-    //const password = sanitizeHtml(form.elements.password.value)
-    const email = form.elements.email.value
-    const password = form.elements.password.value
+     const email = sanitizeHtml(form.elements.email.value)
+     const password = sanitizeHtml(form.elements.password.value)
+
 
     if (!email || !password) {
       console.log('Please enter email/password!')
