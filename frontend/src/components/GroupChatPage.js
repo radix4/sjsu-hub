@@ -82,7 +82,6 @@ const GroupChatPage = () => {
 
     const onError = (err) => {
         console.log(err);
-
     }
 
     const handleMessage =(event)=>{

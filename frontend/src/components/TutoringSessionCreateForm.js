@@ -13,14 +13,15 @@ const TutoringSessionCreateForm = ({ visible, isTutor }) => {
   const [availTime, setAvailTime] = useState('')
   const [location, setLocation] = useState('')
 
-  const onChangeName = (event) => setName(event.target.value)
-  const onChangeBio = (event) => setBio(event.target.value)
-  const onChangeContactInfo = (event) => setContactInfo(event.target.value)
+  const sanitizeHtml = require('sanitize-html')
+  const onChangeName = (event) => setName(sanitizeHtml(event.target.value))
+  const onChangeBio = (event) => setBio(sanitizeHtml(event.target.value))
+  const onChangeContactInfo = (event) => setContactInfo(sanitizeHtml(event.target.value))
 
-  const onChangeTitle = (event) => setTitle(event.target.value)
-  const onChangeCourse = (event) => setCourse(event.target.value)
-  const onChangeAvailTime = (event) => setAvailTime(event.target.value)
-  const onChangeLocation = (event) => setLocation(event.target.value)
+  const onChangeTitle = (event) => setTitle(sanitizeHtml(event.target.value))
+  const onChangeCourse = (event) => setCourse(sanitizeHtml(event.target.value))
+  const onChangeAvailTime = (event) => setAvailTime(sanitizeHtml(event.target.value))
+  const onChangeLocation = (event) => setLocation(sanitizeHtml(event.target.value))
 
   const cardStyle = {
     margin: '2% 20% 5% 20%',
@@ -123,6 +124,8 @@ const TutoringSessionCreateForm = ({ visible, isTutor }) => {
             <Form.Control
               type='text'
               placeholder='e.g. contact-info@sjsu.edu'
+              title = "Enter a valid SJSU email address: xxx@sjsu.edu"
+              pattern ="[a-zA-Z0-9]+@sjsu.edu"
             />
           </Col>
         </Form.Group>
