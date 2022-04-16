@@ -4,6 +4,7 @@ import userService from '../services/users'
 import NavBar from './NavBar'
 
 const FriendsPage = () => {
+  const [useremail, setUseremail] = useState(window.localStorage.getItem('loggedInUser'))
   const [allUsers, setAllUsers] = useState([])
   const [friends, setFriends] = useState([])
   const [friendRequests, setFriendRequests] = useState([])
@@ -14,6 +15,8 @@ const FriendsPage = () => {
     margin: '5% 0% 5% 0%',
   }
 
+ 
+
   useEffect(() => {
     userService.getAllUsers().then((users) => {
       setAllUsers(users)
@@ -23,85 +26,89 @@ const FriendsPage = () => {
       // displayAlert(users.map(user => <div>{user.firstName} {user.lastName} </div>), '')
     })
 
-    // const user = {
-    //   email: '2',
-    // }
+    const loggedUserJSON = window.localStorage.getItem('loggedInUser')
+    
+    console.log('User email should fucking be ' + useremail)
+      if (loggedUserJSON) {
 
-    // try {
-    //   userService.getFriends(user).then((friends) => {
-    //     setFriends(friends)
-    //   })
+        try {
+          userService.getFriends({email: useremail}).then((friends) => {
+          setFriends(friends)
+          })
+  
+          userService.getFriendRequests({email: useremail}).then((requests) => {
+            setFriendRequests(requests)
+          })
+  
+          userService.getSentFriendRequests({email: useremail}).then((sentRequests) => {
+            setSentFriendRequests(sentRequests)
+          })
+        } catch (exception) {
+          console.log('Error = ' + exception)
+        }
+      }
 
-    //   userService.getFriendRequests(user).then((requests) => {
-    //     setFriendRequests(requests)
-    //   })
-
-    //   userService.getSentFriendRequests(user).then((sentRequests) => {
-    //     setSentFriendRequests(sentRequests)
-    //   })
-    // } catch (exception) {
-    //   console.log('Error = ' + exception)
-    // }
+   
   }, [])
 
   const sendFriendRequest = (friendEmail) => {
-    // console.log('2 is sending friend request ' + friendEmail)
-    // const user = {
-    //   email: '2',
-    //   friendRequests: [friendEmail],
-    // }
-    // userService.sendFriendRequest(user).then((response) => {
-    //   console.log(response)
-    //   window.location.reload()
-    // })
+    console.log(useremail + ' is sending friend request ' + friendEmail)
+    const user = {
+      email: useremail,
+      friendRequests: [friendEmail],
+    }
+    userService.sendFriendRequest(user).then((response) => {
+      console.log(response)
+      window.location.reload()
+    })
   }
 
   const cancelFriendRequest = (friendEmail) => {
-    // console.log('2 is canceling request sent to ' + friendEmail)
-    // const user = {
-    //   email: '2',
-    //   sentFriendRequests: [friendEmail],
-    // }
-    // userService.cancelFriendRequest(user).then((response) => {
-    //   console.log(response)
-    //   window.location.reload()
-    // })
+    console.log(useremail + ' is canceling request sent to ' + friendEmail)
+    const user = {
+      email: useremail,
+      sentFriendRequests: [friendEmail],
+    }
+    userService.cancelFriendRequest(user).then((response) => {
+      console.log(response)
+      window.location.reload()
+    })
   }
 
   const acceptFriendRequest = (friendEmail) => {
-    // console.log('2 is accepting request sent to ' + friendEmail)
-    // const user = {
-    //   email: '2',
-    //   friendRequests: [friendEmail],
-    // }
-    // userService.acceptFriendRequest(user).then((response) => {
-    //   console.log(response)
-    //   window.location.reload()
-    // })
+    console.log(useremail + ' is accepting request sent to ' + friendEmail)
+    const user = {
+      email: useremail,
+      friendRequests: [friendEmail],
+    }
+    userService.acceptFriendRequest(user).then((response) => {
+      console.log(response)
+      window.location.reload()
+    })
   }
 
   const declineFriendRequest = (friendEmail) => {
-    // console.log('2 is declining request sent to ' + friendEmail)
-    // const user = {
-    //   email: '2',
-    //   friendRequests: [friendEmail],
-    // }
-    // userService.declineFriendRequest(user).then((response) => {
-    //   console.log(response)
-    //   window.location.reload()
-    // })
+    console.log(useremail + ' is declining request sent to ' + friendEmail)
+    const user = {
+      email: useremail,
+      friendRequests: [friendEmail],
+    }
+    userService.declineFriendRequest(user).then((response) => {
+      console.log(response)
+      window.location.reload()
+    })
   }
 
   const unfriend = (friendEmail) => {
-    // console.log('2 is unfriending ' + friendEmail)
-    // const user = {
-    //   email: '2',
-    //   friends: [friendEmail],
-    // }
-    // userService.unfriend(user).then((response) => {
-    //   console.log(response)
-    //   window.location.reload()
-    // })
+    console.log(useremail + ' is unfriending ' + friendEmail)
+    const user = {
+      email: useremail,
+      friends: [friendEmail],
+    }
+    userService.unfriend(user).then((response) => {
+      console.log(response)
+      window.location.reload()
+    })
   }
 
   const handleMoreBtn = (list) => {
