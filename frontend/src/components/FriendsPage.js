@@ -130,7 +130,7 @@ const FriendsPage = () => {
     else if (list === 'friends') listArray = friends
     else if (list === 'friendRequests') listArray = friendRequests
     else if (list === 'sentFriendRequests') listArray = sentFriendRequests
-
+    console.log('renderTable ' + list + ' ' + listArray + '\n')
     return (
       <Table striped bordered hover size='sm'>
         <thead>
