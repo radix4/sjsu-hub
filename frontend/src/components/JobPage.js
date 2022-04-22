@@ -57,7 +57,7 @@ const JobPage = () => {
       console.log('for 3')
       console.log('before html var incremented')
 
-      html += `<Card class="card p-3 text-right" id={$element.id} border="dark" style = "box-shadow: 10px 10px 10px black; border: primary; background-color: white">
+      html += `<Card class="card p-3 text-left" id={$element.id} border="dark" style = "box-shadow: 10px 10px 10px black; border: primary; background-color: white">
                 <Card.Header>
                     <h3>Job: ${element.title}</h3>
                 </Card.Header>
