@@ -16,9 +16,12 @@ public class ChatController {
     //declare topics to send messages to particular users
     @Autowired
     private SimpMessagingTemplate simpMessagingTemplate;
-
-    @MessageMapping("/message") // /GroupChatPage/message because application destination is /app //whenever user sends message to /message, the message is received at this particular method
-    @SendTo("/chatroom/public") //when a message is received to this particular mapping, send the message to chatroom or public topic
+    // /GroupChatPage/message because application destination is /app
+    // whenever user sends message to /message, the message is received at this particular method
+    @MessageMapping("/message")
+    //when a message is received to this particular mapping,
+    // send the message to chatroom or public topic
+    @SendTo("/chatroom/public")
     //receive data from chatroom and send message to corresponding chatroom topic
     public Message receivePublicMessage(@Payload Message message){
         message = sanitizedMessage(message);
