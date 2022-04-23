@@ -120,13 +120,15 @@ const GroupChatPage = () => {
     }
 
     const handleUsername=(event)=>{
-        const {value}=event.target;
-        setUserData({...userData,"username": value});
+        const {value} = event.target;
+        setUserData({...userData, "username": value});
+
     }
 
     const registerUser=()=>{
         connect();
     }
+
     return (
         <div>
         <NavBar />
@@ -190,11 +192,12 @@ const GroupChatPage = () => {
                         placeholder="My preferred name"
                         name="userName"
                         value={userData.username}
+                        required minLength = {1} maxLength = {20}
                         onChange={handleUsername}
                         margin="normal"
                     />
                         <br /><br />
-                        <button type="button" onClick={registerUser}>
+                        <button type="submit" id = "button" onClick={registerUser}>
                         Let's Chat
                     </button>
                     </Col>

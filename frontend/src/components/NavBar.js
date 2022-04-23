@@ -66,7 +66,7 @@ const NavBar = () => {
               <NavDropdown.Item href='/FriendsPage'>
                 Friends Page
               </NavDropdown.Item>
-              <NavDropdown.Item href='/'>Events Page</NavDropdown.Item>
+              <NavDropdown.Item href='/EventsPage'>Events Page</NavDropdown.Item>
               <NavDropdown.Item href='/'>Study Groups</NavDropdown.Item>
             </NavDropdown>
           </Nav>
