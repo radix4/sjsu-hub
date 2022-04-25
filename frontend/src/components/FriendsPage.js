@@ -130,7 +130,11 @@ const FriendsPage = () => {
     else if (list === 'friends') listArray = friends
     else if (list === 'friendRequests') listArray = friendRequests
     else if (list === 'sentFriendRequests') listArray = sentFriendRequests
-    console.log('renderTable ' + list + ' ' + listArray + '\n')
+    console.log('renderTable ' + list + '\n');
+    console.log('is an array: ' + Array.isArray(listArray));
+    for(let i = 0; i < listArray.length; i++){
+      console.log(i + 'th =  ' + listArray[i]);
+    }
     return (
       <Table striped bordered hover size='sm'>
         <thead>
@@ -143,7 +147,7 @@ const FriendsPage = () => {
           </tr>
         </thead>
         <tbody>
-          {listArray
+          {Array.isArray(listArray) ? listArray
             .filter((item, idx) => idx < limitedItems) // limit to 5 items
             .map((user) => (
               <tr key={user.email}>
@@ -188,7 +192,7 @@ const FriendsPage = () => {
                   </td>
                 )}
               </tr>
-            ))}
+            )) : null }
         </tbody>
         {listArray.length > 5 && limitedItems === 5 && (
           <Button onClick={() => handleMoreBtn(list)}>More</Button>

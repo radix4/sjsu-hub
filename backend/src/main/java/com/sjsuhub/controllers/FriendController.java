@@ -172,7 +172,9 @@ public class FriendController {
         User f = userRepository.findByEmail(friendEmail);
 
         if (u == null || f == null) return "Fail";
-
+        Set<String> set = u.getSentFriendRequests();
+        for (String s : set)
+            System.out.println(s);
         u.getSentFriendRequests().remove(friendEmail);
         u.getFriends().add(friendEmail);
         userRepository.save(u);
