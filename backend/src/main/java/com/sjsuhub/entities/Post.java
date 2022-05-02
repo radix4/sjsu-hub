@@ -15,6 +15,7 @@ public class Post {
     private String postContent;
     private String userName; // can prlly just use user? - should be email
     private String postCategory;
+    private String[] forumComments;
 
     public Integer getId(){
         return id;
@@ -28,16 +29,16 @@ public class Post {
         return postContent;
     }
 
+    public void setPostContent(String postContent){
+        this.postContent = postContent;
+    }
+
     public void setPostTitle(String postTitle){
         this.postTitle = postTitle;
     }
 
     public String getPostTitle(){
         return postTitle;
-    }
-
-    public void setPostContent(String postContent){
-        this.postContent = postContent;
     }
 
     public String getUserName(){
@@ -54,6 +55,14 @@ public class Post {
 
     public void setPostCategory(String postCategory){
         this.postCategory = postCategory;
+    }
+
+    public String[] getForumComments(){
+        return forumComments;
+    }
+
+    public void setForumComments(String[] forumComments){
+        this.forumComments = forumComments;
     }
 
     public String toString(){

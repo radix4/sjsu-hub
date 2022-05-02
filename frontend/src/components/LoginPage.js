@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import { Container, Col, Form, Row, Button } from 'react-bootstrap'
-import { Link } from 'react-router-dom'
 import userService from '../services/users'
 import Notification from './Notification'
 import login from '../images/login.png'

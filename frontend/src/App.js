@@ -5,8 +5,15 @@ import LoginPage from './components/LoginPage'
 import ForumPage from './components/ForumPage'
 import JobPage from './components/JobPage'
 import FriendsPage from './components/FriendsPage'
-
+import StudyGroupPage from './components/StudyGroupPage'
+import AllStudyGroups from './components/AllStudyGroups'
+import SingleStudyGroup from './components/SingleStudyGroup'
+import AllForums from './components/AllForums'
+import SingleForumPage from './components/SingleForumPage'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+
+
+
 
 const App = () => {
   return (
@@ -18,7 +25,12 @@ const App = () => {
         <Route path='/ForumPage' element={<ForumPage />} />
         <Route path='/JobPage' element={<JobPage />} />
         <Route path='/FriendsPage' element={<FriendsPage />} />
-      </Routes>
+        <Route path='/StudyGroupPage' element={<StudyGroupPage/>}/>
+        <Route path='/AllStudyGroups' element={<AllStudyGroups/>}/>
+        <Route path='/SingleStudyGroup/:id' element={<SingleStudyGroup/>}/>
+        <Route path='/AllForums' element={<AllForums/>}/>
+        <Route path='/SingleForumPage/:id' element={<SingleForumPage/>}/>
+     </Routes>
     </Router>
   )
 }
