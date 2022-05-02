@@ -17,7 +17,7 @@ const Notification = ({message, type}) => {
     }
     
     else {
-        return <Alert>{message}</Alert>
+        return <Alert variant='light'>{message}</Alert>
     }
 
 }

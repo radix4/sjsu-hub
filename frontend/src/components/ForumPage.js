@@ -60,7 +60,7 @@ const ForumPage = () => {
 
   return (
     <div>
-      <NavBar></NavBar>
+      <NavBar />
       <div style={containerStyle}>
         {/* ============= CREATE POST FORM ============= */}
         <Form id='create-post-form' onSubmit={handleForumPost} className='border p-3 border-info '>
