@@ -1,10 +1,11 @@
 package com.sjsuhub.controllers;
 
 
-import com.sjsuhub.entities.User;
+
+import com.sjsuhub.entities.Comment;
 import com.sjsuhub.entities.Post;
 import com.sjsuhub.repositories.PostRepository;
-import com.sjsuhub.repositories.UserRepository;
+
 
 import java.util.Arrays;
 
@@ -135,6 +136,67 @@ public class PostController {
     }
 
 
+   /* //test with postman this should work...
+    //have to account for object return in service and js files
+    @CrossOrigin(origins = "http://localhost:3000")
+    @PutMapping(path="/{id}/commentTest") //get post by id
+    public @ResponseBody String addForumCommentByIdTest(@PathVariable Integer id, @RequestBody Comment comment){ //works
+ 
+        String newComment = "";
+        String newUser = "";
+        try {
+            if(postRepository.existsById(id)){
+                String jsonString1 = comment.getComment();
+                JSONParser parser = new JSONParser();
+                JSONObject obj1;
+                String jsonString2 = comment.getUserEmail();
+                JSONObject obj2;
+                try {
+                   obj1 = (JSONObject)parser.parse(jsonString1);
+                   newComment = (String) obj1.get("comment");
+                } catch(ParseException e) {
+                   e.printStackTrace();
+                }
+              
+                try {
+                   obj2 = (JSONObject)parser.parse(jsonString2);
+                   newUser = (String) obj2.get("userEmail");
+                } catch(ParseException e) {
+                   e.printStackTrace();
+                }
+                System.out.println("comment:" + newComment);
+                System.out.println("user: " + newUser);
+                Post forumPost = postRepository.getForumPostById(id);
+                if(forumPost.getForumComments() != null){
+                for(int i = 0; i < forumPost.getForumComments().length; i++){
+                    if(forumPost.getForumComments()[i].getComment().equals(newComment)){
+                        return "This comment already exists in this forum page";
+                    }
+                }
+                Comment[] commentsArr = Arrays.copyOf(forumPost.getForumComments(), (forumPost.getForumComments().length) + 1);
+                
+                commentsArr[forumPost.getForumComments().length].setComment(newComment);
+                forumPost.setForumComments(commentsArr); 
+                postRepository.save(forumPost);
+                return "Comment Added";
+                }else{
+                    //if its empty, just add it to the array so its not null
+                    Comment[] commentsArr = new Comment[1];
+                    commentsArr[0] = new Comment(newComment,newUser);
+                    forumPost.setForumComments(commentsArr);
+                    postRepository.save(forumPost);
+                    return "array was null we added one to it";
+                }
+
+            }
+            return "add comment by id failed";
+        } catch (Exception e) {
+            throw(e);
+        }
+        
+    }*/
+
+
     @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping(path="/{id}/getAllComments")
     public @ResponseBody String[] getAllForumComments(@PathVariable Integer id){
@@ -160,20 +222,33 @@ public class PostController {
     }   
 
 
-
     /*@CrossOrigin(origins = "http://localhost:3000")
-    @PutMapping(path="/{id}/update") //works
-    public @ResponseBody String updateForumPostbyId(@PathVariable Integer id){
+    @GetMapping(path="/{id}/getAllCommentsTest")
+    public @ResponseBody Comment[] getAllForumCommentsTest(@PathVariable Integer id){
 
-        if(postRepository.existsById(id)){
-            String updateTest = "I have been updated by ID";
-            postRepository.findById(id).get().setPostContent(updateTest);
-            postRepository.save(postRepository.findById(id).get());
-            return  "Updated";
+        Comment[] nullFixer = new Comment[1];
+        nullFixer[0].setComment("There are no comments");
+        try {
+            if(postRepository.existsById(id)){
+                try {
+                       
+                        if(postRepository.findById(id).get().getForumComments() == null){
+                            postRepository.findById(id).get().setForumComments(nullFixer);
+                        }
+                    return postRepository.findById(id).get().getForumComments();
+                } catch (Exception e) {
+                    throw(e);
+                }
+            }
+        } catch (Exception e) {
+            throw(e);       
         }
-        return "not Updated";
+        return null;       
+    }   */
 
-    }*/
+
+
+   
 
     @CrossOrigin(origins = "http://localhost:3000")
     @DeleteMapping(path="/{id}/delete")           //works

@@ -1,6 +1,6 @@
 package com.sjsuhub.controllers;
 
-import com.sjsuhub.entities.User;
+
 
 
 import java.util.Arrays;
@@ -48,12 +48,14 @@ public class StudyGroupController {
        
         StudyGroup sg = new StudyGroup();
         try {
+            String[] nullFixer = new String[1];
+            nullFixer[0] = "This is an empty Study group";
             sg.setSubject(newGroup.getSubject());
             sg.setDescription(newGroup.getDescription());
             sg.setMeetingDay(newGroup.getMeetingDay());
             sg.setMeetingTime(newGroup.getMeetingTime());
             sg.setMeridiem(newGroup.getMeridiem());
-            sg.setMembers(newGroup.getMembers());
+            sg.setMembers(nullFixer);
             studyRepository.save(sg);
             return "Success! Study Group " + sg.getId() + " has now been created";
 
@@ -94,24 +96,7 @@ public class StudyGroupController {
        
     }
 
-    /*//Update by Id
-    //add some more to this.
-    @CrossOrigin(origins = "http://localhost:3000")
-    @PutMapping(path="/{id}/update") //works
-    public @ResponseBody String updateStudyGroupbyId(@PathVariable Integer id){
-        try {
-            if(studyRepository.existsById(id)){
-                String updateTest = "I have been updated by ID";
-                studyRepository.findById(id).get().setSubject(updateTest);
-                studyRepository.save(studyRepository.findById(id).get());
-                return  "Updated";
-            }
-            return "not Updated";           
-        } catch (Exception e) {
-            throw(e);
-        }
-  
-    }*/
+   
     
     
     //delete by Id
@@ -137,6 +122,7 @@ public class StudyGroupController {
   
 
         String newUser = "";
+
         try {
             if(studyRepository.existsById(id)){
                 String jsonString = user;
@@ -145,11 +131,13 @@ public class StudyGroupController {
                 try {
                    obj = (JSONObject)parser.parse(jsonString);
                    newUser = (String) obj.get("user");
+                   System.out.println("new User: " + newUser);
                 } catch(ParseException e) {
                    e.printStackTrace();
                 }
                 StudyGroup group = studyRepository.getStudyGroupById(id);
-                if(group.getMembers() != null){
+                
+                if(!(group.getMembers()[0].equals("This is an empty Study group"))){
                 for(int i = 0; i < group.getMembers().length; i++){
                     if(group.getMembers()[i].equals(newUser)){
                         return "This user already exists in this study group";
@@ -181,14 +169,9 @@ public class StudyGroupController {
     @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping(path="/{id}/getAllUsers")
     public @ResponseBody String[] getAllStudyGroupUsers(@PathVariable Integer id){
-        String[] nullFixer = new String[1];
-        nullFixer[0] = "This is an empty Study group";
         try {
             if(studyRepository.existsById(id)){
                 try {
-                        if(studyRepository.findById(id).get().getMembers() == null){
-                            studyRepository.findById(id).get().setMembers(nullFixer);
-                        }
                     return studyRepository.findById(id).get().getMembers();
                 } catch (Exception e) {
                     throw(e);
@@ -204,13 +187,7 @@ public class StudyGroupController {
     }
 
 
-    //remove from Study group by Id
-    //later on add accounting for authentication 
-    @CrossOrigin(origins = "http://localhost:3000")
-    @DeleteMapping(path="/{id}/leavegroup/{userId}")
-    public @ResponseBody String leaveStudyGroup(@RequestBody StudyGroup group, String user){
-        return "this needs to be done after auth";
-    }
+    
 
     
     

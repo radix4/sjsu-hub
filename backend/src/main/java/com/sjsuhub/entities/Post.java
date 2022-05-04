@@ -2,6 +2,7 @@ package com.sjsuhub.entities;
 
 import lombok.Data;
 
+import com.sjsuhub.entities.Comment;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;

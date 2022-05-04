@@ -14,6 +14,8 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 
+import junit.extensions.TestSetup;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest(classes = Main.class,
@@ -35,13 +37,16 @@ public class StudyGroupControllerTest {
 
         StudyGroup sg = new StudyGroup();
 
+        String testString[] = new String[1];
+        testString[1] = "test";
+
         sg.setSubject("test");
         sg.setDescription("test");
         sg.setMeetingDay("Monday");
         sg.setMeetingTime("5");
         sg.setMeridiem("PM");
         //check here
-        sg.setMembers(["josh"]);
+        sg.setMembers(testString);
 
 
         String response = this.restTemplate.postForObject(studyGroupUrl, sg, String.class);
@@ -67,6 +72,9 @@ public class StudyGroupControllerTest {
 
     @Test
     public void getStudyGroupById(){
+
+        String testString[] = new String[1];
+        testString[1] = "test";
         StudyGroup sg = new StudyGroup();
         sg.setSubject("test");
         sg.setDescription("test");
@@ -74,19 +82,21 @@ public class StudyGroupControllerTest {
         sg.setMeetingTime("5");
         sg.setMeridiem("PM");
         //check here
-        sg.setMembers(["josh"]);
-        int id =  tutoringSessionRepository.save(sg).getId();
+        sg.setMembers(testString);
+        int id =  studyRepository.save(sg).getId();
 
         String getOneUrl = "http://localhost:" + port + "/studygroups/" + id;
 
-        Studygroup sg2 = this.restTemplate.getForObject(getOneUrl, sg, StudyGroup.class);
+        StudyGroup sg2 = this.restTemplate.postForObject(getOneUrl, sg, StudyGroup.class);
 
-        assertTrue(!sg2.isEmpty());
+        assertTrue(!sg2.equals(null));
 
     }
 
     @Test
     public void deleteStudyGroupById(){
+        String testString[] = new String[1];
+        testString[1] = "test";
         StudyGroup sg = new StudyGroup();
         sg.setSubject("test");
         sg.setDescription("test");
@@ -94,8 +104,8 @@ public class StudyGroupControllerTest {
         sg.setMeetingTime("5");
         sg.setMeridiem("PM");
         //check here
-        sg.setMembers(["josh"]);
-        int id =  tutoringSessionRepository.save(sg).getId();
+        sg.setMembers(testString);
+        int id =  studyRepository.save(sg).getId();
 
         String deleteOneUrl = "http://localhost:" + port + "/studygroups/" + id + "delete";
 
@@ -107,7 +117,12 @@ public class StudyGroupControllerTest {
 
     @Test
     public void joinStudyGroupById(){
-        //finish this one
+
+        String testString[] = new String[1];
+        testString[1] = "test";
+        String newMember = "josh";
+
+
         StudyGroup sg = new StudyGroup();
         sg.setSubject("test");
         sg.setDescription("test");
@@ -115,22 +130,15 @@ public class StudyGroupControllerTest {
         sg.setMeetingTime("5");
         sg.setMeridiem("PM");
         //check here
-        sg.setMembers(["josh"]);
-        int id =  tutoringSessionRepository.save(sg).getId();
+        sg.setMembers(testString);
+        int id =  studyRepository.save(sg).getId();
 
         String joinSgUrl = "http://localhost:" + port + "/studygroups/" + id + "join";
 
-        //this.restTemplate.put(joinSgUrl, sg, urlVariables);
+        this.restTemplate.put(joinSgUrl, sg, newMember);
 
-        //assertEquals(true, studyRepository.findById(id).isEmpty());
-        //assertTrue(studyRepository.findById(id).isEmpty());   
-    }
-
-
-    @Test
-    public void leaveStudyGroupById(){
-        //finish this one
-
+        assertEquals(true, !(studyRepository.findById(id).get().getMembers() == null));
+        
     }
 
 

@@ -34,12 +34,15 @@ public class PostControllerTest{
     public void addNewForumPost(){
         String forumPostUrl = "http://localhost:" + port + "/posts/add";
 
+        String[] testString = new String[1];
+        testString[0] = "test";
+
         Post p = new Post();
         p.setPostTitle("test");
         p.setPostContent("test");
         p.setPostCategory("test");
         p.setUserName("test");
-        p.setForumComments(["test"]);
+        p.setForumComments(testString);
 
         String response = this.restTemplate.postForObject(forumPostUrl, p, String.class);
 
@@ -63,45 +66,65 @@ public class PostControllerTest{
     @Test
     public void getForumPostById(){
 
+        String[] testString = new String[1];
+        testString[0] = "test";
+
 
         Post p = new Post();
         p.setPostTitle("test");
         p.setPostContent("test");
         p.setPostCategory("test");
         p.setUserName("test");
-        p.setForumComments(["test"]);
+        p.setForumComments(testString);
 
 
         int id =  postRepository.save(p).getId();
 
         String getOneUrl = "http://localhost:" + port + "/posts/" + id;
 
-        Post p2 = this.restTemplate.getForObject(getOneUrl, p, Post.class);
+        Post p2 = this.restTemplate.postForObject(getOneUrl, p, Post.class);
 
-        assertTrue(!p2.isEmpty());
+        assertTrue(!p2.equals(null));
 
-    }
-
-    @Test
-    public void addForumCommentById(){
-
-    }
-
-    @Test
-    public void getAllForumComments(){
-        
     }
 
 
     @Test
-    public void deleteForumPost(){
+    public void getAllForumComments(){
+
+        String[] testString = new String[1];
+        testString[0] = "test";
 
         Post p = new Post();
         p.setPostTitle("test");
         p.setPostContent("test");
         p.setPostCategory("test");
         p.setUserName("test");
-        p.setForumComments(["test"]);
+        p.setForumComments(testString);
+
+
+        int id =  postRepository.save(p).getId();
+
+        String getOneUrl = "http://localhost:" + port + "/posts/" + id + "getAllComments";
+
+        Post p2 = this.restTemplate.postForObject(getOneUrl, p, Post.class);
+
+        assertTrue(!p2.equals(null));
+    }
+
+
+    @Test
+    public void deleteForumPost(){
+
+        String testString[] = new String[1];
+        testString[1] = "test";
+
+        Post p = new Post();
+        p.setPostTitle("test");
+        p.setPostContent("test");
+        p.setPostCategory("test");
+        p.setUserName("test");
+        p.setForumComments(testString);
 
 
         int id =  postRepository.save(p).getId();

@@ -66,4 +66,86 @@ public class User implements Serializable {
 
     // }
 
+
+    public String getEmail(){
+        return email;
+    }
+
+    public void setEmail(String email){
+        this.email = email;
+    }
+
+    public String getFirstName(){
+        return firstName;
+    }
+
+    public void setFirstName(String firstName){
+        this.firstName = firstName;
+    }
+
+    public String getLastName(){
+        return lastName;
+    }
+
+    public void setLastName(String lastName){
+        this.lastName = lastName;
+    }
+
+    public String getPassword(){
+        return password;
+    }
+
+    public void setPassword(String password){
+        this.password = password;
+    }
+
+
+    public void setFriends(Set<String> friends){
+        this.friends = friends;
+    }
+
+    public Set<String> getFriends(){
+        return friends;
+    }
+
+    public void setFriendRequests(Set<String> friendRequests){
+        this.friendRequests = friendRequests;
+    }
+
+    public Set<String> getFriendRequests(){
+        return friendRequests;
+    }
+
+    public void setSentFriendRequests(Set<String> sentFriendRequests){
+        this.sentFriendRequests = sentFriendRequests;
+    }
+
+    public Set<String> getSentFriendRequests(){
+        return friendRequests;
+    }
+
+    public void setCreatedEvents(Set<String> createdEvents){
+        this.createdEvents = createdEvents;
+    }
+
+    public Set<String> getCreatedEvents(){
+        return createdEvents;
+    }
+
+    public void setEventsAttending(Set<String> eventsAttending){
+        this.eventsAttending = eventsAttending;
+    }
+
+    public Set<String> getEventsAttending(){
+        return eventsAttending;
+    }
+
+    
+
+
+
+
+
+    
+
 }

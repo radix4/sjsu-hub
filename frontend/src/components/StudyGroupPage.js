@@ -3,6 +3,7 @@ import { Col, Row, Button, Form, Card, } from 'react-bootstrap'
 import Notification from './Notification'
 import NavBar from './NavBar'
 import studyGroupService from '../services/studygroup';
+import {useNavigate, Link} from 'react-router-dom'
 
 //Study Group Create Page
 
@@ -14,10 +15,6 @@ document.body.style = 'background: #FFF1D7;'
 
 
 
-
-//clean up pages ui
-
-
         
   
 //this creates the study group form
@@ -26,6 +23,7 @@ const StudyGroupPage = () => {
 
   const [errorMessage, setErrorMessage] = useState(null)
   const [typeAlert, setTypeAlert] = useState(null)
+  let navigate = useNavigate();
 
   const cardStyle = {
     margin: '2% 20% 5% 20%',
@@ -43,6 +41,15 @@ const StudyGroupPage = () => {
     setErrorMessage(message)
     setTypeAlert(type)
   }
+
+  //checks to see if logged in... if not redirects to log in page.
+
+  useEffect(() => {
+    loginCheck();
+    return () => {
+      
+    }
+  }, []);
 
 
   const createStudyGroup = async (event) =>{
@@ -64,10 +71,6 @@ const StudyGroupPage = () => {
       //members: studyGroupForm.elements.members.value
     }
 
-  
-
-    
-
     try {
       await studyGroupService.createStudyGroup(newStudyGroup).then((returnedStudyGroup) =>{
         window.location = '/StudyGroupPage';
@@ -77,9 +80,34 @@ const StudyGroupPage = () => {
     }
 
   }
-    return(   
-    <Card style={cardStyle}>
-    <Form id='create-study-group-form' onSubmit={createStudyGroup}>
+
+//alert needs to work
+//wait needs to work
+const loginCheck = () => {
+  const isLoggedIn = window.localStorage.getItem('loggedInUser');
+  if(!isLoggedIn){
+    //display an error message
+    setErrorMessage("You must be logged in to create a forum post.");
+    setTypeAlert('error');
+    //redirect to login page
+    delay(5000);
+    navigate('/Login');
+  }else{
+    //do nothing
+  }
+}
+
+//make sure this works...
+const delay = (time) => {
+  new Promise(res => setTimeout(res, time));
+}
+
+
+    return(
+      <div>
+    <NavBar/>
+    <div style={containerStyle}>
+    <Form id='create-study-group-form' onSubmit={createStudyGroup} className='border p-3 border-info '>
       <br></br>
       <div style={{ textAlign: 'center' }}>
         <h5>
@@ -189,15 +217,18 @@ const StudyGroupPage = () => {
       </Form.Group>
       <br></br>
       <Notification message={errorMessage} type={typeAlert} />
+      
       {/* =============Submit Button============= */}
       <Form.Group as={Row}>
         <Col md={{ span: 3, offset: 9 }}>
           <Button type='submit'>Submit</Button>
         </Col>
       </Form.Group>
+      
       <br></br>
     </Form>
-  </Card>
+      </div>
+  </div>
   )
 }
 

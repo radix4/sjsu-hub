@@ -6,6 +6,7 @@ import Notification from './Notification'
 import login from '../images/login.png'
 import user from '../images/user.png'
 import NavBar from './NavBar'
+import { Link } from 'react-router-dom'
 
 const LoginPage = () => {
   const [errorMessage, setErrorMessage] = useState(null)

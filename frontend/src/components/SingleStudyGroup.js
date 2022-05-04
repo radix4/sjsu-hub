@@ -4,6 +4,8 @@ import {useLocation, Navigate, Route} from 'react-router-dom'
 import Notification from './Notification'
 import NavBar from './NavBar'
 import studyGroupService from '../services/studygroup';
+import userService from '../services/users';
+import {useNavigate, Link} from 'react-router-dom'
 
 
 const containerStyle = {
@@ -12,14 +14,16 @@ const containerStyle = {
   
 document.body.style = 'background: #FFF1D7;'
 
+//add navigation tag
 const SingleStudyGroup = () => {
 
 
     const [AlertMessage, setAlertMessage] = useState(null)
-    //const [typeAlert, setTypeAlert] = useState(null)
+    const [typeAlert, setTypeAlert] = useState(null)
     const [currentGroup, setCurrentGroup] = useState([]);
     const [currentUsers, setCurrentUsers] = useState([]);
-    let newGroup;
+    const [currentSignedInUser, setCurrentSignedUser] = useState([]);
+    let navigate = useNavigate();
     let url;
     let id;
 
@@ -34,6 +38,8 @@ const SingleStudyGroup = () => {
 
 
     useEffect(() => { //proxy error appearing. Not appearing anymore
+        loginCheck();
+        //getUserDetails();
         getAllUsers();
         url = window.location.pathname;
         id = url.substring(url.lastIndexOf('/') + 1);
@@ -41,7 +47,6 @@ const SingleStudyGroup = () => {
         try{
             studyGroupService.getGroupById(id).then((returnedGroup) => {
                 setCurrentGroup(returnedGroup);
-                newGroup = returnedGroup;
             })
         } catch (error) {
             throw(error);
@@ -54,19 +59,46 @@ const SingleStudyGroup = () => {
 
     
     const addToStudyGroup = async (event) => {
+
+        const isLoggedIn = window.localStorage.getItem('loggedInUser');
+        
         url = window.location.pathname;
         id = url.substring(url.lastIndexOf('/') + 1);
 
         let newMemberForm = document.getElementById('new-group-member-form');
         let newMember = newMemberForm.elements.newMemberUserName.value;
 
+        let arr = newMember.split(" ");
+        
+
+        for (var i = 0; i < arr.length; i++) {
+            arr[i] = arr[i].charAt(0).toUpperCase() + arr[i].slice(1);
+
+        }
+
+        const str2 = arr.join(" ");
+
+  
         try {
-            await studyGroupService.addToGroup(id,newMember).then((returnedUser) => {
+            await studyGroupService.addToGroup(id,str2).then((returnedUser) => {
                 displayAlert(returnedUser);
             })
 
         } catch (error) {
             throw(error);
+        }
+    }
+
+
+    const getUserDetails = () => {
+        const isLoggedIn = window.localStorage.getItem('loggedInUser');
+        try {
+            userService.findUser(isLoggedIn).then((returnedUser)=> {
+                console.log(returnedUser);
+                setCurrentSignedUser(returnedUser);
+            })
+        } catch (error) {
+            throw(error)
         }
     }
 
@@ -85,6 +117,28 @@ const SingleStudyGroup = () => {
         }
     }
 
+
+  //alert needs to work
+  //wait needs to work
+  const loginCheck = () => {
+    const isLoggedIn = window.localStorage.getItem('loggedInUser');
+    if(!isLoggedIn){
+      
+      setAlertMessage("You must be logged in to create a forum post.");
+      setTypeAlert('error');
+
+      delay(5000);
+      navigate('/Login');
+    }else{
+      //do nothing
+    }
+  }
+  
+  
+  const delay = (time) => {
+    new Promise(res => setTimeout(res, time));
+  }
+
  
     
     
@@ -102,7 +156,7 @@ const SingleStudyGroup = () => {
                         <Card.Text>{currentGroup.meetingDay}</Card.Text>
                         <Card.Text>{currentGroup.meetingTime} {currentGroup.meridiem}</Card.Text>
                         <br></br>
-                        <Form id='new-group-member-form' onSubmit={addToStudyGroup}>
+                        <Form id='new-group-member-form' onClick={addToStudyGroup}>
                         <Form.Group
                         as={Row}
                         controlId='newMemberUserName'
@@ -111,15 +165,17 @@ const SingleStudyGroup = () => {
                             currentUsers.map((returnedUser, userId) => {
                                 return (
                                     <div>
-                                    <Card.Text key={userId}>{returnedUser}</Card.Text>
+                                        <Card.Text key={userId}>{returnedUser}</Card.Text>
                                     </div>
                                 )
                             })
                         }
-                        <Form.Control type="text" placeholder="Name Here" required/>
+                        <br></br>
+                        <Form.Control type="text" placeholder="full Name here" required/>
+                        <br></br>
                         </Form.Group>
-                        
-                        <Button type="submit">Join Button</Button>
+                        <br></br>
+                        <Button type="submit">Join Group</Button>
                         </Form>
                      </Card.Body>
                     </Card>

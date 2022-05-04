@@ -41,4 +41,70 @@ public class TutoringSession {
         this.location = location;
         this.isTutor = isTutor;
     }
+
+
+    public void setName(String name){
+        this.name = name;
+    }
+    public void setEmail(String email){
+        this.email = email;
+    }
+    public void setBiography(String biography){
+        this.biography = biography;
+    }
+    public void setContactInformation(String contactInformation){
+        this.contactInformation = contactInformation;
+    }
+    public void setTitle(String title){
+        this.title = title;
+    }
+    public void setCourse(String course){
+        this.course = course;
+    }
+    public void setAvailableTime(String availableTime){
+        this.availableTime = availableTime;
+    }
+    public void setLocation(String location){
+        this.location = location;
+    }
+    public void setTutor(boolean isTutor){
+        this.isTutor = isTutor;
+    }
+    public String getName(){
+        return name;
+    }
+    public String getEmail(){
+        return email;
+    }
+    public String getBiography(){
+        return biography;
+    }
+    public String getContactInformation(){
+        return contactInformation;
+    }
+    public String getTitle(){
+        return title;
+    }
+    public String getCourse(){
+        return course;
+    }
+    public String getAvailableTime(){
+        return availableTime;
+    }
+    public String getLocation(){
+        return location;
+    }
+    public boolean isTutor(){
+        return isTutor;
+    }
+
+    public void setId(Integer id){
+        this.id = id;
+    }
+
+    public Integer getId(){
+        return id;
+    }
+
+    
 }

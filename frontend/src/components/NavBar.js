@@ -59,7 +59,7 @@ const NavBar = () => {
               <NavDropdown.Item href='/JobPage'>
                 Internships and Jobs
               </NavDropdown.Item>
-              <NavDropdown.Item href='/ForumPage'>Forums</NavDropdown.Item>
+              <NavDropdown.Item href='/AllForums'>Forums</NavDropdown.Item>
               <NavDropdown.Item href='/TutoringSessionPage'>
                 Tutoring Sessions
               </NavDropdown.Item>
@@ -67,7 +67,7 @@ const NavBar = () => {
                 Friends Page
               </NavDropdown.Item>
               <NavDropdown.Item href='/EventsPage'>Events Page</NavDropdown.Item>
-              <NavDropdown.Item href='/'>Study Groups</NavDropdown.Item>
+              <NavDropdown.Item href='/AllStudyGroups'>Study Groups</NavDropdown.Item>
             </NavDropdown>
           </Nav>
           <Form className='d-flex'>

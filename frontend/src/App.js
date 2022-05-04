@@ -10,65 +10,36 @@ import AllStudyGroups from './components/AllStudyGroups'
 import SingleStudyGroup from './components/SingleStudyGroup'
 import AllForums from './components/AllForums'
 import SingleForumPage from './components/SingleForumPage'
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import GroupChatPage from './components/GroupChatPage'
 import TutoringSessionPage from './components/TutoringSessionPage'
 import EventPage from './components/EventsPage'
 
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
+//chaned Switch to routes
 import './css/reset.css'
 
-
-
-
+//
 const App = () => {
   return (
     <Router>
-      <Switch>
-        <Route path='/Login'>
-          <LoginPage />
-        </Route>
-        <Route path='/Registration'>
-          <RegistrationPage />
-        </Route>
-        <Route path='/ForumPage'>
-          <ForumPage />
-        </Route>
-        <Route path='/JobPage'>
-          <JobPage />
-        </Route>
-        <Route path='/FriendsPage'>
-          <FriendsPage />
-        </Route>
-        <Route path='/GroupChatPage'>
-          <GroupChatPage />
-        </Route>
-        <Route path='/TutoringSessionPage'>
-          <TutoringSessionPage />
-        </Route>
-        <Route path='/EventsPage'>
-          <EventPage />
-        </Route>
-        <Route path='/'>
-          <HomePage />
-        </Route>
-        <Route path='/StudyGroupPage'> 
-          <StudyGroupPage/> 
-        </Route>
-        <Route path='/AllStudyGroups'> 
-          <AllStudyGroups/> 
-        </Route>
-        <Route path='/SingleStudyGroup/:id'>  
-          <SingleStudyGroup/>
-        </Route>
-        <Route path='/AllForums'> 
-          <AllForums/>
-        </Route>
-        <Route path='/SingleForumPage/:id'>
-           <SingleForumPage/>
-        </Route>
-      </Switch>
+      <Routes>
+        <Route path='/Registration' element={<RegistrationPage />}/>
+        <Route path='/ForumPage' element={<ForumPage />}/>
+        <Route path='/JobPage' element={<JobPage />}/>
+        <Route path='/FriendsPage' element={<FriendsPage />}/>
+        <Route path='/GroupChatPage' element={<GroupChatPage />}/>
+        <Route path='/TutoringSessionPage' element={<TutoringSessionPage />}/>
+        <Route path='/EventsPage' element={<EventPage />}/>
+        <Route path='/' element={<HomePage />}/>
+        <Route path='/Login' element={<LoginPage />}/>
+        <Route path='/StudyGroupPage' element={<StudyGroupPage/>}/> 
+        <Route path='/AllStudyGroups' element={<AllStudyGroups/>}/> 
+        <Route path='/SingleStudyGroup/:id' element={<SingleStudyGroup/>}/>  
+        <Route path='/AllForums' element={<AllForums/>}/> 
+        <Route path='/SingleForumPage/:id' element={<SingleForumPage/>}/>
+  
+      </Routes>
     </Router>
   )
 }

@@ -1,9 +1,10 @@
 import React, {Component, useState, useEffect, map} from 'react';
 import { Card, Button, Form } from 'react-bootstrap'
-
+import {useNavigate, Link} from 'react-router-dom'
 import NavBar from './NavBar'
 import postService from '../services/posts'
 import userService from '../services/users'
+import Notification from './Notification'
 
 //add comments and delete once authentication works. 
 //alerts?
@@ -19,8 +20,7 @@ const ForumPage = () => {
   const [currentPosts, setCurrentPosts] = useState([]);
   const [errorMessage, setErrorMessage] = useState(null);
   const [typeAlert, setTypeAlert] = useState(null);
-  
-  
+  let navigate = useNavigate();
   
   const displayAlert = (message, type) => {
     console.log('\n----\ndisplayAlert Message: ' + message + '\nType: ' + type + '\n------\n' )
@@ -28,11 +28,18 @@ const ForumPage = () => {
     setTypeAlert(type)
   }
 
-  const handleForumPost = async (event) => {
+  useEffect(() => {
+    loginCheck();
+    return () => {
+      
+    }
+  }, []);
 
-  //event.preventDefault();
+
+  const handleForumPost = async (event) => {
   
 
+  //event.preventDefault();
   var postForm = document.getElementById('create-post-form');
 
   console.log("postForm" + postForm);
@@ -58,10 +65,32 @@ const ForumPage = () => {
   }
 }
 
+//alert needs to work
+//wait needs to work
+const loginCheck = () => {
+  const isLoggedIn = window.localStorage.getItem('loggedInUser');
+  if(!isLoggedIn){
+    //display an error message
+    setErrorMessage("You must be logged in to create a forum post.");
+    setTypeAlert('error');
+    //redirect to login page
+    delay(5000);
+    navigate('/Login');
+  }else{
+    //do nothing
+  }
+}
+
+//make sure this works...
+const delay = (time) => {
+  new Promise(res => setTimeout(res, time));
+}
+
   return (
     <div>
       <NavBar />
       <div style={containerStyle}>
+      <Notification message={errorMessage} type={typeAlert} />
         {/* ============= CREATE POST FORM ============= */}
         <Form id='create-post-form' onSubmit={handleForumPost} className='border p-3 border-info '>
           {/* ===== TITLE ===== */}

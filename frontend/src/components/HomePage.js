@@ -52,7 +52,7 @@ const HomePage = () => {
                   </Button>
                 </Link>
 
-                <Link to='/ForumPage'>
+                <Link to='/AllForums'>
                   <Button variant='outline-primary' style={{ margin: '5px' }}>
                     Forums
                   </Button>
@@ -76,7 +76,7 @@ const HomePage = () => {
                     Events Page
                   </Button>
                 </Link>
-                <Link to='/GroupStudyPage'>
+                <Link to='/AllStudyGroups'>
                   <Button variant='outline-primary' style={{ margin: '5px' }}>
                     Study Groups
                   </Button>

@@ -132,6 +132,15 @@ const unfriend = async(user) => {
   return response.data
 }
 
+/*const findUser = async(email) => {
+  console.log("inside findUsre")
+  const response = await axios.get(`${baseUrl}/users/find`, {
+    email: email
+  });
+  console.log("returned full name:" + response.data)
+  return response.data
+}*/
+
 export default { 
   register, 
   getAllUsers, 
@@ -143,4 +152,5 @@ export default {
   cancelFriendRequest,
   acceptFriendRequest,
   declineFriendRequest,
-  unfriend }
+  unfriend,
+   }

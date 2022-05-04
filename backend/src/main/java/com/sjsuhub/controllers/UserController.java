@@ -1,10 +1,14 @@
 package com.sjsuhub.controllers;
 
 import com.sjsuhub.entities.User;
-import com.sjsuhub.entities.Post;
-import com.sjsuhub.repositories.PostRepository;
-import com.sjsuhub.repositories.UserRepository;
 
+import com.sjsuhub.repositories.UserRepository;
+import java.util.Arrays;
+
+import org.json.simple.*;
+import org.json.simple.parser.*;
+
+import javax.tools.JavaFileObject;
 import com.sjsuhub.security.SecurityEscape;
 import org.apache.catalina.connector.Response;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +29,7 @@ import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
+import java.util.Iterator;
 
 /**
  * APIs:
@@ -38,8 +43,6 @@ import java.security.NoSuchAlgorithmException;
 public class UserController {
     @Autowired
     private UserRepository userRepository;
-    @Autowired
-    private PostRepository postRepository;
 
 
     private final static String KEY = "12dj192jd1902jdsnadfjasdf120iasdojasd";
@@ -82,6 +85,38 @@ public class UserController {
             return "Fail";
     }
 
+    @CrossOrigin(origins = "http://localhost:3000")
+    @GetMapping(path="/find")
+    public @ResponseBody String findByEmail(@RequestBody String email){
+        Iterable<User> u1 = userRepository.findAll();
+        String newEmail = "";
+        System.out.println("parameter email: " + email);
+        String jsonString = email;
+        JSONParser parser = new JSONParser();
+        JSONObject obj;
+                try {
+                   obj = (JSONObject)parser.parse(jsonString);
+                   newEmail = (String) obj.get("email");
+                } catch(ParseException e) {
+                   e.printStackTrace();
+                }
+        try {
+            for(User u : u1){
+                System.out.println("emails: " + u.getEmail());
+                if(u.getEmail().equals(newEmail)){
+                    String firstname = u.getFirstName();
+                    String lastname = u.getLastName();
+                    String fullname = firstname + " " + lastname;
+                    return fullname;
+                }
+            }
+            return "unfound";
+        } catch (Exception e) {
+            throw(e);
+        }
+        
+    }
+
     public static String hmac_sha256(String secretKey, String data) {
         try {
             Mac mac = Mac.getInstance("HmacSHA256") ;
@@ -107,84 +142,6 @@ public class UserController {
 
         return user;
     }
-
-
-
-    /////////////////// CRUD FOR USER POSTS ///////////////////////////////
-
-    @PostMapping(path="/posts/add") //Post Request for adding new user posts
-    public @ResponseBody String addNewPost(@RequestBody Post post){
-        
-        Post p = new Post();
-
-        p.setPostTitle(post.getPostTitle());
-        p.setPostContent(post.getPostContent());
-        p.setUserName(post.getUserName());
-        p.setPostCategory(post.getPostCategory());
-        System.out.println("new post variable" + p.toString());
-        postRepository.save(p); 
-        return "Success! Post by user " + p.getId() + " has now been created";
-    }
-
-
-
-    @GetMapping(path="/posts/all") //works
-    public @ResponseBody Iterable<Post> getAllPosts(){
-        return postRepository.findAll();
-    }
-
-    @GetMapping(path="/posts/findbyUser") //find post by username  // works
-    public @ResponseBody String getPostByUserName(@RequestBody Post post){ //works
-        
-        //Post p = new Post();
-        String userName = post.getUserName();
-        Post newPost = postRepository.findByUserName(userName);
-        return newPost.getUserName(); 
-    }
-
-
-    @GetMapping(path="/posts/{id}") //get post by id
-    public @ResponseBody String getPostById(@PathVariable Integer id){ //works
-        
-        if(postRepository.existsById(id)){
-            return postRepository.findById(id).get().getPostTitle();
-        }
-
-        return "get post by id failed";
-    }
-
-
-    @PutMapping(path="/posts/{id}/update") //works
-    public @ResponseBody String updatePostbyId(@PathVariable Integer id){
-
-        if(postRepository.existsById(id)){
-            String updateTest = "I have been updated by ID";
-            postRepository.findById(id).get().setPostContent(updateTest);
-            postRepository.save(postRepository.findById(id).get());
-            return  "Updated";
-        }
-        return "not Updated";
-
-    }
-
-
-    @DeleteMapping(path="/posts/{id}/delete")           //works
-    public @ResponseBody String deletePost(@PathVariable Integer id){
-
-        if(postRepository.existsById(id)){
-            postRepository.deleteById(id);
-            return  "DELETED";
-        }
-
-        return "Not Deleted";
-    }
-
-
-
-    //////////////// END OF CRUD FOR ALL POSTS //////////////////////////
-
-
-
 
     @GetMapping(path="/all")
     public @ResponseBody Iterable<User> getAllUsers() {

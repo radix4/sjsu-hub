@@ -49,7 +49,6 @@ const addComment = async (id, comment) => {
             withCredentials: true,
             comment: comment
         })
-
         return response.data;
     } catch (error) {
         throw(error);
@@ -60,7 +59,7 @@ const addComment = async (id, comment) => {
 
 const getAllComments = async (id) => {
 //return all users 
-    let responseArr = [];
+    //let responseArr = [];
     try {
         const responseArr = await axios.get(`${baseUrl}/posts/${id}/getAllComments`);
         return responseArr.data;
