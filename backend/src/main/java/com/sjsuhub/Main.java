@@ -43,9 +43,9 @@ public class Main implements CommandLineRunner {
 
 
 		Set<String> friends = new HashSet<>();
-		friends.add("Rhea");
+		friends.add("Rhea@gmail.com");
 		Set<String> friends2 = new HashSet<>();
-		friends2.add("Luna");
+		friends2.add("Luna@gmail.com");
 		User user = new User("Luna@gmail.com", "Luna", "Aliaj", UserController.hmac_sha256(KEY, "Luna"), friends);
 		User user2 = new User("Rhea@gmail.com", "Rhea", "Dash", UserController.hmac_sha256(KEY, "Rhea"), friends2);
 		userRepository.save(user);

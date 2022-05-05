@@ -121,7 +121,7 @@ public class User implements Serializable {
     }
 
     public Set<String> getSentFriendRequests(){
-        return friendRequests;
+        return sentFriendRequests;
     }
 
     public void setCreatedEvents(Set<String> createdEvents){

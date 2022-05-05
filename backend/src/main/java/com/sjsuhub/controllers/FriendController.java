@@ -134,19 +134,18 @@ public class FriendController {
         user = sanitizedUser(user);
 
         String userEmail = user.getEmail();
+        User u = userRepository.findByEmail(userEmail);
         System.out.println("137 Cancel sent request email: " + userEmail);
-        System.out.println("Sent friend requests " + user.getSentFriendRequests());
+        System.out.println("Sent friend requests " + u.getSentFriendRequests());
         if (user.getSentFriendRequests().isEmpty()) return "Fail";
+
+
         String friendEmail =  user.getSentFriendRequests().stream().findFirst().get();
+
+        User f = userRepository.findByEmail(friendEmail);
         System.out.println("140 Cancel sent request friendEmail: " + friendEmail);
 
-        
-        
-
         /* remove friend's email from user's sent-friend-request list */
-        User u = userRepository.findByEmail(userEmail);
-        User f = userRepository.findByEmail(friendEmail);
-
         if (u == null || f == null) return "Fail";
         System.out.println("Line 147 cancel sent request");
         u.getSentFriendRequests().remove(friendEmail);
@@ -175,13 +174,16 @@ public class FriendController {
         Set<String> set = u.getSentFriendRequests();
         for (String s : set)
             System.out.println(s);
-        u.getSentFriendRequests().remove(friendEmail);
+        System.out.println(userEmail + "'s sent friend requests: " + u.getSentFriendRequests());
+        System.out.println(userEmail + "'s received friend requests: " + u.getFriendRequests());
+        u.getFriendRequests().remove(friendEmail);
         u.getFriends().add(friendEmail);
         userRepository.save(u);
 
         /* move request to friends */
-        
-        f.getFriendRequests().remove(userEmail);
+        System.out.println(friendEmail + "'s received friend requests: " + f.getFriendRequests());
+        System.out.println(friendEmail + "'s sent friend requests: " + f.getSentFriendRequests());
+        f.getSentFriendRequests().remove(userEmail);
         f.getFriends().add(userEmail);
         userRepository.save(f);
 
