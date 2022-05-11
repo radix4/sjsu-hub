@@ -1,1 +1,1 @@
-# sjsu-hub
+# SJSU Hub
