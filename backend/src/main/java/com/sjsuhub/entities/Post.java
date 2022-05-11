@@ -3,6 +3,10 @@ package com.sjsuhub.entities;
 import lombok.Data;
 
 import com.sjsuhub.entities.Comment;
+
+import java.util.ArrayList;
+
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -20,6 +24,9 @@ public class Post {
     private String userName; // can prlly just use user? - should be email
     private String postCategory;
     private String[] forumComments;
+    private Comment[] newComments;
+    @Column(length = 1000)
+    private ArrayList<Comment> commentList;
 
     public Integer getId(){
         return id;
@@ -67,6 +74,22 @@ public class Post {
 
     public void setForumComments(String[] forumComments){
         this.forumComments = forumComments;
+    }
+
+    public Comment[] getNewForumComments(){
+        return newComments;
+    }
+
+    public void setNewForumComments(Comment[] newForumComments){
+        this.newComments = newForumComments;
+    }
+
+    public ArrayList<Comment> getCommentList(){
+        return commentList;
+    }
+
+    public void setCommentList(ArrayList<Comment> commmentList){
+        this.commentList = commmentList;
     }
 
     public String toString(){

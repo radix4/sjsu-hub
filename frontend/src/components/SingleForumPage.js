@@ -30,19 +30,22 @@ const SingleForumPage = () => {
     const [AlertMessage, setAlertMessage] = useState(null)
     const [currentForum, setCurrentForum] = useState([]);
     const [currentComments, setCurrentComments] = useState([]);
+    const [errorMessage, setErrorMessage] = useState(null);
+    const [typeAlert, setTypeAlert] = useState(null);
+    let navigate = useNavigate();
 
     useEffect(() => { 
 
         
         url = window.location.pathname;
         id = url.substring(url.lastIndexOf('/') + 1);
+
+        loginCheck();
         
         try{
             postService.getForumPostById(id).then((returnedForum) => {
                 setCurrentForum(returnedForum);
                 newForum = returnedForum;
-                
-                
                 getAllComments();
                
             })
@@ -60,12 +63,22 @@ const SingleForumPage = () => {
 
         url = window.location.pathname;
         id = url.substring(url.lastIndexOf('/') + 1);
+        const isLoggedIn = window.localStorage.getItem('loggedInUser');
         let newCommentForm = document.getElementById('new-post-comment-form');
         let newComment = newCommentForm.elements.newComment.value;
+       
+        
+        //grab the email from the logged in session and send it as a full comment. 
+        let newCommentObject = {
+            comment: newComment,
+            userEmail: isLoggedIn
+        }
+
+        console.log(newCommentObject)
+
         try {
-            await postService.addComment(id,newComment).then((returnedComment) => {
-                displayAlert(returnedComment);
-                
+            await postService.addComment(id,newCommentObject).then((returnedComment) => {
+                displayAlert(returnedComment);  
             })
 
         } catch (error) {
@@ -82,7 +95,9 @@ const SingleForumPage = () => {
 
         try {
             await postService.getAllComments(id).then((returnedCommentArr) => {
+                //console.log("returned comment arr:" + returnedCommentArr[0]['comment']); this returns the value viewable in dev tools.
                 setCurrentComments(returnedCommentArr);
+                
             })
         } catch (error) {
             throw(error);
@@ -92,6 +107,51 @@ const SingleForumPage = () => {
 
 
 
+
+const loginCheck = () => {
+    const isLoggedIn = window.localStorage.getItem('loggedInUser');
+    if(!isLoggedIn){
+      //display an error message
+      setErrorMessage("You must be logged in to create a forum post.");
+      setTypeAlert('error');
+      //redirect to login page
+      delay(5000);
+      navigate('/Login');
+    }else{
+      //do nothing
+    }
+  }
+  
+  //make sure this works...
+  const delay = (time) => {
+    new Promise(res => setTimeout(res, time));
+  }
+
+
+  const commentRender = () => {
+      console.log("inside of commentRender");
+      //if(currentComments != null){
+        currentComments.map((returnedComment, commentId) => {
+            console.log("returned comment inside of map" + returnedComment)
+            return (
+              <div>
+                 <Card.Text key={commentId}>{returnedComment.comment}</Card.Text>
+                 <Card.Text key={commentId}>{returnedComment['userEmail']}</Card.Text>
+              </div>
+              )
+          })
+        }
+      /*}else{
+        return (
+            <div>
+               <Card.Text>There are no comments</Card.Text>
+            </div>
+            )
+        }
+      }*/
+  
+
+  
     return(
         <div>
             <NavBar></NavBar>
@@ -112,17 +172,11 @@ const SingleForumPage = () => {
                         controlId='newComment'
                         >
                         {
-                          currentComments.map((returnedComment, commentId) => {
-                               return (
-                                 <div>
-                                    <Card.Text key={commentId}>{returnedComment}</Card.Text>
-                                 </div>
-                                 )
-                             })
+                            commentRender
                         }
                         <Form.Control type="text" placeholder="Comment Here" required/>
+                            <Button type="submit">Add Comment</Button>
                         </Form.Group> 
-                        <Button type="submit">Add Comment</Button>
                         </Form>
                      </Card.Body>
                     </Card>

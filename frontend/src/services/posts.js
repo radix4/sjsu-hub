@@ -41,16 +41,20 @@ const getForumPostById = async (id) => {
     }
 }
 
-
+//making the correct call.
+//check these two functions...
+//add comment works
 const addComment = async (id, comment) => {
     
     try {
         const response = await axios.put(`${baseUrl}/posts/${id}/comment`, {
             withCredentials: true,
-            comment: comment
+            comment: comment.comment,
+            userEmail: comment.userEmail
         })
         return response.data;
     } catch (error) {
+        console.log("error in add comment")
         throw(error);
     }
 
@@ -58,11 +62,18 @@ const addComment = async (id, comment) => {
 
 
 const getAllComments = async (id) => {
-//return all users 
-    //let responseArr = [];
+
+    let responseArr = [];
     try {
-        const responseArr = await axios.get(`${baseUrl}/posts/${id}/getAllComments`);
-        return responseArr.data;
+        responseArr = await axios.get(`${baseUrl}/posts/${id}/getAllComments`);
+        if(responseArr.data == null){
+            return "there are no comments here";
+        }else{
+            console.log(responseArr.data)
+            return responseArr.data;
+        }
+        
+        
     } catch (error) {
         throw(error);
     }    

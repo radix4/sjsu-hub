@@ -118,8 +118,7 @@ const SingleStudyGroup = () => {
     }
 
 
-  //alert needs to work
-  //wait needs to work
+ 
   const loginCheck = () => {
     const isLoggedIn = window.localStorage.getItem('loggedInUser');
     if(!isLoggedIn){
@@ -155,7 +154,7 @@ const SingleStudyGroup = () => {
                         <Card.Text>{currentGroup.description}</Card.Text>
                         <Card.Text>{currentGroup.meetingDay}</Card.Text>
                         <Card.Text>{currentGroup.meetingTime} {currentGroup.meridiem}</Card.Text>
-                        <br></br>
+                        <Card.Text>Current Members: </Card.Text>
                         <Form id='new-group-member-form' onClick={addToStudyGroup}>
                         <Form.Group
                         as={Row}
@@ -171,7 +170,7 @@ const SingleStudyGroup = () => {
                             })
                         }
                         <br></br>
-                        <Form.Control type="text" placeholder="full Name here" required/>
+                        <Form.Control style={{marginTop:20}} type="text" placeholder="full Name here" required/>
                         <br></br>
                         </Form.Group>
                         <br></br>

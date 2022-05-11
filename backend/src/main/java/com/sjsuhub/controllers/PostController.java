@@ -6,6 +6,10 @@ import com.sjsuhub.entities.Comment;
 import com.sjsuhub.entities.Post;
 import com.sjsuhub.repositories.PostRepository;
 
+import java.util.ArrayList;
+
+//pick up here, add repository. 
+
 
 import java.util.Arrays;
 
@@ -38,6 +42,9 @@ public class PostController {
     @Autowired
     private PostRepository postRepository; 
 
+
+   
+    
 
     /////////////////// CRUD FOR USER POSTS ///////////////////////////////
     @CrossOrigin(origins = "http://localhost:3000")
@@ -88,43 +95,65 @@ public class PostController {
         }
     }
 
+
+    //test with postman this should work...
+    //have to account for object return in service and js files
+    //works
     @CrossOrigin(origins = "http://localhost:3000")
     @PutMapping(path="/{id}/comment") //get post by id
-    public @ResponseBody String addForumCommentById(@PathVariable Integer id, @RequestBody String comment){ //works
+    public @ResponseBody String addForumCommentById(@PathVariable Integer id, @RequestBody Comment comment){ //works
  
+
+
         String newComment = "";
+        String newUser = "";
         try {
             if(postRepository.existsById(id)){
-                String jsonString = comment;
+                String jsonString1 = comment.getComment();
+                System.out.println("json String 1" + comment.getComment());
                 JSONParser parser = new JSONParser();
-                JSONObject obj;
-                try {
-                   obj = (JSONObject)parser.parse(jsonString);
-                   newComment = (String) obj.get("comment");
-                } catch(ParseException e) {
-                   e.printStackTrace();
-                }
-                System.out.println("comment:" + comment);
+                JSONObject obj1;
+                String jsonString2 = comment.getUserEmail();
+                System.out.println("json String 1" + comment.getUserEmail());
+                JSONObject obj2;
+                
+                newComment = comment.getComment();
+              
+               
+                newUser = comment.getUserEmail();
+
+                System.out.println("comment:" + newComment); //these turn out blank
+                System.out.println("user: " + newUser); //no error now these are just null.. which is why .equals doesnt work 
                 Post forumPost = postRepository.getForumPostById(id);
-                if(forumPost.getForumComments() != null){
-                for(int i = 0; i < forumPost.getForumComments().length; i++){
-                    if(forumPost.getForumComments()[i].equals(newComment)){
+                if(forumPost.getCommentList() != null){
+                for(int i = 0; i < forumPost.getCommentList().size(); i++){
+                    if(forumPost.getCommentList().get(i).getComment().equals(newComment)){
                         return "This comment already exists in this forum page";
                     }
                 }
-                String[] commentsArr = Arrays.copyOf(forumPost.getForumComments(), (forumPost.getForumComments().length) + 1);
+      
                 
-                commentsArr[forumPost.getForumComments().length] = newComment; 
-                forumPost.setForumComments(commentsArr); 
+                ArrayList<Comment> commentList = forumPost.getCommentList(); //could result in null, have case for this. it will come in as null
+                
+                
+
+               
+                
+                System.out.println("commentList length: " + commentList.size());
+               
+                Comment saveableComment = new Comment(newComment, newUser);
+                commentList.add(saveableComment);
+                forumPost.setCommentList(commentList); 
                 postRepository.save(forumPost);
-                return "Comment Added";
+                return newComment;
                 }else{
                     //if its empty, just add it to the array so its not null
-                    String[] commentsArr = new String[1];
-                    commentsArr[0] = newComment;
-                    forumPost.setForumComments(commentsArr);
+                    
+                    ArrayList<Comment> commentList = new ArrayList<>(1);
+                    commentList.add(new Comment(newComment,newUser));
+                    forumPost.setCommentList(commentList);
                     postRepository.save(forumPost);
-                    return "array was null we added one to it";
+                    return newComment;
                 }
 
             }
@@ -136,81 +165,20 @@ public class PostController {
     }
 
 
-   /* //test with postman this should work...
-    //have to account for object return in service and js files
-    @CrossOrigin(origins = "http://localhost:3000")
-    @PutMapping(path="/{id}/commentTest") //get post by id
-    public @ResponseBody String addForumCommentByIdTest(@PathVariable Integer id, @RequestBody Comment comment){ //works
- 
-        String newComment = "";
-        String newUser = "";
-        try {
-            if(postRepository.existsById(id)){
-                String jsonString1 = comment.getComment();
-                JSONParser parser = new JSONParser();
-                JSONObject obj1;
-                String jsonString2 = comment.getUserEmail();
-                JSONObject obj2;
-                try {
-                   obj1 = (JSONObject)parser.parse(jsonString1);
-                   newComment = (String) obj1.get("comment");
-                } catch(ParseException e) {
-                   e.printStackTrace();
-                }
-              
-                try {
-                   obj2 = (JSONObject)parser.parse(jsonString2);
-                   newUser = (String) obj2.get("userEmail");
-                } catch(ParseException e) {
-                   e.printStackTrace();
-                }
-                System.out.println("comment:" + newComment);
-                System.out.println("user: " + newUser);
-                Post forumPost = postRepository.getForumPostById(id);
-                if(forumPost.getForumComments() != null){
-                for(int i = 0; i < forumPost.getForumComments().length; i++){
-                    if(forumPost.getForumComments()[i].getComment().equals(newComment)){
-                        return "This comment already exists in this forum page";
-                    }
-                }
-                Comment[] commentsArr = Arrays.copyOf(forumPost.getForumComments(), (forumPost.getForumComments().length) + 1);
-                
-                commentsArr[forumPost.getForumComments().length].setComment(newComment);
-                forumPost.setForumComments(commentsArr); 
-                postRepository.save(forumPost);
-                return "Comment Added";
-                }else{
-                    //if its empty, just add it to the array so its not null
-                    Comment[] commentsArr = new Comment[1];
-                    commentsArr[0] = new Comment(newComment,newUser);
-                    forumPost.setForumComments(commentsArr);
-                    postRepository.save(forumPost);
-                    return "array was null we added one to it";
-                }
-
-            }
-            return "add comment by id failed";
-        } catch (Exception e) {
-            throw(e);
-        }
-        
-    }*/
+     
 
 
+    //works as well.
     @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping(path="/{id}/getAllComments")
-    public @ResponseBody String[] getAllForumComments(@PathVariable Integer id){
+    public @ResponseBody ArrayList<Comment> getAllForumComments(@PathVariable Integer id){
 
-        String[] nullFixer = new String[1];
-        nullFixer[0] = "There are no comments";
+       
         try {
             if(postRepository.existsById(id)){
                 try {
                        
-                        if(postRepository.findById(id).get().getForumComments() == null){
-                            postRepository.findById(id).get().setForumComments(nullFixer);
-                        }
-                    return postRepository.findById(id).get().getForumComments();
+                    return postRepository.findById(id).get().getCommentList();
                 } catch (Exception e) {
                     throw(e);
                 }
@@ -218,33 +186,8 @@ public class PostController {
         } catch (Exception e) {
             throw(e);       
         }
-        return null;       
+        return null;
     }   
-
-
-    /*@CrossOrigin(origins = "http://localhost:3000")
-    @GetMapping(path="/{id}/getAllCommentsTest")
-    public @ResponseBody Comment[] getAllForumCommentsTest(@PathVariable Integer id){
-
-        Comment[] nullFixer = new Comment[1];
-        nullFixer[0].setComment("There are no comments");
-        try {
-            if(postRepository.existsById(id)){
-                try {
-                       
-                        if(postRepository.findById(id).get().getForumComments() == null){
-                            postRepository.findById(id).get().setForumComments(nullFixer);
-                        }
-                    return postRepository.findById(id).get().getForumComments();
-                } catch (Exception e) {
-                    throw(e);
-                }
-            }
-        } catch (Exception e) {
-            throw(e);       
-        }
-        return null;       
-    }   */
 
 
 

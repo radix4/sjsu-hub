@@ -73,7 +73,7 @@ const StudyGroupPage = () => {
 
     try {
       await studyGroupService.createStudyGroup(newStudyGroup).then((returnedStudyGroup) =>{
-        window.location = '/StudyGroupPage';
+        window.location = '/AllStudyGroups';
       })
     } catch (exception) {
       throw(exception);
@@ -81,8 +81,7 @@ const StudyGroupPage = () => {
 
   }
 
-//alert needs to work
-//wait needs to work
+
 const loginCheck = () => {
   const isLoggedIn = window.localStorage.getItem('loggedInUser');
   if(!isLoggedIn){

@@ -50,8 +50,7 @@ const AllStudyGroups = () =>{
 
 
 
-  //alert needs to work
-  //wait needs to work
+
 const loginCheck = () => {
   const isLoggedIn = window.localStorage.getItem('loggedInUser');
   if(!isLoggedIn){
@@ -76,10 +75,9 @@ const delay = (time) => {
             <NavBar></NavBar>
             <div style={containerStyle}>
             <br></br>
-            <Col md={{ span: 4, offset: 8 }}>
-            <Button onClick={sendToCreate}>Create</Button>
+            <Col lg={{ span: 8, offset: 4 }}>
+            <Button onClick={sendToCreate}>Create Study Group</Button>
             </Col>
-          
              {
               currentGroups.map((returnedGroup,groupId) => {
                 return(

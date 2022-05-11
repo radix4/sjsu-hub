@@ -48,8 +48,7 @@ const AllForums = () => {
         }
     }, []);
 
-    //alert needs to work
-  //wait needs to work
+   
 const loginCheck = () => {
   const isLoggedIn = window.localStorage.getItem('loggedInUser');
   if(!isLoggedIn){
@@ -68,6 +67,9 @@ const loginCheck = () => {
 const delay = (time) => {
   new Promise(res => setTimeout(res, time));
 }
+
+
+
     
     
     return (
@@ -80,7 +82,6 @@ const delay = (time) => {
                 <div>
                 <br></br>
                 <Col md={{ span: 3, offset: 9 }}>
-                <Button onClick={sendToCreate}>Create</Button>
                 </Col>
                 <Card bg='secondary' text='light' className='p-2' onClick={() => {
                       routeToGroup(returnedPost.id);
@@ -101,6 +102,7 @@ const delay = (time) => {
               )
             })
           }
+          <Button onClick={sendToCreate}>Create Post</Button>
             </div>
         </div>
     )

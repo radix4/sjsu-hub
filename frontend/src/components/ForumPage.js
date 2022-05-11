@@ -6,7 +6,7 @@ import postService from '../services/posts'
 import userService from '../services/users'
 import Notification from './Notification'
 
-//add comments and delete once authentication works. 
+
 //alerts?
 
 const containerStyle = {
@@ -58,15 +58,14 @@ const ForumPage = () => {
 
   try {
     await postService.postForum(forumPost2).then((returnedPost) => {
-      window.location = '/ForumPage';
+      window.location = '/AllForums';
     })
   } catch (exception) {
     throw(exception);
   }
 }
 
-//alert needs to work
-//wait needs to work
+
 const loginCheck = () => {
   const isLoggedIn = window.localStorage.getItem('loggedInUser');
   if(!isLoggedIn){
@@ -81,7 +80,7 @@ const loginCheck = () => {
   }
 }
 
-//make sure this works...
+
 const delay = (time) => {
   new Promise(res => setTimeout(res, time));
 }
