@@ -53,11 +53,6 @@ public class EventController {
 
         e = eventRepository.save(e);
 
-        User u = userRepository.findByEmail(e.getCreator());
-       
-        u.getCreatedEvents().add(e.getId().toString());
-        userRepository.save(u);
-
         return "Success! Event with id " + e.getId() + " and title " + e.getTitle() + " has been saved.\n";
     }
 

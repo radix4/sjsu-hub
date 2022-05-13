@@ -4,6 +4,7 @@ import com.sjsuhub.controllers.UserController;
 import com.sjsuhub.entities.TutoringSession;
 import com.sjsuhub.entities.User;
 import com.sjsuhub.repositories.EventRepository;
+import com.sjsuhub.repositories.PostRepository;
 import com.sjsuhub.repositories.TutoringSessionRepository;
 import com.sjsuhub.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,10 @@ public class Main implements CommandLineRunner {
 	@Autowired
 	private EventRepository eventRepository;
 
+	@Autowired
+	private PostRepository postRepository;
+
+
 	public static void main(String[] args) {
 		SpringApplication.run(Main.class, args);
 	}
@@ -41,6 +46,7 @@ public class Main implements CommandLineRunner {
 		userRepository.deleteAll();
 		tutoringSessionRepository.deleteAll();
 		eventRepository.deleteAll();
+		postRepository.deleteAll();
 
 
 		/* User table: Pre-configure data */
@@ -48,18 +54,18 @@ public class Main implements CommandLineRunner {
 
 
 		Set<String> friends = new HashSet<>();
-		friends.add("Rhea@gmail.com");
+		friends.add("Rhea@sjsu.edu");
 		Set<String> friends2 = new HashSet<>();
-		friends2.add("Luna@gmail.com");
-		User user = new User("Luna@gmail.com", "Luna", "Aliaj", UserController.hmac_sha256(KEY, "Luna"), friends);
-		User user2 = new User("Rhea@gmail.com", "Rhea", "Dash", UserController.hmac_sha256(KEY, "Rhea"), friends2);
+		friends2.add("Luna@sjsu.edu");
+		User user = new User("Luna@sjsu.edu", "Luna", "Aliaj", UserController.hmac_sha256(KEY, "Luna"), friends);
+		User user2 = new User("Rhea@sjsu.edu", "Rhea", "Dash", UserController.hmac_sha256(KEY, "Rhea"), friends2);
 		userRepository.save(user);
 		userRepository.save(user2);
 
-		userRepository.save(new User("Lun333a@gmail.com", "Luna", "Aliaj", "secretLuna", friends));
-		userRepository.save(new User("Luna444@gmail.com", "Luna", "Aliaj", "secretLuna", friends));
-		userRepository.save(new User("Luna555@gmail.com", "Luna", "Aliaj", "secretLuna", friends));
-		userRepository.save(new User("Luna666@gmail.com", "Luna", "Aliaj", "secretLuna", friends));
+		userRepository.save(new User("Lun333a@sjsu.edu", "Luna", "Aliaj", "secretLuna", friends));
+		userRepository.save(new User("Luna444@sjsu.edu", "Luna", "Aliaj", "secretLuna", friends));
+		userRepository.save(new User("Luna555@sjsu.edu", "Luna", "Aliaj", "secretLuna", friends));
+		userRepository.save(new User("Luna666@sjsu.edu", "Luna", "Aliaj", "secretLuna", friends));
 
 		/* Tutoring Session table: Pre-configure data */
 		TutoringSession tutoringSession =
